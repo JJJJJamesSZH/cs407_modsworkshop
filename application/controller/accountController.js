@@ -1,10 +1,13 @@
 const baseController = require("./baseController");
+const userLogin = require("../model/user_login");
 
 class accountController extends baseController {
     async register(content) {
         // registration
         console.log("accountController.registration: ", content);
 
+        let duplicates = await userLogin.checkDuplicate(content.email);
+        console.log("duplicates: ", duplicates);
         let result = {
             "status": 200
         }
@@ -12,7 +15,7 @@ class accountController extends baseController {
     }
 
     async emailVeri(content) {
-        // email verification
+        // send email verification
         console.log("accountController.emailVeri: ", content);
         let email = content.email;
 

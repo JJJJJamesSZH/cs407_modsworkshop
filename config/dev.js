@@ -4,7 +4,7 @@ module.exports = {
     mysql: {
         aws: {
             host: 'cs407jialudb.c0ughbdye66r.us-east-2.rds.amazonaws.com',
-            user: 'cs407jialu',
+            username: 'cs407jialu',
             database: 'cs407dba',
             password: 'cs407pass',
             waitForConnections: true,

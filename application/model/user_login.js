@@ -1,4 +1,4 @@
-import { user_login } from "./entity/user_login";
+import { user_login } from "./entity/user_login"
 
 exports.checkDuplicate = async function(email) {
     let list = await user_login.findAll({
@@ -18,7 +18,9 @@ exports.addUser = async function(content) {
     let password = content.password;
     let username = content.username;
 
-    user_login.bulkCreate([
-        { email: email, password: password, username: username }
-    ])
+    user_login.bulkCreate([{
+        email: email,
+        password: password,
+        username: username
+    }])
 }
