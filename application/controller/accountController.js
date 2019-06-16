@@ -4,7 +4,11 @@ class accountController extends baseController {
     async register(content) {
         // registration
         console.log("accountController.registration: ", content);
-        return 200;
+
+        let result = {
+            "status": 200
+        }
+        return result;
     }
 
     async emailVeri(content) {
