@@ -6,8 +6,28 @@ class accountController extends baseController {
         // registration
         console.log("accountController.registration: ", content);
 
-        let duplicates = await userLogin.checkDuplicate(content.email);
+        let duplicates = await userLogin.checkDuplicate(content);
         console.log("duplicates: ", duplicates);
+        // email username 0
+
+        if (duplicates === 'username') {
+            let result = {
+                "status": 201,
+                "err_message": "duplicate username exists"
+            }
+            return result;
+        }
+
+        if (duplicates === 'email') {
+            let result = {
+                "status": 202,
+                "err_message": "duplicate email exists"
+            }
+            return result;
+        }
+
+        userLogin.addUser(content);
+
         let result = {
             "status": 200
         }

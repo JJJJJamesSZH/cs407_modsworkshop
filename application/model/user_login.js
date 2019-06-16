@@ -1,15 +1,27 @@
 import { user_login } from "./entity/user_login"
 
-exports.checkDuplicate = async function(email) {
+exports.checkDuplicate = async function(content) {
+    let email = content.email;
+    let username = content.username;
     let list = await user_login.findAll({
         where: {
             email: email
         }
     });
     if (list.length === 1) {
-        return true; // duplicate exists
+        return 'email'; // duplicate email exists
     } else {
-        return false; // duplicate does not exist
+
+        list = await user_login.findAll({
+            where: {
+                username: username
+            }
+        });
+        if (list.length === 1) {
+            return 'username'; // duplicate username exists
+        } else {
+            return '0'; // duplicate username or email does not exist
+        }
     }
 }
 
