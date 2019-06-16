@@ -6,6 +6,20 @@ const test_user1 = {
     username: 'test_user1_cs407',
     password: 'password1'
 }
+
+// test case with duplicate email
+const test_user1e = {
+    email: 'test_user1@purdue.edu',
+    username: 'test_user1e_cs407',
+    password: 'password1'
+}
+
+// test case with duplicate username
+const test_user1u = {
+    email: 'test_user1u@purdue.edu',
+    username: 'test_user1_cs407',
+    password: 'password1'
+}
 const test_user2 = {
     email: 'test_user2@purdue.edu',
     username: 'test_user2_cs407',
@@ -17,7 +31,7 @@ const test_user3 = {
     password: 'password3'
 }
 
-let server = require("../app.js");
+let server = require("../app.js").listen(8000);
 let request = require("supertest");
 let assert = require("assert");
 
@@ -40,7 +54,7 @@ it('delete existing test_users', function(done) {
 });
 
 it('add test_user1', function(done) {
-    request(server.listen())
+    request(server)
         .post('/modsworkshop/account/registration')
         .send(test_user1)
         .set('Accept', 'application/json')
@@ -48,3 +62,72 @@ it('add test_user1', function(done) {
         .expect(200)
         .end(done)
 })
+
+it('should not add test_user1u', function(done) {
+    console.log("test_user1e");
+    try {
+        request(server)
+            .post('/modsworkshop/account/registration')
+            .send(test_user1u)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(function(res) {
+                console.log("res: ", res);
+                assert.equal(res.body.status, 201)
+            })
+            .end(done)
+    } catch (error) {
+        console.log(error);
+        assert.equal(error, undefined);
+        done();
+    }
+})
+
+it('should not add test_user1e', function(done) {
+    console.log("test_user1e");
+    try {
+        request(server)
+            .post('/modsworkshop/account/registration')
+            .send(test_user1e)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(function(res) {
+                console.log("res: ", res);
+                assert.equal(res.body.status, 202)
+            })
+            .end(done)
+    } catch (error) {
+        console.log(error);
+        assert.equal(error, undefined);
+        done();
+    }
+})
+
+it('add test_user2', function(done) {
+    request(server)
+        .post('/modsworkshop/account/registration')
+        .send(test_user2)
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end(done)
+})
+
+it('add test_user3', function(done) {
+    request(server)
+        .post('/modsworkshop/account/registration')
+        .send(test_user3)
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end(done)
+})
+
+it('delete remaining test_users', function(done) {
+    userLogin.deleteRow(test_user1);
+    userLogin.deleteRow(test_user2);
+    userLogin.deleteRow(test_user3);
+    done();
+});

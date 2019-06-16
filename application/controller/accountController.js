@@ -12,6 +12,7 @@ class accountController extends baseController {
 
         // duplicate username
         if (duplicates === 'username') {
+            console.log("duplicate username");
             let result = {
                 "status": 201,
                 "err_message": "duplicate username exists"
@@ -21,6 +22,7 @@ class accountController extends baseController {
 
         // duplicate email
         if (duplicates === 'email') {
+            console.log("duplicate email");
             let result = {
                 "status": 202,
                 "err_message": "duplicate email exists"
@@ -44,7 +46,7 @@ class accountController extends baseController {
         var send = require('../../common/tools/emailer.js');
         var v_code = require('../../common/tools/veri_code_generator.js');
 
-        var v = v_code(1);
+        var v = await v_code(1);
         console.log("verification code generated: ", v);
 
         var txt = 'This is your ModsWorkshop verification code:\n\n\t';
