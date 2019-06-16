@@ -18,13 +18,13 @@ class accountController extends baseController {
         var v = v_code(1);
         console.log("verification code generated: ", v);
 
-        var txt = 'This is your Seize verification code:\n\n\t';
+        var txt = 'This is your ModsWorkshop verification code:\n\n\t';
         txt += v;
         txt += '\n\nPlease do not share with other people.\n';
 
         var mail = {
             from: 'ModsWorkshop Team',
-            subject: 'Verification Codes',
+            subject: 'Verification Codes [Do not reply]',
             to: email,
             text: txt
         }
