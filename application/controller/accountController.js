@@ -10,6 +10,7 @@ class accountController extends baseController {
         console.log("duplicates: ", duplicates);
         // email username 0
 
+        // duplicate username
         if (duplicates === 'username') {
             let result = {
                 "status": 201,
@@ -18,6 +19,7 @@ class accountController extends baseController {
             return result;
         }
 
+        // duplicate email
         if (duplicates === 'email') {
             let result = {
                 "status": 202,

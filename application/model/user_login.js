@@ -36,3 +36,23 @@ exports.addUser = async function(content) {
         username: username
     }])
 }
+
+exports.deleteRow = async function(content) {
+    let email = content.email;
+    let username = content.username;
+
+    if (email !== undefined) {
+        user_login.destroy({
+            where: {
+                email: email
+            }
+        });
+    }
+    if (username !== undefined) {
+        user_login.destroy({
+            where: {
+                username: username
+            }
+        });
+    }
+}
