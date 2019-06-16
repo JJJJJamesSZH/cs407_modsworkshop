@@ -35,8 +35,10 @@ app.use(async(ctx, next) => {
 // routes
 app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
-const user_reg = require('./routes/user_register')
+const user_reg = require('./routes/user_register');
 app.use(user_reg.routes(), user_reg.allowedMethods());
+const user_email_veri = require('./routes/user_email_veri');
+app.use(user_email_veri.routes(), user_email_veri.allowedMethods());
 
 
 // error-handling
