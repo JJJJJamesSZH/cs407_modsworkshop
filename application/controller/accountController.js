@@ -1,5 +1,6 @@
 const baseController = require("./baseController");
 const userLogin = require("../model/user_login");
+const email_code = require("../model/email_code");
 
 class accountController extends baseController {
     async register(content) {
@@ -61,13 +62,26 @@ class accountController extends baseController {
         }
 
         send(mail);
+        let data = {
+            email: email,
+            code: v
+        }
+        email_code.updateCode(data);
 
         let response = {
-            "status": 200,
-            "verification": v
+            "status": 200
         };
 
         return response;
+    }
+
+    async codeVeri(content) {
+        // check email and verification code.
+        // content = {
+        //      email: email,
+        //      code: verification_code
+        // }
+        return email_code.checkCode(content);
     }
 }
 
