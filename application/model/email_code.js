@@ -3,7 +3,7 @@ import { email_code } from "./entity/user_login"
 exports.updateCode = async function(content) {
     let email = content.email;
     let code = content.code;
-    this.deleteOutDated();
+    await deleteOutDated();
     /**
      * If email does not exist, then add row into the table along with timestamp
      * If email already exists, then update the code with the newly generated one.
@@ -45,7 +45,7 @@ exports.updateCode = async function(content) {
 exports.checkCode = async function(content) {
     let email = content.email;
     let code = content.code;
-    this.deleteOutDated();
+    await deleteOutDated();
     /**
      * if the code is corret,
      *    the code is valid, 
