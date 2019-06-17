@@ -47,36 +47,44 @@ let assert = require("assert");
  */
 
 it('delete existing test_users', function(done) {
-    userLogin.deleteRow(test_user1);
-    userLogin.deleteRow(test_user2);
-    userLogin.deleteRow(test_user3);
+    setTimeout(function() {
+        userLogin.deleteRow(test_user1);
+        userLogin.deleteRow(test_user2);
+        userLogin.deleteRow(test_user3);
+    }, 0, 'funky');
     done();
 });
 
 it('add test_user1', function(done) {
-    request(server)
-        .post('/modsworkshop/account/registration')
-        .send(test_user1)
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .end(done)
-})
-
-it('should not add test_user1u', function(done) {
-    console.log("test_user1e");
-    try {
+    setTimeout(function() {
         request(server)
             .post('/modsworkshop/account/registration')
-            .send(test_user1u)
+            .send(test_user1)
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(200)
             .expect(function(res) {
-                console.log("res: ", res);
-                assert.equal(res.body.status, 201)
+                assert.equal(res.body.status, 200)
             })
-            .end(done)
+    }, 100, 'funky');
+    done();
+})
+
+it('should not add test_user1u', function(done) {
+    try {
+
+        setTimeout(function() {
+            request(server)
+                .post('/modsworkshop/account/registration')
+                .send(test_user1u)
+                .set('Accept', 'application/json')
+                .expect('Content-Type', /json/)
+                .expect(200)
+                .expect(function(res) {
+                    assert.equal(res.body.status, 201)
+                })
+        }, 400, 'funky');
+        done();
     } catch (error) {
         console.log(error);
         assert.equal(error, undefined);
@@ -85,19 +93,20 @@ it('should not add test_user1u', function(done) {
 })
 
 it('should not add test_user1e', function(done) {
-    console.log("test_user1e");
     try {
-        request(server)
-            .post('/modsworkshop/account/registration')
-            .send(test_user1e)
-            .set('Accept', 'application/json')
-            .expect('Content-Type', /json/)
-            .expect(200)
-            .expect(function(res) {
-                console.log("res: ", res);
-                assert.equal(res.body.status, 202)
-            })
-            .end(done)
+
+        setTimeout(function() {
+            request(server)
+                .post('/modsworkshop/account/registration')
+                .send(test_user1e)
+                .set('Accept', 'application/json')
+                .expect('Content-Type', /json/)
+                .expect(200)
+                .expect(function(res) {
+                    assert.equal(res.body.status, 202)
+                })
+        }, 400, 'funky');
+        done();
     } catch (error) {
         console.log(error);
         assert.equal(error, undefined);
@@ -106,28 +115,40 @@ it('should not add test_user1e', function(done) {
 })
 
 it('add test_user2', function(done) {
-    request(server)
-        .post('/modsworkshop/account/registration')
-        .send(test_user2)
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .end(done)
+    setTimeout(function() {
+        request(server)
+            .post('/modsworkshop/account/registration')
+            .send(test_user2)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(function(res) {
+                assert.equal(res.body.status, 200)
+            })
+    }, 100, 'funky');
+    done();
 })
 
 it('add test_user3', function(done) {
-    request(server)
-        .post('/modsworkshop/account/registration')
-        .send(test_user3)
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .end(done)
+    setTimeout(function() {
+        request(server)
+            .post('/modsworkshop/account/registration')
+            .send(test_user3)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(function(res) {
+                assert.equal(res.body.status, 200)
+            })
+    }, 100, 'funky');
+    done();
 })
 
 it('delete remaining test_users', function(done) {
-    userLogin.deleteRow(test_user1);
-    userLogin.deleteRow(test_user2);
-    userLogin.deleteRow(test_user3);
+    setTimeout(function() {
+        userLogin.deleteRow(test_user1);
+        userLogin.deleteRow(test_user2);
+        userLogin.deleteRow(test_user3);
+    }, 800, 'funky');
     done();
 });
