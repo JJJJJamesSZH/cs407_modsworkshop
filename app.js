@@ -39,6 +39,8 @@ const user_reg = require('./routes/user_register');
 app.use(user_reg.routes(), user_reg.allowedMethods());
 const user_email_veri = require('./routes/user_email_veri');
 app.use(user_email_veri.routes(), user_email_veri.allowedMethods());
+const user_code_veri = require('./routes/user_code_veri');
+app.use(user_code_veri.routes(), user_code_veri.allowedMethods());
 const user_login = require('./routes/user_login');
 app.use(user_login.routes(), user_login.allowedMethods());
 
