@@ -83,6 +83,12 @@ class accountController extends baseController {
         // }
         return email_code.checkCode(content);
     }
+
+    async login(content) {
+        // user login
+        let result = userLogin.checkPassword(content)
+        return result;
+    }
 }
 
 module.exports = accountController;
