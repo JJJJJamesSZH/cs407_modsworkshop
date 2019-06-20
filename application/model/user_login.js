@@ -18,6 +18,7 @@ exports.checkDuplicate = async function(content) {
                 username: username
             }
         });
+
         if (list.length === 1) {
             return 'username'; // duplicate username exists
         } else {

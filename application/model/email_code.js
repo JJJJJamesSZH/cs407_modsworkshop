@@ -1,14 +1,17 @@
-import { email_code } from "./entity/user_login"
+import { email_code } from "./entity/email_code"
 
 exports.updateCode = async function(content) {
     let email = content.email;
     let code = content.code;
     await deleteOutDated();
+    console.log("update Code");
+    console.log("email: ", email);
+    console.log("code: ", code);
     /**
      * If email does not exist, then add row into the table along with timestamp
      * If email already exists, then update the code with the newly generated one.
      */
-    let list = email_code.findAll({
+    let list = await email_code.findAll({
         where: {
             email: email
         }
@@ -16,8 +19,9 @@ exports.updateCode = async function(content) {
     if (list.length === 0) {
         // email does not exist
         // create new row
+        console.log("Current email doesn't have a code.");
         let curr_time = Date.now();
-        email_code.bulkCreate([{
+        await email_code.bulkCreate([{
             email: email,
             code: code,
             timestamp: curr_time
@@ -25,8 +29,11 @@ exports.updateCode = async function(content) {
     } else {
         // email exists
         // update the current row
+        console.log("Current email has have a code.");
         let curr_time = Date.now();
-        email_code.update({
+        console.log("code: ", code);
+        console.log("timestamp: ", curr_time);
+        await email_code.update({
             code: code,
             timestamp: curr_time
         }, {
@@ -55,7 +62,7 @@ exports.checkCode = async function(content) {
      * if the code is wrong, or does not exist (out of 10 min)
      *     send feed back, send code again.
      */
-    let list = email_code.findAll({
+    let list = await email_code.findAll({
         where: {
             email: email
         }
@@ -74,14 +81,7 @@ exports.checkCode = async function(content) {
         let v_code = data.code;
         if (code === v_code) {
             // code is correct
-            // 1. Delete the existing code
-            // 2. return with the correct status code.
-            email_code.destroy({
-                where: {
-                    email: email
-                }
-            })
-
+            // return with the correct status code.
             let result = {
                 "status": 200
             }
@@ -97,13 +97,25 @@ exports.checkCode = async function(content) {
     }
 }
 
+exports.deleteRow = async function(content) {
+    let email = content.email;
+    await email_code.destroy({
+        where: {
+            email: email
+        }
+    })
+}
+
 async function deleteOutDated() {
     let curr_time = Date.now();
     let ten_min = 10 * 60 * 1000; // 10min = 600000ms
     let check_time = curr_time - ten_min;
+    console.log("========= Delete outdated ==========");
+    console.log("curr_time: ", curr_time);
+    console.log("check_time: ", check_time);
     // check time smaller than or equal to check_time
     // let the verification code be valid for 10 minutes
-    email_code.destroy({
+    await email_code.destroy({
         where: {
             timestamp: {
                 $lte: check_time
