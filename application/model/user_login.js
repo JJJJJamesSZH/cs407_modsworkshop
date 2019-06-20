@@ -1,5 +1,7 @@
 import { user_login } from "./entity/user_login"
 const bcryptjs = require("bcryptjs");
+const jwt = require('jsonwebtoken');
+let jwt_key = require("../../config/dev").keys['jwt'];
 
 exports.checkDuplicate = async function(content) {
     let email = content.email;
@@ -90,8 +92,11 @@ exports.checkPassword = async function(content) {
 
     if (comp_result) {
         console.log("comp_result: ", comp_result);
+        // generate new token
+        let token = jwt.sign({ email: email }, jwt_key);
         let result = {
-            "status": 200
+            "status": 200,
+            "token": token
         }
         return result;
     } else {
