@@ -51,8 +51,8 @@ it('delete existing test_users', function(done) {
         userLogin.deleteRow(test_user1);
         userLogin.deleteRow(test_user2);
         userLogin.deleteRow(test_user3);
+        done();
     }, 0, 'funky');
-    done();
 });
 
 it('add test_user1', function(done) {
@@ -66,8 +66,8 @@ it('add test_user1', function(done) {
             .expect(function(res) {
                 assert.equal(res.body.status, 200)
             })
+            .end(done)
     }, 100, 'funky');
-    done();
 })
 
 it('should not add test_user1u', function(done) {
@@ -83,8 +83,8 @@ it('should not add test_user1u', function(done) {
                 .expect(function(res) {
                     assert.equal(res.body.status, 201)
                 })
+                .end(done)
         }, 400, 'funky');
-        done();
     } catch (error) {
         console.log(error);
         assert.equal(error, undefined);
@@ -105,8 +105,8 @@ it('should not add test_user1e', function(done) {
                 .expect(function(res) {
                     assert.equal(res.body.status, 202)
                 })
+                .end(done)
         }, 400, 'funky');
-        done();
     } catch (error) {
         console.log(error);
         assert.equal(error, undefined);
@@ -125,8 +125,8 @@ it('add test_user2', function(done) {
             .expect(function(res) {
                 assert.equal(res.body.status, 200)
             })
+            .end(done)
     }, 100, 'funky');
-    done();
 })
 
 it('add test_user3', function(done) {
@@ -140,8 +140,8 @@ it('add test_user3', function(done) {
             .expect(function(res) {
                 assert.equal(res.body.status, 200)
             })
+            .end(done)
     }, 100, 'funky');
-    done();
 })
 
 it('delete remaining test_users', function(done) {
@@ -149,6 +149,6 @@ it('delete remaining test_users', function(done) {
         userLogin.deleteRow(test_user1);
         userLogin.deleteRow(test_user2);
         userLogin.deleteRow(test_user3);
+        done();
     }, 800, 'funky');
-    done();
 });

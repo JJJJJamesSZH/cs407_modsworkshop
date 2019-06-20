@@ -16,9 +16,6 @@ exports.updateCode = async function(content) {
             email: email
         }
     });
-    console.log("list1: ", list);
-    console.log("list2: ", list[0]);
-    console.log("list3: ", list._bitField);
     if (list.length === 0) {
         // email does not exist
         // create new row
@@ -34,7 +31,8 @@ exports.updateCode = async function(content) {
         // update the current row
         console.log("Current email has have a code.");
         let curr_time = Date.now();
-        console.log("curr_time: ", curr_time);
+        console.log("code: ", code);
+        console.log("timestamp: ", curr_time);
         await email_code.update({
             code: code,
             timestamp: curr_time
@@ -83,14 +81,7 @@ exports.checkCode = async function(content) {
         let v_code = data.code;
         if (code === v_code) {
             // code is correct
-            // 1. Delete the existing code
-            // 2. return with the correct status code.
-            await email_code.destroy({
-                where: {
-                    email: email
-                }
-            })
-
+            // return with the correct status code.
             let result = {
                 "status": 200
             }
@@ -106,10 +97,22 @@ exports.checkCode = async function(content) {
     }
 }
 
+exports.deleteRow = async function(content) {
+    let email = content.email;
+    await email_code.destroy({
+        where: {
+            email: email
+        }
+    })
+}
+
 async function deleteOutDated() {
     let curr_time = Date.now();
     let ten_min = 10 * 60 * 1000; // 10min = 600000ms
     let check_time = curr_time - ten_min;
+    console.log("========= Delete outdated ==========");
+    console.log("curr_time: ", curr_time);
+    console.log("check_time: ", check_time);
     // check time smaller than or equal to check_time
     // let the verification code be valid for 10 minutes
     await email_code.destroy({

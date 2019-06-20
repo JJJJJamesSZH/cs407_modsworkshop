@@ -9,9 +9,6 @@ exports.checkDuplicate = async function(content) {
             email: email
         }
     });
-    console.log("list1: ", list);
-    console.log("list2: ", list[0]);
-    console.log("list3: ", list._bitField);
     if (list.length === 1) {
         return 'email'; // duplicate email exists
     } else {
