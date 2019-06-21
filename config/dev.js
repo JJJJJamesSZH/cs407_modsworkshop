@@ -15,5 +15,8 @@ module.exports = {
     s3: {
         signatureVersion: 'v4',
         region: 'us-east-2'
+    },
+    keys: {
+        jwt: "cs407summer19modworkshop"
     }
 }
