@@ -111,7 +111,7 @@ exports.checkPassword = async function(content) {
     if (comp_result) {
         console.log("comp_result: ", comp_result);
         // generate new token
-        let token = jwt.sign({ email: email }, jwt_key);
+        let token = jwt.sign({ email: email }, jwt_key, { algorithm: 'RS256' });
         let result = {
             "status": 200,
             "token": token
