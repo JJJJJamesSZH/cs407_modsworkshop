@@ -44,6 +44,10 @@ app.use(user_code_veri.routes(), user_code_veri.allowedMethods());
 const user_login = require('./routes/user_login');
 app.use(user_login.routes(), user_login.allowedMethods());
 
+const profile_view = require('./routes/profile_view');
+app.use(profile_view.routes(), profile_view.allowedMethods());
+const profile_edit = require('./routes/profile_edit');
+app.use(profile_edit.routes(), profile_edit.allowedMethods());
 
 // error-handling
 app.on('error', (err, ctx) => {
