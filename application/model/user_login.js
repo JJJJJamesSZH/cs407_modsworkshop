@@ -1,4 +1,5 @@
 import { user_login } from "./entity/user_login"
+import { user_profile } from "./entity/user_profile"
 const bcryptjs = require("bcryptjs");
 const jwt = require('jsonwebtoken');
 let jwt_key = require("../../config/dev").keys['jwt'];
@@ -42,6 +43,23 @@ exports.addUser = async function(content) {
         email: email,
         password: encryp_password,
         username: username
+    }])
+
+    let list = await user_login.findAll({
+        where: {
+            email: email
+        }
+    });
+
+    let uid = list[0].dataValues.uid;
+
+    // create user profile when user sign up
+    user_profile.bulkCreate([{
+        uid: uid,
+        email: email,
+        username: username,
+        icon: 0,
+        description: ""
     }])
 }
 

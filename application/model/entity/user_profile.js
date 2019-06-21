@@ -27,6 +27,8 @@ const user_profile = sequelize.define('user_profile', {
     description: {
         type: Sequelize.STRING,
     }
+}, {
+    freezeTableName: true
 })
 
 exports.user_profile = user_profile;

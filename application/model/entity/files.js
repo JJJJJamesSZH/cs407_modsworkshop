@@ -14,6 +14,8 @@ const files = sequelize.files('files', {
         unique: true,
         allowNull: false
     }
+}, {
+    freezeTableName: true
 })
 
 exports.files = files;
