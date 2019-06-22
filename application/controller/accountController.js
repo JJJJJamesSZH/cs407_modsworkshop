@@ -80,6 +80,7 @@ class accountController extends baseController {
         // content = {
         //      email: email,
         //      code: verification_code
+        //      password: password
         // }
         return email_code.checkCode(content);
     }

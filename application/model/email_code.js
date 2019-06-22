@@ -1,4 +1,7 @@
 import { email_code } from "./entity/email_code"
+import { user_login } from "./entity/user_login"
+
+let user_login_function = require("./user_login");
 
 exports.updateCode = async function(content) {
     let email = content.email;
@@ -52,6 +55,7 @@ exports.updateCode = async function(content) {
 exports.checkCode = async function(content) {
     let email = content.email;
     let code = content.code;
+    let password = content.password;
     await deleteOutDated();
     /**
      * if the code is corret,
@@ -81,9 +85,24 @@ exports.checkCode = async function(content) {
         let v_code = data.code;
         if (code === v_code) {
             // code is correct
+            // change the password
+            user_login.update({
+                password: password
+            }, {
+                where: {
+                    email: email
+                }
+            })
+            let login_result = await user_login_function.checkPassword({
+                email: email,
+                password: password
+            })
+            let token = login_result.token;
+
             // return with the correct status code.
             let result = {
-                "status": 200
+                "status": 200,
+                "token": token
             }
             return result;
         } else {
