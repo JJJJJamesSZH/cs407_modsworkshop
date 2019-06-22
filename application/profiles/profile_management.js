@@ -1,15 +1,30 @@
 const Controller = require("../controller/profileController");
+const jwtChecker = require("../authentication/checkJWT");
 
 exports.getProfile = async(ctx, next) => {
     let body = ctx.request.body;
+    let verified = await jwtChecker.decodeAuth(ctx);
+    console.log("verified: ", verified);
+    console.log("type: ", typeof(verified));
 
-    let controller = new Controller();
-    let result = await controller.getProfile(body);
-    ctx.body = result;
+    if (verified === false){
+        let result = {
+            "status": 500,
+            "err_message": "authorization code invalid"
+        }
+        console.log("authorization code invalid");
+        ctx.body = result;
+        await next();
+    }
+    else{
+        let controller = new Controller();
+        let result = await controller.getProfile(body);
+        ctx.body = result;
 
-    console.log("profile_management.result: ", result);
+        console.log("profile_management.result: ", result);
 
-    await next();
+        await next();
+    }
 }
 
 exports.getUsername = async(ctx, next) => {
