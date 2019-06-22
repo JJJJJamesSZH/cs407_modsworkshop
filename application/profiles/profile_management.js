@@ -4,8 +4,6 @@ const jwtChecker = require("../authentication/checkJWT");
 exports.getProfile = async(ctx, next) => {
     let body = ctx.request.body;
     let verified = await jwtChecker.decodeAuth(ctx);
-    console.log("verified: ", verified);
-    console.log("type: ", typeof(verified));
 
     if (verified === false){
         let result = {
