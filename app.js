@@ -49,6 +49,9 @@ app.use(profile_view.routes(), profile_view.allowedMethods());
 const profile_edit = require('./routes/profile_edit');
 app.use(profile_edit.routes(), profile_edit.allowedMethods());
 
+const file_list = require('./routes/file_listAll');
+app.use(file_list.routes(), file_list.allowedMethods());
+
 // error-handling
 app.on('error', (err, ctx) => {
     console.error('server error', err, ctx)

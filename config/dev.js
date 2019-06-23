@@ -14,6 +14,7 @@ module.exports = {
     },
     s3: {
         signatureVersion: 'v4',
+        apiVersion: '2006-03-01',
         region: 'us-east-2'
     },
     keys: {
