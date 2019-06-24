@@ -6,9 +6,9 @@ exports.decodeAuth = async function(ctx){
     let token = header
     try{
         let decoded = await jwt.verify(token, jwt_key);
+        return decoded.email;
     }
     catch(e){
         return false;
     }
-    return true;
 }

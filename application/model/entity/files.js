@@ -13,6 +13,21 @@ const files = sequelize.define('files', {
         type: Sequelize.INTEGER,
         unique: true,
         allowNull: false
+    },
+    fileName: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    dateCreated: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    dateUpdated: {
+        type: Sequelize.STRING,
+    },
+    downloads: {
+        type: Sequelize.INTEGER,
+        allowNull: false
     }
 }, {
     freezeTableName: true

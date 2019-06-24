@@ -14,6 +14,10 @@ class fileController extends baseController {
         return result;
 
     }
+
+    async addFile(content){
+        console.log("add files");
+    }
 }
 
 module.exports = fileController;
