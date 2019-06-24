@@ -1,4 +1,4 @@
-const Controller = require("../controller/fileCOntroller");
+const Controller = require("../controller/fileController");
 const jwtChecker = require("../authentication/checkJWT");
 
 exports.listFiles = async(ctx, next) => {
