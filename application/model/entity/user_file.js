@@ -23,6 +23,8 @@ const user_file = sequelize.define('user_file', {
     fileList: {
         type: Sequelize.STRING
     }
+}, {
+    freezeTableName: true
 })
 
 exports.user_file = user_file;
