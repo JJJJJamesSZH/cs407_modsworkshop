@@ -16,24 +16,83 @@ let s3 = new AWS.S3({ apiVersion: s3_config.apiVersion });
 
 exports.listFiles = async function(content) {
     return new Promise(function(resolve, reject) {
-        if (content.email === undefined) {
-            // do nothing, list all files
+
+        // if (email === undefined) {
+        //     // do nothing, list all files
+        // } else {
+        //     params["Prefix"] = content.email;
+        //     console.log("prefix = ", content.email);
+        // }
+        // s3.listObjectsV2(params, function(err, data) {
+        //     if (err) {
+        //         // console.log(err, err.stack);
+        //         reject(err.stack);
+        //     } // an error occurred
+        //     else {
+        //         console.log(data);
+        //         // return data.Contents;
+        //         // data.Contents: array of files
+
+        //         // filter data according to sortMethod, startRank and range
+
+        //         resolve(data.Contents);
+        //     } // successful response
+        // });
+
+
+        let sortMethod = content.sortMethod;
+        let startRank = content.startRank;
+        let range = content.range;
+        let email = content.authorEmail;
+
+        // where
+        // order
+
+        let whereValue = {};
+        if (email === undefined || email === null) {
+            whereValue = {};
         } else {
-            params["Prefix"] = content.email;
-            console.log("prefix = ", content.email);
+            whereValue = {
+                email: email
+            }
         }
-        s3.listObjectsV2(params, function(err, data) {
-            if (err) {
-                // console.log(err, err.stack);
-                reject(err.stack);
-            } // an error occurred
-            else {
-                console.log(data);
-                // return data.Contents;
-                // data.Contents: array of files
-                resolve(data.Contents);
-            } // successful response
-        });
+
+        let orderValue = [];
+        if (sortMethod === 'timeASC') {
+            // time ascending
+            orderValue.push(["dateUpdated", "ASC"]);
+        } else if (sortMethod === 'timeDESC') {
+            // time descending
+            orderValue.push(["dateUpdated", "DESC"]);
+        } else if (sortMethod === "nameASC") {
+            // name ascending
+            orderValue.push(["fileName", "ASC"]);
+        } else if (sortMethod === "nameDESC") {
+            // name descending
+            orderValue.push(["fileName", "DESC"]);
+        } else if (sortMethod === "downloadsASC") {
+            // downloads ascending
+            orderValue.push(["downloads", "ASC"]);
+        } else if (sortMethod === "downloadsDESC") {
+            // downloads descending
+            orderValue.push(["downloads", "DESC"]);
+        } else if (sortMethod === "likesASC") {
+            // likes ascending
+            orderValue.push(["likes", "ASC"]);
+        } else if (sortMethod === "likesDESC") {
+            // likes descending
+            orderValue.push(["likes", "DESC"]);
+        } else {
+            // default - time descending - latest post first
+            orderValue.push(["dateUpdated", "DESC"]);
+        }
+
+        let list = files.findAll({
+            where: whereValue,
+            order: orderValue
+        })
+
+        resolve(list);
     })
 }
 
@@ -52,7 +111,6 @@ exports.getUploadURL = async function(content) {
             Bucket: BucketName,
             Key: key
         }
-
         s3.getSignedUrl('putObject', params, function(err, url) {
             if (err) {
                 reject(err);
@@ -61,6 +119,10 @@ exports.getUploadURL = async function(content) {
             }
         })
     })
+}
+exports.getDownloadURL = async function(content) {
+
+
 }
 
 exports.addFile = async function(content) {

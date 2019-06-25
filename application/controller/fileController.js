@@ -17,10 +17,6 @@ class fileController extends baseController {
 
     }
 
-    async addFile(content) {
-        console.log("add files");
-    }
-
     async getUploadURL(content) {
         console.log("getUploadURL");
 
@@ -33,6 +29,10 @@ class fileController extends baseController {
         }
 
         return result;
+    }
+
+    async uploadComplete(content) {
+
     }
 }
 
