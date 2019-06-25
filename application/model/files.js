@@ -5,24 +5,24 @@ let AWS = require('aws-sdk');
 const BucketName = "cs407projectjialu"
 
 let uploadParams = {
-    Bucket: "cs407projectjialu"
+    Bucket: BucketName
 }
 
 AWS.config.update({
     region: s3_config.region
 });
 
-let s3 = new AWS.S3({apiVersion:s3_config.apiVersion});
+let s3 = new AWS.S3({ apiVersion: s3_config.apiVersion });
 
 exports.listFiles = async function(content) {
-    let list = await s3.listBuckets(function(err, data){
-        if (err){
+    let list = await s3.listBuckets(function(err, data) {
+        if (err) {
             console.log("Error: ", err);
         } else {
             console.log("Success: ", data.Buckets);
             return data.Buckets;
         }
-    });    
+    });
 }
 
 exports.addFile = async function(content) {
