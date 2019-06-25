@@ -5,7 +5,8 @@ class fileController extends baseController {
     async listFiles(content) {
 
         console.log("list files");
-        let file_list = files.listFiles(content);
+        let file_list = await files.listFiles(content);
+        console.log("file_list: ", file_list);
 
         let result = {
             "status": 200,
