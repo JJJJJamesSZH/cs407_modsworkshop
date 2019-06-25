@@ -39,7 +39,6 @@ exports.listFiles = async function(content) {
         //     } // successful response
         // });
 
-
         let sortMethod = content.sortMethod;
         let startRank = content.startRank;
         let range = content.range;
