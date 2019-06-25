@@ -1,6 +1,8 @@
 import { email_code } from "./entity/email_code"
 import { user_login } from "./entity/user_login"
 
+const bcryptjs = require("bcryptjs");
+
 let user_login_function = require("./user_login");
 
 exports.updateCode = async function(content) {
@@ -86,8 +88,11 @@ exports.checkCode = async function(content) {
         if (code === v_code) {
             // code is correct
             // change the password
+            let salt = bcryptjs.genSaltSync(10);
+            let encryp_password = bcryptjs.hashSync(password, salt);
+
             user_login.update({
-                password: password
+                password: encryp_password
             }, {
                 where: {
                     email: email
