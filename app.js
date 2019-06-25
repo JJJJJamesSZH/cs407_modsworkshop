@@ -54,6 +54,9 @@ app.use(file_list.routes(), file_list.allowedMethods());
 const file_getSignedURL = require('./routes/file_getSignedURL');
 app.use(file_getSignedURL.routes(), file_getSignedURL.allowedMethods());
 
+const upload_list = require('./routes/file_uploadedFile');
+app.use(upload_list.routes(), upload_list.allowedMethods());
+
 // error-handling
 app.on('error', (err, ctx) => {
     console.error('server error', err, ctx)

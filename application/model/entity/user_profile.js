@@ -26,6 +26,9 @@ const user_profile = sequelize.define('user_profile', {
     },
     description: {
         type: Sequelize.STRING,
+    },
+    uploadfile: {
+        type: Sequelize.STRING
     }
 }, {
     freezeTableName: true

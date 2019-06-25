@@ -35,3 +35,36 @@ exports.getUploadURL = async(ctx, next) => {
         await next();
     }
 }
+exports.listUploaded = async (ctx, next) => {
+    let body = ctx.request.body;
+    // let verified = await jwtChecker.decodeAuth(ctx);
+    // let verified = true;
+
+    let controller = new Controller();
+    let result = await controller.listUploaded(body);
+    ctx.body = result;
+
+    await next();
+}
+exports.addUploaded = async (ctx, next) => {
+    let body = ctx.request.body;
+    // let verified = await jwtChecker.decodeAuth(ctx);
+    // let verified = true;
+
+    let controller = new Controller();
+    let result = await controller.addUploaded(body);
+    ctx.body = result;
+
+    await next();
+}
+exports.deleteUploaded = async (ctx, next) => {
+    let body = ctx.request.body;
+    // let verified = await jwtChecker.decodeAuth(ctx);
+    // let verified = true;
+
+    let controller = new Controller();
+    let result = await controller.deleteUploaded(body);
+    ctx.body = result;
+
+    await next();
+}
