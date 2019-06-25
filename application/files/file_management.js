@@ -12,3 +12,26 @@ exports.listFiles = async(ctx, next) => {
 
     await next();
 }
+
+exports.getUploadURL = async(ctx, next) => {
+    let body = ctx.request.body;
+    let verified = await jwtChecker.decodeAuth(ctx);
+    // let verified = true;
+
+    if (verified !== body.email) {
+        let result = {
+            "status": 500,
+            "err_message": "authorization code invalid"
+        }
+        console.log("authorization code invalid");
+        ctx.body = result;
+        await next();
+    } else {
+        ctx["email"] = verified;
+        let controller = new Controller();
+        let result = await controller.getUploadURL(body);
+        ctx.body = result;
+
+        await next();
+    }
+}

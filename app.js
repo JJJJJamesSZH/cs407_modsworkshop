@@ -51,6 +51,8 @@ app.use(profile_edit.routes(), profile_edit.allowedMethods());
 
 const file_list = require('./routes/file_listAll');
 app.use(file_list.routes(), file_list.allowedMethods());
+const file_getSignedURL = require('./routes/file_getSignedURL');
+app.use(file_getSignedURL.routes(), file_getSignedURL.allowedMethods());
 
 // error-handling
 app.on('error', (err, ctx) => {

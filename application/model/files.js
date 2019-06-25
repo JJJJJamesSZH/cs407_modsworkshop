@@ -37,10 +37,35 @@ exports.listFiles = async function(content) {
     })
 }
 
+exports.getUploadURL = async function(content) {
+    return new Promise(function(resolve, reject) {
+        let email = content.email;
+        let mod = content.mod;
+        let filename = content.filename;
+        let key = email;
+        if ((mod !== undefined) && (mod != null)) {
+            key = key + '|' + mod;
+        }
+        key = key + '|' + filename;
+
+        let params = {
+            Bucket: BucketName,
+            Key: key
+        }
+
+        s3.getSignedUrl('putObject', params, function(err, url) {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(url);
+            }
+        })
+    })
+}
+
 exports.addFile = async function(content) {
     console.log("upload file");
-    let email = content.email;
-    let filename = content.filename;
+
 
 }
 

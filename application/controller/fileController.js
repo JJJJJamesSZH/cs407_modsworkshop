@@ -3,8 +3,8 @@ const files = require("../model/files");
 
 class fileController extends baseController {
     async listFiles(content) {
-
         console.log("list files");
+
         let file_list = await files.listFiles(content);
         console.log("file_list: ", file_list);
 
@@ -19,6 +19,20 @@ class fileController extends baseController {
 
     async addFile(content) {
         console.log("add files");
+    }
+
+    async getUploadURL(content) {
+        console.log("getUploadURL");
+
+        let url = await files.getUploadURL(content);
+        console.log("presigned-url: ", url);
+
+        let result = {
+            "status": 200,
+            "url": url
+        }
+
+        return result;
     }
 }
 
