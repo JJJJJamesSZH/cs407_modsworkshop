@@ -28,6 +28,9 @@ const files = sequelize.define('files', {
     downloads: {
         type: Sequelize.INTEGER,
         allowNull: false
+    },
+    description: {
+        type: Sequelize.STRING
     }
 }, {
     freezeTableName: true

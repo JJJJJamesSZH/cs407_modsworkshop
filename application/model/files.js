@@ -30,6 +30,7 @@ exports.listFiles = async function(content) {
             else {
                 console.log(data);
                 // return data.Contents;
+                // data.Contents: array of files
                 resolve(data.Contents);
             } // successful response
         });
@@ -37,6 +38,9 @@ exports.listFiles = async function(content) {
 }
 
 exports.addFile = async function(content) {
+    console.log("upload file");
+    let email = content.email;
+    let filename = content.filename;
 
 }
 
@@ -45,5 +49,7 @@ exports.deleteFile = async function(content) {
 }
 
 exports.editFile = async function(content) {
-
+    // content:
+    //      file, description, etc. 
+    //      fileds could be null, only update those which are not null.
 }
