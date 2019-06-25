@@ -18,7 +18,7 @@ exports.getUploadURL = async(ctx, next) => {
     let verified = await jwtChecker.decodeAuth(ctx);
     // let verified = true;
 
-    if (verified !== body.email) {
+    if (verified === false) {
         let result = {
             "status": 500,
             "err_message": "authorization code invalid"
@@ -35,7 +35,7 @@ exports.getUploadURL = async(ctx, next) => {
         await next();
     }
 }
-exports.listUploaded = async (ctx, next) => {
+exports.listUploaded = async(ctx, next) => {
     let body = ctx.request.body;
     // let verified = await jwtChecker.decodeAuth(ctx);
     // let verified = true;
@@ -46,7 +46,7 @@ exports.listUploaded = async (ctx, next) => {
 
     await next();
 }
-exports.addUploaded = async (ctx, next) => {
+exports.addUploaded = async(ctx, next) => {
     let body = ctx.request.body;
     // let verified = await jwtChecker.decodeAuth(ctx);
     // let verified = true;
@@ -57,7 +57,7 @@ exports.addUploaded = async (ctx, next) => {
 
     await next();
 }
-exports.deleteUploaded = async (ctx, next) => {
+exports.deleteUploaded = async(ctx, next) => {
     let body = ctx.request.body;
     // let verified = await jwtChecker.decodeAuth(ctx);
     // let verified = true;

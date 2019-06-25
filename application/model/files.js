@@ -98,12 +98,12 @@ exports.listFiles = async function(content) {
 exports.getUploadURL = async function(content) {
     return new Promise(function(resolve, reject) {
         let email = content.email;
-        let mod = content.mod;
+        // let mod = content.mod;
         let filename = content.filename;
         let key = email;
-        if ((mod !== undefined) && (mod != null)) {
-            key = key + '|' + mod;
-        }
+        // if ((mod !== undefined) && (mod != null)) {
+        //     key = key + '|' + mod;
+        // }
         key = key + '|' + filename;
 
         let params = {

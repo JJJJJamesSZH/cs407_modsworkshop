@@ -7,7 +7,6 @@ class fileController extends baseController {
         console.log("list files");
 
         let file_list = await files.listFiles(content);
-        console.log("file_list: ", file_list);
 
         let result = {
             "status": 200,
@@ -36,12 +35,23 @@ class fileController extends baseController {
     async getUploadURL(content) {
         console.log("getUploadURL");
 
+        let email = content.email;
+        // let mod = content.mod;
+        let filename = content.filename;
+
+        let infoUploadContent = {
+            email: "Info|" + email,
+            filename: filename
+        }
+
         let url = await files.getUploadURL(content);
-        console.log("presigned-url: ", url);
+        let infoURL = await files.getUploadURL(infoUploadContent);
+        // console.log("presigned-upload-url: ", url);
 
         let result = {
             "status": 200,
-            "url": url
+            "uploadUrl": url,
+            "infoUploadUrl": infoURL
         }
 
         return result;
@@ -57,7 +67,7 @@ class fileController extends baseController {
         let addFile = await user_files.userAddFile(content);
         console.log("addFile: ", addFile);
 
-        if (addFile == 0){
+        if (addFile == 0) {
             let result = {
                 "status": 200,
             }
@@ -76,7 +86,7 @@ class fileController extends baseController {
         let deleteFile = await user_files.userDeleteFile(content);
         console.log("deleteFile: ", deleteFile);
 
-        if (deleteFile == 0){
+        if (deleteFile == 0) {
             let result = {
                 "status": 200,
             }
