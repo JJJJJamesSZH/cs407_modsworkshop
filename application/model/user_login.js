@@ -15,18 +15,7 @@ exports.checkDuplicate = async function(content) {
     if (list.length === 1) {
         return 'email'; // duplicate email exists
     } else {
-
-        list = await user_login.findAll({
-            where: {
-                username: username
-            }
-        });
-
-        if (list.length === 1) {
-            return 'username'; // duplicate username exists
-        } else {
-            return '0'; // duplicate username or email does not exist
-        }
+        return '0'; // duplicate email does not exist
     }
 }
 
@@ -54,12 +43,17 @@ exports.addUser = async function(content) {
     let uid = list[0].dataValues.uid;
 
     // create user profile when user sign up
+    let uploadfileJSON = {
+        content: []
+    }
+    let uploadfileString = JSON.stringify(uploadfileJSON);
     user_profile.bulkCreate([{
         uid: uid,
         email: email,
         username: username,
         icon: 0,
-        description: ""
+        description: "",
+        uploadfile: uploadfileString
     }])
 }
 

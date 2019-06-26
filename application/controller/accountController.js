@@ -9,17 +9,7 @@ class accountController extends baseController {
 
         let duplicates = await userLogin.checkDuplicate(content);
         console.log("duplicates: ", duplicates);
-        // email username 0
-
-        // duplicate username
-        if (duplicates === 'username') {
-            console.log("duplicate username");
-            let result = {
-                "status": 201,
-                "err_message": "duplicate username exists"
-            }
-            return result;
-        }
+        // email 0
 
         // duplicate email
         if (duplicates === 'email') {
