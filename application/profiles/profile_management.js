@@ -17,7 +17,7 @@ exports.getUsername = async(ctx, next) => {
     let body = ctx.request.body;
     let verified = await jwtChecker.decodeAuth(ctx);
 
-    if (verified !== body.email){
+    if (verified === false){
         let result = {
             "status": 500,
             "err_message": "authorization code invalid"
@@ -27,6 +27,7 @@ exports.getUsername = async(ctx, next) => {
         await next();
     }
     else{
+        body["email"] = verified;
         let controller = new Controller();
         let result = await controller.getUsername(body);
         ctx.body = result;
@@ -41,7 +42,7 @@ exports.getDescription = async(ctx, next) => {
     let body = ctx.request.body;
     let verified = await jwtChecker.decodeAuth(ctx);
 
-    if (verified !== body.email){
+    if (verified === false){
         let result = {
             "status": 500,
             "err_message": "authorization code invalid"
@@ -51,6 +52,7 @@ exports.getDescription = async(ctx, next) => {
         await next();
     }
     else{
+        body["email"] = verified;
         let controller = new Controller();
         let result = await controller.getDescription(body);
         ctx.body = result;
@@ -65,7 +67,7 @@ exports.getIcon = async(ctx, next) => {
     let body = ctx.request.body;
     let verified = await jwtChecker.decodeAuth(ctx);
 
-    if (verified !== body.email){
+    if (verified === false){
         let result = {
             "status": 500,
             "err_message": "authorization code invalid"
@@ -75,6 +77,7 @@ exports.getIcon = async(ctx, next) => {
         await next();
     }
     else {
+        body["email"] = verified;
         let controller = new Controller();
         let result = await controller.getIcon(body);
         ctx.body = result;
@@ -89,7 +92,7 @@ exports.editProfile = async(ctx, next) => {
     let body = ctx.request.body;
     let verified = await jwtChecker.decodeAuth(ctx);
 
-    if (verified !== body.email){
+    if (verified === false){
         let result = {
             "status": 500,
             "err_message": "authorization code invalid"
@@ -99,6 +102,7 @@ exports.editProfile = async(ctx, next) => {
         await next();
     }
     else {
+        body["email"] = verified;
         let controller = new Controller();
         let result = await controller.editProfile(body);
         ctx.body = result;
@@ -113,7 +117,7 @@ exports.editIcon = async(ctx, next) => {
     let body = ctx.request.body;
     let verified = await jwtChecker.decodeAuth(ctx);
 
-    if (verified !== body.email){
+    if (verified === false){
         let result = {
             "status": 500,
             "err_message": "authorization code invalid"
@@ -123,6 +127,7 @@ exports.editIcon = async(ctx, next) => {
         await next();
     }
     else {
+        body["email"] = verified;
         let controller = new Controller();
         let result = await controller.editIcon(body);
         ctx.body = result;
@@ -137,7 +142,7 @@ exports.editDescription = async(ctx, next) => {
     let body = ctx.request.body;
     let verified = await jwtChecker.decodeAuth(ctx);
 
-    if (verified !== body.email){
+    if (verified === false){
         let result = {
             "status": 500,
             "err_message": "authorization code invalid"
@@ -147,6 +152,7 @@ exports.editDescription = async(ctx, next) => {
         await next();
     }
     else {
+        body["email"] = verified;
         let controller = new Controller();
         let result = await controller.editDescription(body);
         ctx.body = result;
@@ -162,7 +168,7 @@ exports.editUsername = async(ctx, next) => {
     let body = ctx.request.body;
     let verified = await jwtChecker.decodeAuth(ctx);
 
-    if (verified !== body.email){
+    if (verified === false){
         let result = {
             "status": 500,
             "err_message": "authorization code invalid"
@@ -172,6 +178,7 @@ exports.editUsername = async(ctx, next) => {
         await next();
     }
     else {
+        body["email"] = verified;
         let controller = new Controller();
         let result = await controller.editUsername(body);
         ctx.body = result;
