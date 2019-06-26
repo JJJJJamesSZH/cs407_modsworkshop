@@ -40,6 +40,11 @@ class fileController extends baseController {
         let filename = content.filename;
         let type = content.type;
 
+        console.log("========= fileController.getUploadURL =============");
+        console.log("email: ", email);
+        console.log("filename: ", filename);
+        console.log("type: ", type);
+
         let infoUploadContent = {
             email: "Info|" + email,
             filename: filename,
@@ -68,15 +73,15 @@ class fileController extends baseController {
         // 1.2
         // 1.2.1
         let uploadFileString = await user_profile.getUploadFile({ email: email });
-        console.log("==================");
-        console.log("uploadFileString: ", uploadFileString);
         let uploadFileJSON = JSON.parse(uploadFileString);
-        console.log("==================");
-        console.log("uploadFileJSON: ", uploadFileJSON);
         let uploadFile = uploadFileJSON.content;
-        console.log("==================");
-        console.log("uploadFile: ", uploadFile);
-        uploadFile.push(fileID);
+        if (uploadFile.includes(fileID) === false) {
+            if (fileID !== undefined && fileID !== null) {
+                uploadFile.push(fileID); // check duplicates
+            }
+        } else {
+            // should update file, but not for now
+        }
         uploadFileJSON = { content: uploadFile };
         uploadFileString = JSON.stringify(uploadFileJSON);
         await user_profile.setUploadFile({

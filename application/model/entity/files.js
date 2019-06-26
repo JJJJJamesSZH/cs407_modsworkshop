@@ -40,6 +40,10 @@ const files = sequelize.define('files', {
     likes: {
         type: Sequelize.INTEGER,
         allowNull: false
+    },
+    anonymous: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false
     }
 }, {
     freezeTableName: true

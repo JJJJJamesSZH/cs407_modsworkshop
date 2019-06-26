@@ -51,6 +51,7 @@ exports.getProfile = async function(content) {
 }
 
 exports.getUploadFile = async function(content) {
+    console.log("======= user_profile.getUploadFile =========");
     let email = content.email;
     let profile = await user_profile.findOne({
         where: {
@@ -63,6 +64,10 @@ exports.getUploadFile = async function(content) {
 exports.setUploadFile = async function(content) {
     let email = content.email;
     let uploadfile = content.uploadfile;
+    console.log("======= user_profile.setUploadFile =========");
+    console.log("email: ", email);
+    console.log("uploadfile: ", uploadfile);
+    // await setTimeout(function() {}, 100, 'funky');
     await user_profile.update({
         uploadfile: uploadfile
     }, {

@@ -34,13 +34,15 @@ exports.insertTable = async function(content) {
         likes: 0
     }])
 
+    console.log("date: ", date);
     let list = await files.findAll({
         where: {
-            key: email + "|" + filename
+            key: content.email + "|" + content.filename
         }
     })
     let fileID = list[0].dataValues.fileID;
-
+    console.log("==================");
+    console.log("fileID: ", fileID);
     return fileID;
 }
 
