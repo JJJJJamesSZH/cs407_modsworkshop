@@ -27,7 +27,7 @@ exports.getUploadURL = async(ctx, next) => {
         ctx.body = result;
         await next();
     } else {
-        ctx["email"] = verified;
+        body["email"] = verified;
         let controller = new Controller();
         let result = await controller.getUploadURL(body);
         ctx.body = result;

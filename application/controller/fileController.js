@@ -39,6 +39,10 @@ class fileController extends baseController {
         // let mod = content.mod;
         let filename = content.filename;
         let type = content.type;
+        let anonymous = content.anonymous;
+        if (anonymous === undefined || anonymous === null){
+            annoymous = false; // set default value
+        }
 
         console.log("========= fileController.getUploadURL =============");
         console.log("email: ", email);
@@ -48,7 +52,8 @@ class fileController extends baseController {
         let infoUploadContent = {
             email: "Info|" + email,
             filename: filename,
-            type: type
+            type: type,
+            anonymous: anonymous
         }
 
         // 1.  alter the database tables
