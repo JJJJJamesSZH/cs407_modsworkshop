@@ -17,19 +17,12 @@ class fileController extends baseController {
 
     }
 
-    async listUploaded(content) {
-        console.log("Uploaded files");
+    async getFileDetail(content) {
+        console.log("get file detail");
 
-        let uploaded_list = await user_files.getFiles(content);
-        console.log("Uploaded_list: ", uploaded_list);
+        let file_info = await files.getFileDetail(content);
 
-        let result = {
-            "status": 200,
-            "file_list": uploaded_list
-        }
-
-        return result;
-
+        return file_info;
     }
 
     async getUploadURL(content) {
@@ -107,49 +100,6 @@ class fileController extends baseController {
 
         return result;
     }
-
-    async uploadComplete(content) {
-
-    }
-
-    async addUploaded(content) {
-        console.log("Uploaded files");
-
-        let addFile = await user_files.userAddFile(content);
-        console.log("addFile: ", addFile);
-
-        if (addFile == 0) {
-            let result = {
-                "status": 200,
-            }
-            return result;
-        }
-        let result = {
-            "status": 500,
-        }
-        return result;
-    }
-
-
-    async deleteUploaded(content) {
-        console.log("Uploaded files");
-
-        let deleteFile = await user_files.userDeleteFile(content);
-        console.log("deleteFile: ", deleteFile);
-
-        if (deleteFile == 0) {
-            let result = {
-                "status": 200,
-            }
-            return result;
-        }
-        let result = {
-            "status": 500,
-        }
-        return result;
-
-    }
-
 }
 
 module.exports = fileController;

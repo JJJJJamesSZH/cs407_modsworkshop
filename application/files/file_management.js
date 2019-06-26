@@ -68,3 +68,13 @@ exports.deleteUploaded = async(ctx, next) => {
 
     await next();
 }
+
+exports.fileDetail = async(ctx, next) => {
+    let body = ctx.request.body;
+
+    let controller = new Controller();
+    let result = await controller.getFileDetail(body);
+    ctx.body = result;
+
+    await next();
+}
