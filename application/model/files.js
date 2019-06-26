@@ -14,6 +14,36 @@ AWS.config.update({
 
 let s3 = new AWS.S3({ apiVersion: s3_config.apiVersion });
 
+exports.insertTable = async function(content) {
+    // for uploading new file
+    // takes: file info
+    // returns: the fileID of the new uploaded file.
+    let email = content.email;
+    let filename = content.filename;
+    let type = content.type;
+    let d = new Date();
+    let date = "" + d.getTime();
+    files.bulkCreate([{
+        email: email,
+        fileName: filename,
+        type: type,
+        key: email + "|" + filename,
+        dateCreated: date,
+        dateUpdated: date,
+        downlaods: 0,
+        likes: 0
+    }])
+
+    let list = await files.findAll({
+        where: {
+            key: email + "|" + filename
+        }
+    })
+    let fileID = list[0].dataValues.fileID;
+
+    return fileID;
+}
+
 exports.listFiles = async function(content) {
     return new Promise(function(resolve, reject) {
 
@@ -98,12 +128,8 @@ exports.listFiles = async function(content) {
 exports.getUploadURL = async function(content) {
     return new Promise(function(resolve, reject) {
         let email = content.email;
-        // let mod = content.mod;
         let filename = content.filename;
         let key = email;
-        // if ((mod !== undefined) && (mod != null)) {
-        //     key = key + '|' + mod;
-        // }
         key = key + '|' + filename;
 
         let params = {

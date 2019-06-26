@@ -50,6 +50,28 @@ exports.getProfile = async function(content) {
     return profile;
 }
 
+exports.getUploadFile = async function(content) {
+    let email = content.email;
+    let profile = await user_profile.findOne({
+        where: {
+            email: email
+        }
+    });
+    return profile.uploadfile;
+}
+
+exports.setUploadFile = async function(content) {
+    let email = content.email;
+    let uploadfile = content.uploadfile;
+    await user_profile.update({
+        uploadfile: uploadfile
+    }, {
+        where: {
+            email: email
+        }
+    })
+}
+
 exports.editUsername = async function(content) {
     let email = content.email;
     let username = content.username;
@@ -64,10 +86,7 @@ exports.editUsername = async function(content) {
     if (list.length === 1) {
         return '1'; // duplicate username exists
     } else {
-        user_profile.update(
-            { username: username },
-            { where: { email: email} }
-        )
+        user_profile.update({ username: username }, { where: { email: email } })
         return '0'; // duplicate username or email does not exist
     }
 
@@ -77,10 +96,7 @@ exports.editDescription = async function(content) {
     let email = content.email;
     let description = content.description;
 
-    user_profile.update(
-        { description: description },
-        { where: { email: email} }
-    )
+    user_profile.update({ description: description }, { where: { email: email } })
 
 }
 
@@ -88,10 +104,7 @@ exports.editIcon = async function(content) {
     let email = content.email;
     let icon = content.icon;
 
-    user_profile.update(
-        { icon: icon },
-        { where: { email: email} }
-    )
+    user_profile.update({ icon: icon }, { where: { email: email } })
 
 }
 
@@ -110,14 +123,11 @@ exports.editProfile = async function(content) {
     if (list.length === 1) {
         return '1'; // duplicate username exists
     } else {
-        user_profile.update(
-            { 
-                description: description,
-                username: username,
-                icon: icon
-            },
-            { where: { email: email} }
-        )
+        user_profile.update({
+            description: description,
+            username: username,
+            icon: icon
+        }, { where: { email: email } })
         return '0'; // duplicate username or email does not exist
-    } 
+    }
 }

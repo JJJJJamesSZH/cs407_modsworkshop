@@ -9,14 +9,22 @@ const files = sequelize.define('files', {
         unique: true,
         autoIncrement: true
     },
-    fileURL: {
-        type: Sequelize.INTEGER,
-        unique: true,
+    email: {
+        type: Sequelize.STRING,
         allowNull: false
     },
     fileName: {
         type: Sequelize.STRING,
         allowNull: false
+    },
+    type: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    key: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true
     },
     dateCreated: {
         type: Sequelize.STRING,
@@ -29,8 +37,9 @@ const files = sequelize.define('files', {
         type: Sequelize.INTEGER,
         allowNull: false
     },
-    description: {
-        type: Sequelize.STRING
+    likes: {
+        type: Sequelize.INTEGER,
+        allowNull: false
     }
 }, {
     freezeTableName: true

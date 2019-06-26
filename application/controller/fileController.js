@@ -1,6 +1,6 @@
 const baseController = require("./baseController");
 const files = require("../model/files");
-const user_files = require("../model/user_file");
+const user_profile = require("../model/user_profile");
 
 class fileController extends baseController {
     async listFiles(content) {
@@ -38,12 +38,53 @@ class fileController extends baseController {
         let email = content.email;
         // let mod = content.mod;
         let filename = content.filename;
+        let type = content.type;
 
         let infoUploadContent = {
             email: "Info|" + email,
-            filename: filename
+            filename: filename,
+            type: type
         }
 
+        // 1.  alter the database tables
+        // |
+        //  -- 1.1  files table
+        // |    |
+        // |     -- 1.1.1  add new row into files table
+        // |    |
+        // |     -- 1.1.2  gather the file ID of the new uploaded file
+        // |
+        //  -- 1.2  user_profile table
+        //      |
+        //       -- 1.2.1  gather the "uploadfile" column
+        //      |
+        //       -- 1.2.2  insert the new fileID into it
+        //      |
+        //       -- 1.2.3  update the row with new value
+
+        // 1.1
+        let fileID = await files.insertTable(content);
+
+        // 1.2
+        // 1.2.1
+        let uploadFileString = await user_profile.getUploadFile({ email: email });
+        console.log("==================");
+        console.log("uploadFileString: ", uploadFileString);
+        let uploadFileJSON = JSON.parse(uploadFileString);
+        console.log("==================");
+        console.log("uploadFileJSON: ", uploadFileJSON);
+        let uploadFile = uploadFileJSON.content;
+        console.log("==================");
+        console.log("uploadFile: ", uploadFile);
+        uploadFile.push(fileID);
+        uploadFileJSON = { content: uploadFile };
+        uploadFileString = JSON.stringify(uploadFileJSON);
+        await user_profile.setUploadFile({
+            email: email,
+            uploadfile: uploadFileString
+        });
+
+        // 2. get the uploadURL and infoUploadURL
         let url = await files.getUploadURL(content);
         let infoURL = await files.getUploadURL(infoUploadContent);
         // console.log("presigned-upload-url: ", url);
