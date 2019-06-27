@@ -27,7 +27,7 @@ exports.getUploadURL = async(ctx, next) => {
         ctx.body = result;
         await next();
     } else {
-        ctx["email"] = verified;
+        body["email"] = verified;
         let controller = new Controller();
         let result = await controller.getUploadURL(body);
         ctx.body = result;
@@ -64,6 +64,16 @@ exports.deleteUploaded = async(ctx, next) => {
 
     let controller = new Controller();
     let result = await controller.deleteUploaded(body);
+    ctx.body = result;
+
+    await next();
+}
+
+exports.fileDetail = async(ctx, next) => {
+    let body = ctx.request.body;
+
+    let controller = new Controller();
+    let result = await controller.getFileDetail(body);
     ctx.body = result;
 
     await next();

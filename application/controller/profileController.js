@@ -12,13 +12,19 @@ class profileController extends baseController {
         let email = profile.email;
         let description = profile.description;
         let icon = profile.icon;
+        let filesString = profile.uploadfile;
+        let filesJSON = JSON.parse(filesString);
+        let files = filesJSON.content;
+
+        // console.log("profile: ", profile);
 
         let result = {
             "status": 200,
             "username": username,
             "email": email,
             "description": description,
-            "icon": icon
+            "icon": icon,
+            "files": files
         }
         return result
     }
