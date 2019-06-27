@@ -8,9 +8,33 @@ class fileController extends baseController {
 
         let file_list = await files.listFiles(content);
 
+        console.log("file_list: ", file_list); // array of jsons
+
+        let n = file_list.length;
+        // console.log("size: ", n);
+
+        let result_file_list = [];
+
+        for (let i = 0; i < n; i++) {
+            // add username in to file JSON
+            // console.log("i = ", i);
+            let fileJSON = file_list[i].dataValues;
+            let username = await user_profile.getUsername({ email: fileJSON.email });
+            // console.log("username: ", username);
+            fileJSON["username"] = username;
+            // console.log("fileJSON: ", fileJSON);
+
+            // add Info download URL
+            let infoDownloadURL = await files.getDownloadURL({ key: "Info|" + fileJSON.key });
+            // console.log("downloadURL: ", downloadURL);
+            fileJSON["infoDownloadUrl"] = infoDownloadURL;
+
+            result_file_list.push(fileJSON);
+        }
+
         let result = {
             "status": 200,
-            "file_list": file_list
+            "file_list": result_file_list
         }
 
         return result;
@@ -33,7 +57,7 @@ class fileController extends baseController {
         let filename = content.filename;
         let type = content.type;
         let anonymous = content.anonymous;
-        if (anonymous === undefined || anonymous === null){
+        if (anonymous === undefined || anonymous === null) {
             annoymous = false; // set default value
         }
 

@@ -183,7 +183,27 @@ exports.getUploadURL = async function(content) {
 }
 
 exports.getDownloadURL = async function(content) {
+    return new Promise(function(resolve, reject) {
+        let email = content.email;
+        let filename = content.filename;
+        let key = content.key;
 
+        if (key === undefined || key === null) {
+            key = key + '|' + filename;
+        }
+
+        let params = {
+            Bucket: BucketName,
+            Key: key
+        }
+        s3.getSignedUrl('putObject', params, function(err, url) {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(url);
+            }
+        })
+    })
 }
 
 exports.getFileDetail = async function(content) {
