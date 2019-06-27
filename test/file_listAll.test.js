@@ -7,19 +7,14 @@ let assert = require("assert");
 let files_db = require('../application/model/entity/files');
 let auth = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoYW80NEBwdXJkdWUuZWR1IiwiaWF0IjoxNTYxNDMzMzM2fQ.OiYdyHEMFzMBTBUpCkxev8_sbuUW9vsl9JqJqLyhty0"
 
-// testing by requiring multiple URLs
-
-it("testing upload files success #1", function(done) {
+// list all without email
+it("testing for list all files", function(done) {
     setTimeout(function() {
         let test_case = {
-            filename: "testfile1.txt",
-            type: "UI Mod",
-            anonymous: false
         }
         request(server)
-            .post('/modsworkshop/file/getUploadURL')
+            .post('/modsworkshop/file/listAll')
             .send(test_case)
-            .set('Authorization', auth)
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(200)
@@ -30,17 +25,15 @@ it("testing upload files success #1", function(done) {
     }, 0, 'funky');
 })
 
-it("testing upload files success #2", function(done) {
+// list all with email
+it("testing for list all files", function(done) {
     setTimeout(function() {
         let test_case = {
-            filename: "testfile2.txt",
-            type: "Function Mod",
-            anonymous: false
+            email: "shao44@purdue.edu"
         }
         request(server)
-            .post('/modsworkshop/file/getUploadURL')
+            .post('/modsworkshop/file/listAll')
             .send(test_case)
-            .set('Authorization', auth)
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(200)
@@ -51,17 +44,14 @@ it("testing upload files success #2", function(done) {
     }, 50, 'funky');
 })
 
-it("testing upload files success #3", function(done) {
+it("testing for list all files", function(done) {
     setTimeout(function() {
         let test_case = {
-            filename: "testfile3.txt",
-            type: "User saves",
-            anonymous: false
+            email: "testUser1@purdue.edu"
         }
         request(server)
-            .post('/modsworkshop/file/getUploadURL')
+            .post('/modsworkshop/file/listAll')
             .send(test_case)
-            .set('Authorization', auth)
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(200)
@@ -72,20 +62,47 @@ it("testing upload files success #3", function(done) {
     }, 100, 'funky');
 })
 
-it("testing for false authorization", function(done){
+// list file detail with email and filename
+it("testing for list file detail with email and filename", function(done) {
     setTimeout(function() {
         let test_case = {
-            filename: "testfile4.txt",
-            type: "User saves",
-            anonymous: false
+            email: "shao44@purdue.edu",
+            filename: "testfile.txt"
         }
         request(server)
-            .post('/modsworkshop/file/getUploadURL')
+            .post('/modsworkshop/file/fileDetail')
             .send(test_case)
-            .set('Authorization', "this_is_a_fake_auth")
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(200)
+            .expect(function(res) {
+                assert.equal(res.body.fileID, 56);
+                assert.equal(res.body.email, "shao44@purdue.edu");
+                assert.equal(res.body.fileName, "testfile.txt");
+                assert.equal(res.body.key, "shao44@purdue.edu|testfile.txt");
+            })
             .end(done)
     }, 150, 'funky');
+})
+
+// list file detail with key
+it("testing for list file detail with key", function(done) {
+    setTimeout(function() {
+        let test_case = {
+            key: "shao44@purdue.edu|testfile.txt"
+        }
+        request(server)
+            .post('/modsworkshop/file/fileDetail')
+            .send(test_case)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(function(res) {
+                assert.equal(res.body.fileID, 56);
+                assert.equal(res.body.email, "shao44@purdue.edu");
+                assert.equal(res.body.fileName, "testfile.txt");
+                assert.equal(res.body.key, "shao44@purdue.edu|testfile.txt");
+            })
+            .end(done)
+    }, 200, 'funky');
 })
