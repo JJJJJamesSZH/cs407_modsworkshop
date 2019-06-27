@@ -1,7 +1,7 @@
 require('babel-register');
 
 const user_profile = require('../application/model/user_profile');
-let server = require("../app.js").listen(8002);
+let server = require("../app.js").listen(8005);
 let request = require("supertest");
 let assert = require("assert");
 
@@ -16,23 +16,23 @@ let assert = require("assert");
  */
 
 const profile1_send = {
-	"email":"viewprofileTest1@gmail.com"
+    "email": "viewprofileTest1@gmail.com"
 }
 
 const profile2_send_username = {
-	"email":"viewprofileTest2@gmail.com"
+    "email": "viewprofileTest2@gmail.com"
 }
 
 const profile3_send_description = {
-	"email":"viewprofileTest3@gmail.com"
+    "email": "viewprofileTest3@gmail.com"
 }
 
 const profile3_send_icon = {
-	"email":"viewprofileTest3@gmail.com"
+    "email": "viewprofileTest3@gmail.com"
 }
 
 const profile3_send_uploadfile = {
-	"email":"viewprofileTest3@gmail.com"
+    "email": "viewprofileTest3@gmail.com"
 }
 
 
@@ -47,7 +47,7 @@ const correct_profile1 = {
     ]
 }
 
-const correct_profile2= {
+const correct_profile2 = {
     "status": 200,
     "username": "viewPT2",
 }
@@ -168,9 +168,3 @@ it('get correct profile uploadfile list', function(done) {
             .end(done)
     }, 50, 'funky');
 })
-
-
-
-
-
-    

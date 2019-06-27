@@ -1,6 +1,6 @@
 require('babel-register');
 
-let server = require("../app.js").listen(8003);
+let server = require("../app.js").listen(8004);
 let request = require("supertest");
 let assert = require("assert");
 
@@ -72,7 +72,7 @@ it("testing upload files success #3", function(done) {
     }, 100, 'funky');
 })
 
-it("testing for false authorization", function(done){
+it("testing for false authorization", function(done) {
     setTimeout(function() {
         let test_case = {
             filename: "testfile4.txt",
