@@ -5,19 +5,22 @@ const email_code = require("../application/model/email_code");
 // testcase 1 - correct
 const code_veri_testU_1 = {
     email: 'code_veri_testU@purdue.edu',
-    code: 'CODE1ABC'
+    code: 'CODE1ABC',
+    password: 'ShaoZH0923?'
 };
 
 // testcase 2 - wrong code
 const code_veri_testU_2 = {
     email: 'code_veri_testU@purdue.edu',
-    code: 'CODE2ABC'
+    code: 'CODE2ABC',
+    password: 'ShaoZH0923?'
 };
 
 // testcase 3 - wrong email
 const code_veri_testU_3 = {
     email: 'code_veri_testttt@purdue.edu',
-    code: 'CODE1ABC'
+    code: 'CODE1ABC',
+    password: 'ShaoZH0923?'
 };
 
 let server = require("../app.js").listen(8001);
