@@ -40,6 +40,7 @@ class profileController extends baseController {
         return result
     }
 
+
     async getDescription(content) {
         console.log("profileController.getDescription: ", content);
 
@@ -58,6 +59,17 @@ class profileController extends baseController {
         let result = {
             "status": 200,
             "icon": icon
+        }
+        return result
+    }
+
+    async getUploadFile(content) {
+        console.log("profileController.getUploadedFiles: ", content);
+
+        let files = await userProfile.getUploadFile(content);
+        let result = {
+            "status": 200,
+            "files": files
         }
         return result
     }

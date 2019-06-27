@@ -46,6 +46,7 @@ exports.listUploaded = async(ctx, next) => {
 
     await next();
 }
+
 exports.addUploaded = async(ctx, next) => {
     let body = ctx.request.body;
     // let verified = await jwtChecker.decodeAuth(ctx);
