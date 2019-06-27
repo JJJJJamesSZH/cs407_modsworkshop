@@ -2,13 +2,13 @@ var Sequelize = require('sequelize');
 var sequelize = require('../db');
 
 const files = sequelize.define('files', {
-    // fileID: {
-    //     type: Sequelize.INTEGER,
-    //     primaryKey: true,
-    //     allowNull: false,
-    //     unique: true,
-    //     autoIncrement: true
-    // },
+    fileID: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        allowNull: false,
+        unique: true,
+        autoIncrement: true
+    },
     email: {
         type: Sequelize.STRING,
         allowNull: false

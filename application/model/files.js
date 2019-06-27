@@ -1,4 +1,5 @@
 import { files } from "./entity/files";
+import { catchClause } from "babel-types";
 let s3_config = require("../../config/dev").s3;
 let AWS = require('aws-sdk');
 
@@ -17,9 +18,15 @@ let s3 = new AWS.S3({ apiVersion: s3_config.apiVersion });
 async function files_insert(insert_content) {
     console.log("================== files_insert");
     console.log("insert_content: ", insert_content);
-    await files.bulkCreate([
-        insert_content
-    ])
+    try {
+        await files.bulkCreate([
+            insert_content
+        ])
+    } catch (e) {
+        if (e.name === "SequelizeUniqueConstraintError") {
+            console.log("duplicate key exists");
+        }
+    }
     console.log("================== files_insert complete");
 }
 
@@ -31,8 +38,9 @@ async function files_search(fileKey) {
         }
     })
     console.log("file: ", file);
+    console.log("fileID: ", file.dataValues.fileID);
     console.log("================== files_search complete");
-    return file.fileID;
+    return file.dataValues.fileID;
 }
 
 exports.insertTable = async function(content) {
@@ -178,13 +186,13 @@ exports.getDownloadURL = async function(content) {
 
 }
 
-exports.getFileDetail = async function (content) {
+exports.getFileDetail = async function(content) {
     // serach details of the file, by either key or email and filename
     let key = content.key;
     let email = content.email;
     let filename = content.filename;
 
-    if (key === undefined || key === null){
+    if (key === undefined || key === null) {
         // get key from email and filename if key does not exist
         key = email + "|" + filename;
     }
