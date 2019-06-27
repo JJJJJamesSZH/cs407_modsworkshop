@@ -14,33 +14,59 @@ AWS.config.update({
 
 let s3 = new AWS.S3({ apiVersion: s3_config.apiVersion });
 
+async function files_insert(insert_content) {
+    console.log("================== files_insert");
+    console.log("insert_content: ", insert_content);
+    await files.bulkCreate([
+        insert_content
+    ])
+    console.log("================== files_insert complete");
+}
+
+async function files_search(fileKey) {
+    console.log("================== files_search");
+    let file = await files.findOne({
+        where: {
+            key: fileKey
+        }
+    })
+    console.log("file: ", file);
+    console.log("================== files_search complete");
+    return file.fileID;
+}
+
 exports.insertTable = async function(content) {
     // for uploading new file
     // takes: file info
     // returns: the fileID of the new uploaded file.
+    // Problem: Async events
     let email = content.email;
     let filename = content.filename;
     let type = content.type;
+    let anonymous = content.anonymous;
     let d = new Date();
     let date = "" + d.getTime();
-    files.bulkCreate([{
+    let file_insert = {
         email: email,
         fileName: filename,
         type: type,
         key: email + "|" + filename,
         dateCreated: date,
         dateUpdated: date,
-        downlaods: 0,
-        likes: 0
-    }])
+        downloadNum: 0,
+        likes: 0,
+        anonymous: anonymous
+    }
+    await files_insert(file_insert);
 
     console.log("date: ", date);
-    let list = await files.findAll({
-        where: {
-            key: content.email + "|" + content.filename
-        }
-    })
-    let fileID = list[0].dataValues.fileID;
+    // let list = await files.findAll({
+    //     where: {
+    //         key: content.email + "|" + content.filename
+    //     }
+    // })
+    // let fileID = list[0].dataValues.fileID;
+    let fileID = files_search(content.email + "|" + content.filename);
     console.log("==================");
     console.log("fileID: ", fileID);
     return fileID;

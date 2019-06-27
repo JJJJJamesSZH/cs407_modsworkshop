@@ -2,13 +2,13 @@ var Sequelize = require('sequelize');
 var sequelize = require('../db');
 
 const files = sequelize.define('files', {
-    fileID: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        allowNull: false,
-        unique: true,
-        autoIncrement: true
-    },
+    // fileID: {
+    //     type: Sequelize.INTEGER,
+    //     primaryKey: true,
+    //     allowNull: false,
+    //     unique: true,
+    //     autoIncrement: true
+    // },
     email: {
         type: Sequelize.STRING,
         allowNull: false
@@ -24,7 +24,7 @@ const files = sequelize.define('files', {
     key: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true
+        primaryKey: true
     },
     dateCreated: {
         type: Sequelize.STRING,
@@ -33,17 +33,14 @@ const files = sequelize.define('files', {
     dateUpdated: {
         type: Sequelize.STRING,
     },
-    downloads: {
-        type: Sequelize.INTEGER,
-        allowNull: false
+    downloadNum: {
+        type: Sequelize.INTEGER
     },
     likes: {
-        type: Sequelize.INTEGER,
-        allowNull: false
+        type: Sequelize.INTEGER
     },
     anonymous: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false
+        type: Sequelize.BOOLEAN
     }
 }, {
     freezeTableName: true
