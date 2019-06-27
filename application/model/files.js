@@ -196,7 +196,7 @@ exports.getDownloadURL = async function(content) {
             Bucket: BucketName,
             Key: key
         }
-        s3.getSignedUrl('putObject', params, function(err, url) {
+        s3.getSignedUrl('getObject', params, function(err, url) {
             if (err) {
                 reject(err);
             } else {

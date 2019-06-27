@@ -70,28 +70,6 @@ it('add test_user1', function(done) {
     }, 100, 'funky');
 })
 
-it('should not add test_user1u', function(done) {
-    try {
-
-        setTimeout(function() {
-            request(server)
-                .post('/modsworkshop/account/registration')
-                .send(test_user1u)
-                .set('Accept', 'application/json')
-                .expect('Content-Type', /json/)
-                .expect(200)
-                .expect(function(res) {
-                    assert.equal(res.body.status, 201)
-                })
-                .end(done)
-        }, 400, 'funky');
-    } catch (error) {
-        console.log(error);
-        assert.equal(error, undefined);
-        done();
-    }
-})
-
 it('should not add test_user1e', function(done) {
     try {
 
