@@ -11,6 +11,7 @@ let auth = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoYW80NEBwdXJkdWU
 
 // list all without email
 it("testing for list all files", function(done) {
+    this.timeout(4000);
     setTimeout(function() {
         let test_case = {}
         request(server)
@@ -28,6 +29,7 @@ it("testing for list all files", function(done) {
 
 // list all with email
 it("testing for list all files", function(done) {
+    this.timeout(4000);
     setTimeout(function() {
         let test_case = {
             email: "shao44@purdue.edu"
@@ -46,6 +48,7 @@ it("testing for list all files", function(done) {
 })
 
 it("testing for list all files", function(done) {
+    this.timeout(4000);
     setTimeout(function() {
         let test_case = {
             email: "testUser1@purdue.edu"
@@ -65,6 +68,7 @@ it("testing for list all files", function(done) {
 
 // list file detail with email and filename
 it("testing for list file detail with email and filename", function(done) {
+    this.timeout(4000);
     setTimeout(function() {
         let test_case = {
             email: "shao44@purdue.edu",
@@ -88,6 +92,7 @@ it("testing for list file detail with email and filename", function(done) {
 
 // list file detail with key
 it("testing for list file detail with key", function(done) {
+    this.timeout(4000);
     setTimeout(function() {
         let test_case = {
             key: "shao44@purdue.edu|testfile.txt"
