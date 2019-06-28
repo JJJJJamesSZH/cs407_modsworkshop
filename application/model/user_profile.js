@@ -82,18 +82,21 @@ exports.editUsername = async function(content) {
     let username = content.username;
 
     // check if username exists before updating it
-    let list = await user_profile.findAll({
-        where: {
-            username: username
-        }
-    });
+    // let list = await user_profile.findAll({
+    //     where: {
+    //         username: username
+    //     }
+    // });
 
-    if (list.length === 1) {
-        return '1'; // duplicate username exists
-    } else {
-        user_profile.update({ username: username }, { where: { email: email } })
-        return '0'; // duplicate username or email does not exist
-    }
+    // if (list.length === 1) {
+    //     return '1'; // duplicate username exists
+    // } else {
+    //     user_profile.update({ username: username }, { where: { email: email } })
+    //     return '0'; // duplicate username or email does not exist
+    // }
+
+    user_profile.update({ username: username }, { where: { email: email } });
+    return 0;
 
 }
 
