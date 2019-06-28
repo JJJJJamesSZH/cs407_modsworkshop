@@ -12,8 +12,7 @@ let auth = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoYW80NEBwdXJkdWU
 // list all without email
 it("testing for list all files", function(done) {
     setTimeout(function() {
-        let test_case = {
-        }
+        let test_case = {}
         request(server)
             .post('/modsworkshop/file/listAll')
             .send(test_case)
@@ -24,7 +23,7 @@ it("testing for list all files", function(done) {
                 assert.equal(res.body.status, 200)
             })
             .end(done)
-    }, 0, 'funky');
+    }, 10, 'funky');
 })
 
 // list all with email
