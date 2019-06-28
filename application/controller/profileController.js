@@ -77,7 +77,7 @@ class profileController extends baseController {
     async editProfile(content) {
         console.log("profileController.editProfile: ", content);
 
-        let result_code = userProfile.editProfile(content);
+        let result_code = await userProfile.editProfile(content);
 
         if (result_code == 0) {
             let result = {
@@ -97,7 +97,7 @@ class profileController extends baseController {
     async editUsername(content) {
         console.log("profileController.editUsername: ", content);
 
-        let result_code = userProfile.editUsername(content);
+        let result_code = await userProfile.editUsername(content);
         if (result_code == 0) {
             let result = {
                 "status": 200
@@ -116,7 +116,7 @@ class profileController extends baseController {
     async editIcon(content) {
         console.log("profileController.editIcon: ", content);
 
-        userProfile.editIcon(content);
+        await userProfile.editIcon(content);
         let result = {
             "status": 200
         }
@@ -126,7 +126,7 @@ class profileController extends baseController {
     async editDescription(content) {
         console.log("profileController.editDescription: ", content);
 
-        userProfile.editDescription(content);
+        await userProfile.editDescription(content);
         let result = {
             "status": 200
         }
