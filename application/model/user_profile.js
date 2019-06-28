@@ -122,20 +122,28 @@ exports.editProfile = async function(content) {
     let description = content.description;
     let icon = content.icon;
 
-    let list = await user_profile.findAll({
-        where: {
-            username: username
-        }
-    });
+    // let list = await user_profile.findAll({
+    //     where: {
+    //         username: username
+    //     }
+    // });
 
-    if (list.length === 1) {
-        return '1'; // duplicate username exists
-    } else {
-        user_profile.update({
-            description: description,
-            username: username,
-            icon: icon
-        }, { where: { email: email } })
-        return '0'; // duplicate username or email does not exist
-    }
+    // if (list.length === 1) {
+    //     return '1'; // duplicate username exists
+    // } else {
+    //     user_profile.update({
+    //         description: description,
+    //         username: username,
+    //         icon: icon
+    //     }, { where: { email: email } })
+    //     return '0'; // duplicate username or email does not exist
+    // }
+
+    user_profile.update({
+        description: description,
+        username: username,
+        icon: icon
+    }, { where: { email: email } });
+    return 0;
+
 }
