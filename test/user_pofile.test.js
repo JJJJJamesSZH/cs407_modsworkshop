@@ -1,9 +1,13 @@
 require('babel-register');
 
+const jwtChecker = require("../application/authentication/checkJWT");
+
 const user_profile = require('../application/model/user_profile');
 let server = require("../app.js").listen(8005);
 let request = require("supertest");
 let assert = require("assert");
+
+
 
 /**
  * unit tests for user_profile.js
@@ -68,9 +72,6 @@ const correct_profile3_files = {
         32
     ]
 }
-
-
-
 
 
 it('get correct all profile information', function(done) {
@@ -165,6 +166,105 @@ it('get correct profile uploadfile list', function(done) {
             //     assert.equal(res.body.status, 200);
             //     assert.equal(res.body.files, [32]);
             // })
+            .end(done)
+    }, 50, 'funky');
+})
+
+const profile4_editAll = {
+    "email": "editprofileTest4@gmail.com",
+    "username": "editPT9",
+    "description": "description9",
+    "icon": 9
+}
+
+const profile5_edit_username = {
+    "email": "editprofileTest6@gmail.com",
+    "username": "editPT8"
+}
+
+const profile6_edit_description = {
+    "email": "editprofileTest7@gmail.com",
+    "description": "description7"
+}
+
+const profile7_edit_icon = {
+    "email": "editprofileTest8@gmail.com",
+    "icon": "icon6"
+}
+
+let auth = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoYW80NEBwdXJkdWUuZWR1IiwiaWF0IjoxNTYxNDMzMzM2fQ.OiYdyHEMFzMBTBUpCkxev8_sbuUW9vsl9JqJqLyhty0";
+
+it('Edit profile all correctly', function(done) {
+    setTimeout(function() {
+        let auth = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoYW80NEBwdXJkdWUuZWR1IiwiaWF0IjoxNTYxNDMzMzM2fQ.OiYdyHEMFzMBTBUpCkxev8_sbuUW9vsl9JqJqLyhty0";
+
+        console.log("============== Test editAll =================");
+                request(server)
+            .post('/modsworkshop/profile/editAll')
+            .send(profile4_editAll)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(function(res) {
+                assert.equal(res.body.status, 200);
+            })
+            .end(done)
+    }, 50, 'funky');
+})
+
+
+it('Edit profile username correctly', function(done) {
+    
+    setTimeout(function() {
+        let auth = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoYW80NEBwdXJkdWUuZWR1IiwiaWF0IjoxNTYxNDMzMzM2fQ.OiYdyHEMFzMBTBUpCkxev8_sbuUW9vsl9JqJqLyhty0";
+
+        console.log("============== Test editUsername =================");
+        request(server)
+            .post('/modsworkshop/profile/editUsername')
+            .send(profile5_edit_username)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(function(res) {
+                assert.equal(res.body.status, 200);
+            })
+            .end(done)
+    }, 50, 'funky');
+})
+
+it('Edit profile description correctly', function(done) {
+    setTimeout(function() {
+        let auth = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoYW80NEBwdXJkdWUuZWR1IiwiaWF0IjoxNTYxNDMzMzM2fQ.OiYdyHEMFzMBTBUpCkxev8_sbuUW9vsl9JqJqLyhty0";
+
+        console.log("============== Test editDescription =================");
+        request(server)
+            .post('/modsworkshop/profile/editDescription')
+            .send(profile6_edit_description)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(function(res) {
+                assert.equal(res.body.status, 200);
+            })
+            .end(done)
+    }, 50, 'funky');
+})
+
+
+it('Edit profile icon correctly', function(done) {
+    setTimeout(function() {
+        let auth = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoYW80NEBwdXJkdWUuZWR1IiwiaWF0IjoxNTYxNDMzMzM2fQ.OiYdyHEMFzMBTBUpCkxev8_sbuUW9vsl9JqJqLyhty0";
+
+        console.log("============== Test editIcon =================");
+        request(server)
+            .post('/modsworkshop/profile/editIcon')
+            .send(profile7_edit_icon)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(function(res) {
+                assert.equal(res.body.status, 200);
+            })
             .end(done)
     }, 50, 'funky');
 })
