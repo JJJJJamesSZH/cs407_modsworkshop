@@ -192,8 +192,6 @@ const profile7_edit_icon = {
     "icon": "icon6"
 }
 
-let auth = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoYW80NEBwdXJkdWUuZWR1IiwiaWF0IjoxNTYxNDMzMzM2fQ.OiYdyHEMFzMBTBUpCkxev8_sbuUW9vsl9JqJqLyhty0";
-
 it('Edit profile all correctly', function(done) {
     setTimeout(function() {
         let auth = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoYW80NEBwdXJkdWUuZWR1IiwiaWF0IjoxNTYxNDMzMzM2fQ.OiYdyHEMFzMBTBUpCkxev8_sbuUW9vsl9JqJqLyhty0";
@@ -202,6 +200,7 @@ it('Edit profile all correctly', function(done) {
                 request(server)
             .post('/modsworkshop/profile/editAll')
             .send(profile4_editAll)
+            .set('Authorization', auth)
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(200)
@@ -222,6 +221,7 @@ it('Edit profile username correctly', function(done) {
         request(server)
             .post('/modsworkshop/profile/editUsername')
             .send(profile5_edit_username)
+            .set('Authorization', auth)
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(200)
@@ -240,6 +240,7 @@ it('Edit profile description correctly', function(done) {
         request(server)
             .post('/modsworkshop/profile/editDescription')
             .send(profile6_edit_description)
+            .set('Authorization', auth)
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(200)
@@ -259,6 +260,7 @@ it('Edit profile icon correctly', function(done) {
         request(server)
             .post('/modsworkshop/profile/editIcon')
             .send(profile7_edit_icon)
+            .set('Authorization', auth)
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(200)
