@@ -105,7 +105,10 @@ exports.listFiles = async function(content) {
         //     } // successful response
         // });
 
+        let searchKeyword = content.searchKeyword;
         let sortMethod = content.sortMethod;
+        let filterMethod = content.filterMethod;
+
         let startRank = content.startRank;
         let range = content.range;
         let email = content.authorEmail;
@@ -115,11 +118,16 @@ exports.listFiles = async function(content) {
 
         let whereValue = {};
         if (email === undefined || email === null) {
-            whereValue = {};
+            // whereValue = {};
         } else {
-            whereValue = {
-                email: email
+            whereValue["email"] = email;
+        }
+
+        if (searchKeyword !== undefined && searchKeyword !== null) {
+            let keywordSearch = {
+                $like: '%' + searchKeyword + '%'
             }
+            whereValue["filename"] = JSON.stringify(keywordSearch);
         }
 
         let orderValue = [];
