@@ -203,17 +203,6 @@ exports.listFiles = async function(content) {
             order: orderValue
         })
 
-        // let list = files.findAll({
-        //     where: {
-        //         email: "shao44@purdue.edu",
-        //         [Op.or]: [{
-        //             type: "UI Mod"
-        //         }, {
-        //             type: 'Function Mod'
-        //         }]
-        //     }
-        // })
-
         resolve(list);
     })
 }
