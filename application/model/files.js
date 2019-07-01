@@ -107,7 +107,8 @@ exports.listFiles = async function(content) {
 
         let searchKeyword = content.searchKeyword;
         let sortMethod = content.sortMethod;
-        let filterMethod = content.filterMethod;
+        let filterType = content.filterType;
+        let filterTime = content.filterTime;
 
         let startRank = content.startRank;
         let range = content.range;
@@ -116,6 +117,7 @@ exports.listFiles = async function(content) {
         // where
         // order
 
+        // search for specific user
         let whereValue = {};
         if (email === undefined || email === null) {
             // whereValue = {};
@@ -123,11 +125,34 @@ exports.listFiles = async function(content) {
             whereValue["email"] = email;
         }
 
+        // search for keyword
         if (searchKeyword !== undefined && searchKeyword !== null) {
             let keywordSearch = {
                 $like: '%' + searchKeyword + '%'
             }
             whereValue["filename"] = JSON.stringify(keywordSearch);
+        }
+
+        // check filterType (filter by type)
+        if (filterType !== undefined && filterType !== null) {
+            let filterTypeJSON = JSON.parse(filterType);
+            // {content: [, , , ]}
+            let filters = filterTypeJSON.content;
+            let n = filters.length;
+            if (n === 1) {
+                // only one type filter
+                whereValue["type"] = filters[0];
+            } else {
+                // more than one type
+                let orValue = [];
+                for (let i = 0; i < n; i++) {
+                    let data = {
+                        type: filters[0]
+                    };
+                    orValue.push(data);
+                }
+                whereValue["$or"] = orValue;
+            }
         }
 
         let orderValue = [];
