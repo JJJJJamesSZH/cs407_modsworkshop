@@ -3,6 +3,9 @@ import { catchClause } from "babel-types";
 let s3_config = require("../../config/dev").s3;
 let AWS = require('aws-sdk');
 
+let Sequelize = require("sequelize");
+let Op = Sequelize.Op;
+
 const BucketName = "cs407projectjialu";
 
 let params = {
@@ -108,6 +111,7 @@ exports.listFiles = async function(content) {
         let searchKeyword = content.searchKeyword;
         let sortMethod = content.sortMethod;
         let filterType = content.filterType;
+        // filterType = '{' + filterType + '}';
         let filterTime = content.filterTime;
 
         let startRank = content.startRank;
@@ -135,10 +139,14 @@ exports.listFiles = async function(content) {
 
         // check filterType (filter by type)
         if (filterType !== undefined && filterType !== null) {
+            // console.log("filterType: ", filterType);
             let filterTypeJSON = JSON.parse(filterType);
+            // console.log("filterTypeJSON: ", filterTypeJSON);
             // {content: [, , , ]}
             let filters = filterTypeJSON.content;
+            // console.log("filters: ", filters);
             let n = filters.length;
+            // console.log("n = ", n);
             if (n === 1) {
                 // only one type filter
                 whereValue["type"] = filters[0];
@@ -147,11 +155,14 @@ exports.listFiles = async function(content) {
                 let orValue = [];
                 for (let i = 0; i < n; i++) {
                     let data = {
-                        type: filters[0]
+                        type: filters[i]
                     };
+                    // console.log("data: ", data);
                     orValue.push(data);
                 }
-                whereValue["$or"] = orValue;
+                // console.log("orValue: ", orValue);
+                whereValue[Op.or] = orValue;
+                // console.log("whereValue: ", whereValue);
             }
         }
 
@@ -185,10 +196,23 @@ exports.listFiles = async function(content) {
             orderValue.push(["dateUpdated", "DESC"]);
         }
 
+        console.log("whereValue: ", whereValue);
+
         let list = files.findAll({
             where: whereValue,
             order: orderValue
         })
+
+        // let list = files.findAll({
+        //     where: {
+        //         email: "shao44@purdue.edu",
+        //         [Op.or]: [{
+        //             type: "UI Mod"
+        //         }, {
+        //             type: 'Function Mod'
+        //         }]
+        //     }
+        // })
 
         resolve(list);
     })
