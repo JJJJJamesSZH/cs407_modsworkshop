@@ -1,5 +1,6 @@
 import { files } from "./entity/files";
 import { catchClause } from "babel-types";
+import { user_profile } from "./entity/user_profile";
 let s3_config = require("../../config/dev").s3;
 let AWS = require('aws-sdk');
 
@@ -233,6 +234,11 @@ exports.getDownloadURL = async function(content) {
             Bucket: BucketName,
             Key: key
         }
+
+        // add 1 onto the files download column
+        fileDownloaded(key);
+
+        // get download URL
         s3.getSignedUrl('getObject', params, function(err, url) {
             if (err) {
                 reject(err);
@@ -244,6 +250,26 @@ exports.getDownloadURL = async function(content) {
                 resolve(result);
             }
         })
+    })
+}
+
+async function fileDownloaded(key) {
+    // file downloaded
+    // increment the number of downloads by one
+    let n = await files.findOne({
+        where: {
+            key: key
+        }
+    })
+    n = n.dataValues.downloadNum;
+    // console.log("fileDownloaded: ", n);
+    n = n + 1;
+    await files.update({
+        downloadNum: n
+    }, {
+        where: {
+            key: key
+        }
     })
 }
 
