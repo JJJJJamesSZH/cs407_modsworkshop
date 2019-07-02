@@ -111,15 +111,11 @@ exports.listFiles = async function(content) {
         let searchKeyword = content.searchKeyword;
         let sortMethod = content.sortMethod;
         let filterType = content.filterType;
-        // filterType = '{' + filterType + '}';
         let filterTime = content.filterTime;
 
         let startRank = content.startRank;
         let range = content.range;
         let email = content.authorEmail;
-
-        // where
-        // order
 
         // search for specific user
         let whereValue = {};
@@ -139,31 +135,26 @@ exports.listFiles = async function(content) {
 
         // check filterType (filter by type)
         if (filterType !== undefined && filterType !== null) {
-            // console.log("filterType: ", filterType);
             let filterTypeJSON = JSON.parse(filterType);
-            // console.log("filterTypeJSON: ", filterTypeJSON);
-            // {content: [, , , ]}
             let filters = filterTypeJSON.content;
-            // console.log("filters: ", filters);
             let n = filters.length;
-            // console.log("n = ", n);
             if (n === 1) {
-                // only one type filter
                 whereValue["type"] = filters[0];
             } else {
-                // more than one type
                 let orValue = [];
                 for (let i = 0; i < n; i++) {
                     let data = {
                         type: filters[i]
                     };
-                    // console.log("data: ", data);
                     orValue.push(data);
                 }
-                // console.log("orValue: ", orValue);
                 whereValue[Op.or] = orValue;
-                // console.log("whereValue: ", whereValue);
             }
+        }
+
+        // check filterTime (user story 15, filter by time)
+        if (filterTime !== undefined && filterTime !== null) {
+
         }
 
         let orderValue = [];
