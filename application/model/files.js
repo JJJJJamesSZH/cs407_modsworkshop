@@ -226,7 +226,7 @@ exports.getDownloadURL = async function(content) {
         let key = content.key;
 
         if (key === undefined || key === null) {
-            key = key + '|' + filename;
+            key = email + '|' + filename;
         }
 
         let params = {
@@ -237,7 +237,11 @@ exports.getDownloadURL = async function(content) {
             if (err) {
                 reject(err);
             } else {
-                resolve(url);
+                let result = {
+                    "status": 200,
+                    "URL": url
+                }
+                resolve(result);
             }
         })
     })

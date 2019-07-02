@@ -35,6 +35,16 @@ exports.getUploadURL = async(ctx, next) => {
         await next();
     }
 }
+
+exports.getDownloadURL = async(ctx, next) => {
+    let body = ctx.request.body;
+    let controller = new Controller();
+    let result = await controller.getDownloadURL(body);
+    ctx.body = result;
+
+    await next();
+}
+
 exports.listUploaded = async(ctx, next) => {
     let body = ctx.request.body;
     // let verified = await jwtChecker.decodeAuth(ctx);
