@@ -165,6 +165,35 @@ class fileController extends baseController {
             "infoUploadUrl": infoURL
         }
 
+        files.editFileDetail(content);
+
+        return result;
+
+    }
+
+    async editFile(content) {
+        console.log("edit file detail");
+        // make sure content has either key or both email and filename
+        let key = content.key;
+        let email = content.email;
+        let filename = content.filename;
+        
+        if (key || (email && filename)) {
+            file_info = await files.editFileDetail(content);
+            let result = {
+                "status": 200
+            }
+            return result
+        }
+
+        console.log("no email or filename");
+        file_info = await files.editFileDetail(content);
+        
+        let result = {
+            "status": 204,
+            "err_message": "cannot get file key"
+        }
+
         return result;
 
     }

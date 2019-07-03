@@ -322,3 +322,30 @@ exports.getFileDetail = async function(content) {
 
     return file_info;
 }
+
+exports.editFileDetail = async function(content) {
+    // serach details of the file, by either key or email and filename
+    let key = content.key;
+    let email = content.email;
+    let filename = content.filename;
+
+    if (key === undefined || key === null) {
+        // get key from email and filename if key does not exist
+        key = email + "|" + filename;
+    }
+
+    let d = new Date();
+    let date = "" + d.getTime();
+
+    files.update({
+            type: type,
+            dateUpdated: date
+        }
+        ,
+        {
+            where: {
+            key: key
+            }
+        })
+
+}

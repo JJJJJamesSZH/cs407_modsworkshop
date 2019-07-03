@@ -99,3 +99,13 @@ exports.fileDetail = async(ctx, next) => {
 
     await next();
 }
+
+exports.editFile = async(ctx, next) => {
+    let body = ctx.request.body;
+
+    let controller = new Controller();
+    let result = await controller.editFile(body);
+    ctx.body = result;
+
+    await next();
+}
