@@ -61,6 +61,17 @@ exports.getUploadFile = async function(content) {
     return profile.uploadfile;
 }
 
+exports.getfavoritefile = async function(content) {
+    console.log("======= user_profile.getfavoritefile =========");
+    let email = content.email;
+    let profile = await user_profile.findOne({
+        where: {
+            email: email
+        }
+    });
+    return profile.favoritefile;
+}
+
 exports.setUploadFile = async function(content) {
     let email = content.email;
     let uploadfile = content.uploadfile;

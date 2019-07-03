@@ -6,6 +6,6 @@ router.post('/modsworkshop/profile/viewIcon', profile_mgmt.getIcon);
 router.post('/modsworkshop/profile/viewDescription', profile_mgmt.getDescription);
 router.post('/modsworkshop/profile/viewUsername', profile_mgmt.getUsername);
 router.post('/modsworkshop/profile/viewUploadfile', profile_mgmt.getUploadFile);
-
+router.post('/modsworkshop/profile/viewfavoritefile', profile_mgmt.getfavoritefile);
 
 module.exports = router;

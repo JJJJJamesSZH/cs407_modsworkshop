@@ -236,6 +236,29 @@ class fileController extends baseController {
             return result;
         }
     }
+
+    async deleteFile(content) {
+        console.log("deleteFi");
+        // make sure content has either key or both email and filename
+        let key = content.key;
+        let email = content.email;
+        let filename = content.filename;
+
+        // if (key || (email && filename)) {
+        //     let result = files.getDownloadURL(content);
+        //     return result;
+        // } else {
+        //     // cannot get key
+        //     let result = {
+        //         "status": 204,
+        //         "err_message": "cannot get file key"
+        //     }
+        //     return result;
+        // }
+    }
+
+
+
 }
 
 module.exports = fileController;

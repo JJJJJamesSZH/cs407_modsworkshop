@@ -133,6 +133,17 @@ class profileController extends baseController {
         return result
     }
 
+    async getfavoritefile(content) {
+        console.log("profileController.getfavoritefile: ", content);
+
+        let files = await userProfile.getfavoritefile(content);
+        let result = {
+            "status": 200,
+            "files": files
+        }
+        return result
+    }
+
 }
 
 module.exports = profileController;
