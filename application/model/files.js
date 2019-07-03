@@ -155,7 +155,25 @@ exports.listFiles = async function(content) {
 
         // check filterTime (user story 15, filter by time)
         if (filterTime !== undefined && filterTime !== null) {
-
+            console.log("============= filtrTime =============");
+            let timeOverride = 0;
+            // one day
+            if (filterTime === 'oneday') {
+                console.log("----- oneday -----");
+                timeOverride = 1000 * 60 * 60 * 24;
+            } else if (filterTime === 'threemonths') {
+                console.log("----- threemonths -----");
+                timeOverride = 1000 * 60 * 60 * 24 * 30;
+            } else if (filterTime === 'oneyear') {
+                console.log("----- oneyear -----");
+                timeOverride = 1000 * 60 * 60 * 24 * 365;
+            }
+            let timeCheck = Date.now() - timeOverride;
+            // timeCheck = "" + timeCheck;
+            console.log("timeCheck: ", timeCheck);
+            whereValue["dateUpdated"] = {
+                [Op.gte]: timeCheck
+            }
         }
 
         let orderValue = [];
@@ -253,24 +271,36 @@ exports.getDownloadURL = async function(content) {
     })
 }
 
+async function getInfoFromKey(key) {
+    return new Promise(function(resolve) {
+        let n = files.findOne({
+            where: {
+                key: key
+            }
+        })
+        resolve(n);
+    })
+}
+
 async function fileDownloaded(key) {
-    // file downloaded
-    // increment the number of downloads by one
-    let n = await files.findOne({
-        where: {
-            key: key
-        }
-    })
-    n = n.dataValues.downloadNum;
-    // console.log("fileDownloaded: ", n);
-    n = n + 1;
-    await files.update({
-        downloadNum: n
-    }, {
-        where: {
-            key: key
-        }
-    })
+    getInfoFromKey(key)
+        .then(result => {
+            if (result === undefined || result === null) {
+                return
+            }
+            let n = result.dataValues.downloadNum;
+            if (n === undefined) {
+                return
+            }
+            n = n + 1;
+            files.update({
+                downloadNum: n
+            }, {
+                where: {
+                    key: key
+                }
+            })
+        })
 }
 
 exports.getFileDetail = async function(content) {

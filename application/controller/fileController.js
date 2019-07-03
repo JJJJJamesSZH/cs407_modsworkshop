@@ -8,7 +8,8 @@ class fileController extends baseController {
 
         let file_list = await files.listFiles(content);
 
-        console.log("file_list: ", file_list); // array of jsons
+        // array of jsons
+        // console.log("file_list: ", file_list); 
 
         let n = file_list.length;
         // console.log("size: ", n);
