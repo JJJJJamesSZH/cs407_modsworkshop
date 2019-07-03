@@ -129,9 +129,9 @@ exports.listFiles = async function(content) {
         // search for keyword
         if (searchKeyword !== undefined && searchKeyword !== null) {
             let keywordSearch = {
-                $like: '%' + searchKeyword + '%'
+                [Op.like]: '%' + searchKeyword + '%'
             }
-            whereValue["filename"] = JSON.stringify(keywordSearch);
+            whereValue["filename"] = keywordSearch;
         }
 
         // check filterType (filter by type)
