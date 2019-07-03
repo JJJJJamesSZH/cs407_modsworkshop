@@ -133,3 +133,15 @@ exports.deleteFile = async(ctx, next) => {
     await next();
 }
 
+exports.likeFile = async(ctx, next) => {
+    let body = ctx.request.body;
+    // let verified = await jwtChecker.decodeAuth(ctx);
+    // let verified = true;
+
+    let controller = new Controller();
+    let result = await controller.likeFile(body);
+    ctx.body = result;
+
+    await next();
+}
+

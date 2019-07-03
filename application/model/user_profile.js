@@ -88,6 +88,22 @@ exports.setUploadFile = async function(content) {
     })
 }
 
+exports.setfavoritefile = async function(content) {
+    let email = content.email;
+    let favoritefile = content.favoritefile;
+    console.log("======= user_profile.setfavoritefile =========");
+    console.log("email: ", email);
+    console.log("favoritefile: ", favoritefile);
+    // await setTimeout(function() {}, 100, 'funky');
+    await user_profile.update({
+        favoritefile: favoritefile
+    }, {
+        where: {
+            email: email
+        }
+    })
+}
+
 exports.editUsername = async function(content) {
     let email = content.email;
     let username = content.username;

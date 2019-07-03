@@ -47,13 +47,19 @@ exports.addUser = async function(content) {
         content: []
     }
     let uploadfileString = JSON.stringify(uploadfileJSON);
+    let favoritefileJSON = {
+        content: []
+    }
+    let favoritefileString = JSON.stringify(favoritefileJSON);
+
     user_profile.bulkCreate([{
         uid: uid,
         email: email,
         username: username,
         icon: 0,
         description: "",
-        uploadfile: uploadfileString
+        uploadfile: uploadfileString,
+        favoritefile: favoritefileString
     }])
 }
 

@@ -54,8 +54,8 @@ app.use(file_list.routes(), file_list.allowedMethods());
 const file_getSignedURL = require('./routes/file_getSignedURL');
 app.use(file_getSignedURL.routes(), file_getSignedURL.allowedMethods());
 
-const file_file = require('./routes/file_file');
-app.use(file_file.routes(), file_file.allowedMethods());
+const file_like = require('./routes/file_like');
+app.use(file_like.routes(), file_like.allowedMethods());
 
 const file_edit = require('./routes/file_edit');
 app.use(file_edit.routes(), file_edit.allowedMethods());

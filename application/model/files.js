@@ -34,7 +34,7 @@ async function files_insert(insert_content) {
     console.log("================== files_insert complete");
 }
 
-async function files_search(fileKey) {
+exports.files_search = async function files_search(fileKey) {
     console.log("================== files_search");
     let file = await files.findOne({
         where: {
@@ -353,3 +353,33 @@ exports.editFileDetail = async function(content) {
         {where: { key: key }})
 
 }
+
+
+exports.likeFile = async function(content) {
+
+    console.log("like file: ", content);
+
+    // serach details of the file, by either key or email and filename
+    let key = content.key;
+    let email = content.email;
+    let filename = content.filename;
+
+    if (key === undefined || key === null) {
+        // get key from email and filename if key does not exist
+        key = email + "|" + filename;
+    }
+
+    console.log("addlike file: ", key);
+
+    let likefile = await files.findOne({
+        where: {
+            key: key
+        }
+    });
+
+    let likes = likefile.likes;
+
+    await files.update({ likes: likes + 1 }, {where: { key: key }})
+
+}
+
