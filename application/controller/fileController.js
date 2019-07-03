@@ -305,6 +305,51 @@ class fileController extends baseController {
 
     }
 
+    async unlikeFile(content) {
+        console.log("likeFile", content);
+        // make sure content has either key or both email and filename
+        let key = content.key;
+        let email = content.email;
+        let filename = content.filename;
+
+        if (key || (email && filename)) {
+
+            let fileID = await files.files_search(key);
+            let favoritefileString = await user_profile.getfavoritefile(content);
+
+            if (!favoritefileString.includes(String(fileID))) {
+                let result = {
+                    "status": 207,
+                    "err_message": "File has not been liked"
+                }
+                return result;
+            }
+
+            favoritefileString = favoritefileString.replace(String(fileID),"");
+
+
+            user_profile.setfavoritefile({
+                email: email,
+                favoritefile: favoritefileString
+            });
+
+            files.unlikeFile(content);
+
+            let result = {
+                status:200
+            }
+
+            return result;
+        }
+
+        let result = {
+                "status": 204,
+                "err_message": "cannot get file key"
+            }
+        return result;
+
+    }
+
 
 
 }

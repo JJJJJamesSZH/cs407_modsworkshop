@@ -378,8 +378,32 @@ exports.likeFile = async function(content) {
     });
 
     let likes = likefile.likes;
+    files.update({ likes: likes + 1 }, {where: { key: key }})
 
-    await files.update({ likes: likes + 1 }, {where: { key: key }})
+}
+
+exports.unlikeFile = async function(content) {
+
+    console.log("unlike file: ", content);
+
+    // serach details of the file, by either key or email and filename
+    let key = content.key;
+    let email = content.email;
+    let filename = content.filename;
+
+    if (key === undefined || key === null) {
+        // get key from email and filename if key does not exist
+        key = email + "|" + filename;
+    }
+
+    let unlikefile = await files.findOne({
+        where: {
+            key: key
+        }
+    });
+
+    let likes = unlikefile.likes;
+    files.update({ likes: likes - 1 }, {where: { key: key }})
 
 }
 
