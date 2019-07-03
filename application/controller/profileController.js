@@ -15,6 +15,8 @@ class profileController extends baseController {
         let filesString = profile.uploadfile;
         let filesJSON = JSON.parse(filesString);
         let files = filesJSON.content;
+        let favoriteJSON = JSON.parse(profile.favoritefile)
+        let favorite = favoriteJSON.content
 
         // console.log("profile: ", profile);
 
@@ -24,7 +26,8 @@ class profileController extends baseController {
             "email": email,
             "description": description,
             "icon": icon,
-            "files": files
+            "files": files,
+            "favorite": favorite
         }
         return result
     }
