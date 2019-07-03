@@ -324,28 +324,32 @@ exports.getFileDetail = async function(content) {
 }
 
 exports.editFileDetail = async function(content) {
+
+    console.log("edit file: ", content);
+
     // serach details of the file, by either key or email and filename
     let key = content.key;
     let email = content.email;
     let filename = content.filename;
+    let type = content.type;
+    let anonymous = content.anonymous;
 
     if (key === undefined || key === null) {
         // get key from email and filename if key does not exist
         key = email + "|" + filename;
     }
 
+    console.log("editing file: ", key);
+
     let d = new Date();
     let date = "" + d.getTime();
 
     files.update({
             type: type,
-            dateUpdated: date
+            dateUpdated: date,
+            anonymous: anonymous
         }
         ,
-        {
-            where: {
-            key: key
-            }
-        })
+        {where: { key: key }})
 
 }

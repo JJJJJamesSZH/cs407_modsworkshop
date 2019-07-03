@@ -38,12 +38,25 @@ exports.getUploadURL = async(ctx, next) => {
 
 exports.overwriteUpload = async(ctx, next) => {
     let body = ctx.request.body;
-    let controller = new Controller();
-    let result = await controller.overwriteUpload(body);
-    ctx.body = result;
+    let verified = await jwtChecker.decodeAuth(ctx);
+    // let verified = true;
 
-    await next();
+    if (verified === false) {
+        let result = {
+            "status": 500,
+            "err_message": "authorization code invalid"
+        }
+        console.log("authorization code invalid");
+        ctx.body = result;
+        await next();
+    } else {
+        body["email"] = verified;
+        let controller = new Controller();
+        let result = await controller.overwriteUpload(body);
+        ctx.body = result;
 
+        await next();
+    }
 }
 
 exports.getDownloadURL = async(ctx, next) => {

@@ -132,18 +132,19 @@ class fileController extends baseController {
     }
 
     async overwriteUpload(content) {
-        console.log("overwrite upload");
+        console.log("getUploadURL");
 
         let email = content.email;
         // let mod = content.mod;
         let filename = content.filename;
         let type = content.type;
         let anonymous = content.anonymous;
+        let key = content.key;
         if (anonymous === undefined || anonymous === null) {
             annoymous = false; // set default value
         }
 
-        console.log("========= fileController.overwrite file =============");
+        console.log("========= fileController.overwrite =============");
         console.log("email: ", email);
         console.log("filename: ", filename);
         console.log("type: ", type);
@@ -155,20 +156,27 @@ class fileController extends baseController {
             anonymous: anonymous
         }
 
-        let url = await files.getUploadURL(content);
-        let infoURL = await files.getUploadURL(infoUploadContent);
-        // console.log("presigned-upload-url: ", url);
+        if (key || (email && filename)) {
 
-        let result = {
-            "status": 200,
-            "uploadUrl": url,
-            "infoUploadUrl": infoURL
+            files.editFileDetail(content);
+
+            let url = await files.getUploadURL(content);
+            let infoURL = await files.getUploadURL(infoUploadContent);
+
+            let result = {
+                "status": 200,
+                "uploadUrl": url,
+                "infoUploadUrl": infoURL
+            }
+            return result;
         }
 
-        files.editFileDetail(content);
+        let result = {
+            "status": 204,
+            "err_message": "cannot get file key"
+        }
 
         return result;
-
     }
 
     async editFile(content) {
@@ -177,18 +185,28 @@ class fileController extends baseController {
         let key = content.key;
         let email = content.email;
         let filename = content.filename;
+        let type = content.type;
+        let anonymous = content.anonymous;
         
+        let infoUploadContent = {
+            email: "Info|" + email,
+            filename: filename,
+            type: type,
+            anonymous: anonymous
+        }
+
         if (key || (email && filename)) {
-            file_info = await files.editFileDetail(content);
+            files.editFileDetail(content);
+            let infoURL = await files.getUploadURL(infoUploadContent);
             let result = {
-                "status": 200
+                "status": 200,
+                "infoUploadUrl": infoURL
             }
-            return result
+            return result;
         }
 
         console.log("no email or filename");
-        file_info = await files.editFileDetail(content);
-        
+    
         let result = {
             "status": 204,
             "err_message": "cannot get file key"
