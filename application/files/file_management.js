@@ -36,6 +36,16 @@ exports.getUploadURL = async(ctx, next) => {
     }
 }
 
+exports.overwriteUpload = async(ctx, next) => {
+    let body = ctx.request.body;
+    let controller = new Controller();
+    let result = await controller.overwriteUpload(body);
+    ctx.body = result;
+
+    await next();
+
+}
+
 exports.getDownloadURL = async(ctx, next) => {
     let body = ctx.request.body;
     let controller = new Controller();

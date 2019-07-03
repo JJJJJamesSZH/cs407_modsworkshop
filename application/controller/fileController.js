@@ -103,7 +103,12 @@ class fileController extends baseController {
                 uploadFile.push(fileID); // check duplicates
             }
         } else {
-            // should update file, but not for now
+            // should overwrite file, but not for now
+            let result = {
+                "status": 201,
+                "message": "need overwrite"
+            }
+            return result;
         }
         uploadFileJSON = { content: uploadFile };
         uploadFileString = JSON.stringify(uploadFileJSON);
@@ -125,6 +130,45 @@ class fileController extends baseController {
 
         return result;
     }
+
+    async overwriteUpload(content) {
+        console.log("overwrite upload");
+
+        let email = content.email;
+        // let mod = content.mod;
+        let filename = content.filename;
+        let type = content.type;
+        let anonymous = content.anonymous;
+        if (anonymous === undefined || anonymous === null) {
+            annoymous = false; // set default value
+        }
+
+        console.log("========= fileController.overwrite file =============");
+        console.log("email: ", email);
+        console.log("filename: ", filename);
+        console.log("type: ", type);
+
+        let infoUploadContent = {
+            email: "Info|" + email,
+            filename: filename,
+            type: type,
+            anonymous: anonymous
+        }
+
+        let url = await files.getUploadURL(content);
+        let infoURL = await files.getUploadURL(infoUploadContent);
+        // console.log("presigned-upload-url: ", url);
+
+        let result = {
+            "status": 200,
+            "uploadUrl": url,
+            "infoUploadUrl": infoURL
+        }
+
+        return result;
+
+    }
+
 
     async getDownloadURL(content) {
         console.log("getDownloadURL");
