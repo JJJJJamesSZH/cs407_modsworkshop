@@ -78,10 +78,23 @@ exports.insertTable = async function(content) {
     //     }
     // })
     // let fileID = list[0].dataValues.fileID;
-    let fileID = files_search(content.email + "|" + content.filename);
+    let fileID = file_search(content.email + "|" + content.filename);
     console.log("==================");
     console.log("fileID: ", fileID);
     return fileID;
+}
+
+async function file_search(fileKey) {
+    console.log("================== function file_search");
+    let file = await files.findOne({
+        where: {
+            key: fileKey
+        }
+    })
+    console.log("file: ", file);
+    console.log("fileID: ", file.dataValues.fileID);
+    console.log("================== function file_search complete");
+    return file.dataValues.fileID;
 }
 
 exports.listFiles = async function(content) {
@@ -345,12 +358,10 @@ exports.editFileDetail = async function(content) {
     let date = "" + d.getTime();
 
     files.update({
-            type: type,
-            dateUpdated: date,
-            anonymous: anonymous
-        }
-        ,
-        {where: { key: key }})
+        type: type,
+        dateUpdated: date,
+        anonymous: anonymous
+    }, { where: { key: key } })
 
 }
 
@@ -378,7 +389,7 @@ exports.likeFile = async function(content) {
     });
 
     let likes = likefile.likes;
-    files.update({ likes: likes + 1 }, {where: { key: key }})
+    files.update({ likes: likes + 1 }, { where: { key: key } })
 
 }
 
@@ -403,7 +414,6 @@ exports.unlikeFile = async function(content) {
     });
 
     let likes = unlikefile.likes;
-    files.update({ likes: likes - 1 }, {where: { key: key }})
+    files.update({ likes: likes - 1 }, { where: { key: key } })
 
 }
-
