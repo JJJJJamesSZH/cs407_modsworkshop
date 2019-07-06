@@ -49,6 +49,7 @@ class fileController extends baseController {
 
         let result = {
             "status": 200,
+            "total_files": n,
             "file_list": result_file_list
         }
 
