@@ -127,8 +127,8 @@ exports.listFiles = async function(content) {
         let filterType = content.filterType;
         let filterTime = content.filterTime;
 
-        let startRank = content.startRank;
-        let range = content.range;
+        // let startRank = content.startRank;
+        // let range = content.range;
         let email = content.authorEmail;
 
         // search for specific user
@@ -152,7 +152,9 @@ exports.listFiles = async function(content) {
             let filterTypeJSON = JSON.parse(filterType);
             let filters = filterTypeJSON.content;
             let n = filters.length;
-            if (n === 1) {
+            if (n === 0) {
+                // do nothing
+            } else if (n === 1) {
                 whereValue["type"] = filters[0];
             } else {
                 let orValue = [];

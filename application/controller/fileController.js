@@ -6,17 +6,31 @@ class fileController extends baseController {
     async listFiles(content) {
         console.log("list files");
 
+        let startRank = content.startRank;
+
         let file_list = await files.listFiles(content);
 
         // array of jsons
-        // console.log("file_list: ", file_list); 
+        // console.log("file_list: ", file_list);
 
-        let n = file_list.length;
+        let n = await file_list.length;
         // console.log("size: ", n);
 
         let result_file_list = [];
 
-        for (let i = 0; i < n; i++) {
+        let i_start = 0;
+        let i_finish = 16;
+
+        if (startRank !== undefined && startRank !== null) {
+            console.log("startRank = ", startRank);
+            i_start = startRank - 1;
+            i_finish = i_start + 16;
+            if (i_finish > n) {
+                i_finish = n;
+            }
+        }
+
+        for (let i = i_start; i < i_finish; i++) {
             // add username in to file JSON
             // console.log("i = ", i);
             let fileJSON = file_list[i].dataValues;
@@ -187,7 +201,7 @@ class fileController extends baseController {
         let filename = content.filename;
         let type = content.type;
         let anonymous = content.anonymous;
-        
+
         let infoUploadContent = {
             email: "Info|" + email,
             filename: filename,
@@ -206,7 +220,7 @@ class fileController extends baseController {
         }
 
         console.log("no email or filename");
-    
+
         let result = {
             "status": 204,
             "err_message": "cannot get file key"
@@ -291,16 +305,16 @@ class fileController extends baseController {
             files.likeFile(content);
 
             let result = {
-                status:200
+                status: 200
             }
 
             return result;
         }
 
         let result = {
-                "status": 204,
-                "err_message": "cannot get file key"
-            }
+            "status": 204,
+            "err_message": "cannot get file key"
+        }
         return result;
 
     }
@@ -325,7 +339,7 @@ class fileController extends baseController {
                 return result;
             }
 
-            favoritefileString = favoritefileString.replace(String(fileID),"");
+            favoritefileString = favoritefileString.replace(String(fileID), "");
 
 
             user_profile.setfavoritefile({
@@ -336,16 +350,16 @@ class fileController extends baseController {
             files.unlikeFile(content);
 
             let result = {
-                status:200
+                status: 200
             }
 
             return result;
         }
 
         let result = {
-                "status": 204,
-                "err_message": "cannot get file key"
-            }
+            "status": 204,
+            "err_message": "cannot get file key"
+        }
         return result;
 
     }
