@@ -123,6 +123,7 @@ exports.listFiles = async function(content) {
         // });
 
         let searchKeyword = content.searchKeyword;
+        let searchContributor = content.searchByContributor;
         let sortMethod = content.sortMethod;
         let filterType = content.filterType;
         let filterTime = content.filterTime;
@@ -144,7 +145,11 @@ exports.listFiles = async function(content) {
             let keywordSearch = {
                 [Op.like]: '%' + searchKeyword + '%'
             }
-            whereValue["filename"] = keywordSearch;
+            if (searchContributor === false) {
+                whereValue["filename"] = keywordSearch;
+            } else {
+                whereValue["username"] = keywordSearch;
+            }
         }
 
         // check filterType (filter by type)
