@@ -149,7 +149,8 @@ exports.listFiles = async function(content) {
 
         // check filterType (filter by type)
         if (filterType !== undefined && filterType !== null) {
-            let filterTypeJSON = JSON.parse(filterType);
+            // let filterTypeJSON = JSON.parse(filterType);
+            let filterTypeJSON = filterType;
             let filters = filterTypeJSON.content;
             let n = filters.length;
             if (n === 0) {

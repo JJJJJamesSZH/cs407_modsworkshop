@@ -30,9 +30,18 @@ class fileController extends baseController {
             }
         }
 
+        if (i_finish > n) {
+            i_finish = n;
+        }
+
+        // console.log("====================");
+        // console.log("file_list: ", file_list);
+
         for (let i = i_start; i < i_finish; i++) {
             // add username in to file JSON
             // console.log("i = ", i);
+            // console.log("file_list[", i, "] ==== ", file_list[i]);
+            // console.log(typeof(file_list[i]));
             let fileJSON = file_list[i].dataValues;
             let username = await user_profile.getUsername({ email: fileJSON.email });
             // console.log("username: ", username);
