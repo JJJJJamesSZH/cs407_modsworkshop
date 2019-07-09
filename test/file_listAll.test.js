@@ -112,3 +112,106 @@ it("testing for list file detail with key", function(done) {
             .end(done)
     }, 200, 'funky');
 })
+
+// list file detail with search Keywords
+it("testinf for list file detail by keyword = null", function(done) {
+    this.timeout(5000);
+    setTimeout(function() {
+        let test_case = {
+            searchKeyword: null
+        }
+        request(server)
+            .post('/modsworkshop/file/listAll')
+            .send(test_case)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(function(res) {
+                assert.equal(res.body.status, 200)
+            })
+            .end(done)
+    }, 250, 'funky')
+})
+
+// list file detail with search Keywords
+it("testinf for list file detail by keyword = testfile", function(done) {
+    this.timeout(5000);
+    setTimeout(function() {
+        let test_case = {
+            searchKeyword: "testfile"
+        }
+        request(server)
+            .post('/modsworkshop/file/listAll')
+            .send(test_case)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(function(res) {
+                assert.equal(res.body.status, 200)
+            })
+            .end(done)
+    }, 300, 'funky')
+})
+
+// list file detail by contributor's name
+it("testinf for list file detail by contributor's name null false", function(done) {
+    this.timeout(5000);
+    setTimeout(function() {
+        let test_case = {
+            searchKeyword: null,
+            searchByContributor: false
+        }
+        request(server)
+            .post('/modsworkshop/file/listAll')
+            .send(test_case)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(function(res) {
+                assert.equal(res.body.status, 200)
+            })
+            .end(done)
+    }, 350, 'funky')
+})
+
+// list file detail by contributor's name
+it("testinf for list file detail by contributor's name null true", function(done) {
+    this.timeout(5000);
+    setTimeout(function() {
+        let test_case = {
+            searchKeyword: null,
+            searchByContributor: true
+        }
+        request(server)
+            .post('/modsworkshop/file/listAll')
+            .send(test_case)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(function(res) {
+                assert.equal(res.body.status, 200)
+            })
+            .end(done)
+    }, 400, 'funky')
+})
+
+// list file detail by contributor's name
+it("testinf for list file detail by contributor's name true", function(done) {
+    this.timeout(5000);
+    setTimeout(function() {
+        let test_case = {
+            searchKeyword: "editPT8",
+            searchByContributor: true
+        }
+        request(server)
+            .post('/modsworkshop/file/listAll')
+            .send(test_case)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(function(res) {
+                assert.equal(res.body.status, 200)
+            })
+            .end(done)
+    }, 450, 'funky')
+})
