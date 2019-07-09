@@ -125,7 +125,6 @@ exports.listFiles = async function(content) {
         // });
 
         let searchKeyword = content.searchKeyword;
-        searchKeyword = searchKeyword.toLowerCase();
         let searchContributor = content.searchByContributor;
         let sortMethod = content.sortMethod;
         let filterType = content.filterType;
@@ -145,6 +144,7 @@ exports.listFiles = async function(content) {
 
         // search for keyword
         if (searchKeyword !== undefined && searchKeyword !== null) {
+            searchKeyword = searchKeyword.toLowerCase();
             let keywordSearch = {
                 [Op.like]: '%' + searchKeyword + '%'
             }
