@@ -82,6 +82,8 @@ class fileController extends baseController {
         let filename = content.filename;
         let type = content.type;
         let anonymous = content.anonymous;
+        let userprf = await user_profile.getProfile({ email: email });
+        let username = userprf.username;
         if (anonymous === undefined || anonymous === null) {
             annoymous = false; // set default value
         }
@@ -89,10 +91,20 @@ class fileController extends baseController {
         console.log("========= fileController.getUploadURL =============");
         console.log("email: ", email);
         console.log("filename: ", filename);
+        console.log("username: ", username);
         console.log("type: ", type);
+
+        let uploadContent = {
+            email: email,
+            username: username,
+            filename: filename,
+            type: type,
+            anonymous: anonymous
+        }
 
         let infoUploadContent = {
             email: "Info|" + email,
+            username: username,
             filename: filename,
             type: type,
             anonymous: anonymous
@@ -115,7 +127,7 @@ class fileController extends baseController {
         //       -- 1.2.3  update the row with new value
 
         // 1.1
-        let fileID = await files.insertTable(content);
+        let fileID = await files.insertTable(uploadContent);
 
         // 1.2
         // 1.2.1
@@ -142,7 +154,7 @@ class fileController extends baseController {
         });
 
         // 2. get the uploadURL and infoUploadURL
-        let url = await files.getUploadURL(content);
+        let url = await files.getUploadURL(uploadContent);
         let infoURL = await files.getUploadURL(infoUploadContent);
         // console.log("presigned-upload-url: ", url);
 
