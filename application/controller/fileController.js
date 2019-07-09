@@ -253,23 +253,60 @@ class fileController extends baseController {
     }
 
     async deleteFile(content) {
-        console.log("deleteFi");
+        console.log("deleteFile");
         // make sure content has either key or both email and filename
         let key = content.key;
         let email = content.email;
         let filename = content.filename;
 
-        // if (key || (email && filename)) {
-        //     let result = files.getDownloadURL(content);
-        //     return result;
-        // } else {
-        //     // cannot get key
-        //     let result = {
-        //         "status": 204,
-        //         "err_message": "cannot get file key"
-        //     }
-        //     return result;
-        // }
+        if (key || (email && filename)) {
+            
+            let fileID = await files.files_search(key);
+
+            let uploadfileString = await user_profile.getUploadFile(content);
+
+            let thelist = uploadfileString.split(/[^0-9]/).map(Number);
+            thelist = thelist.filter(Boolean);
+
+            if (thelist.includes(fileID) === false) {
+                let result = {
+                    "status": 207,
+                    "err_message": "File has not been uploaded(hum not possible)"
+                }
+                return result;
+            }
+
+            let removed = thelist.indexOf(fileID);
+            thelist.splice(removed, 1);
+            console.log("Updated upload list: ", thelist);
+
+            let uploadfileJSON = { content: thelist };
+            uploadfileString = JSON.stringify(uploadfileJSON);
+            
+            user_profile.setUploadFile({
+                email: email,
+                uploadfile: uploadfileString
+            });
+
+
+            let result = user_profile.deleteFavorite(fileID);
+
+            files.deleteFile(key);
+
+            return result;
+
+
+        } else {
+            // cannot get key
+            let result = {
+                "status": 204,
+                "err_message": "cannot get file key"
+            }
+            return result;
+        }
+
+
+
     }
 
     async likeFile(content) {
@@ -330,9 +367,13 @@ class fileController extends baseController {
         if (key || (email && filename)) {
 
             let fileID = await files.files_search(key);
+
             let favoritefileString = await user_profile.getfavoritefile(content);
 
-            if (!favoritefileString.includes(String(fileID))) {
+            let thelist = favoritefileString.split(/[^0-9]/).map(Number);
+            thelist = thelist.filter(Boolean);
+
+            if (thelist.includes(fileID) === false) {
                 let result = {
                     "status": 207,
                     "err_message": "File has not been liked"
@@ -340,13 +381,18 @@ class fileController extends baseController {
                 return result;
             }
 
-            favoritefileString = favoritefileString.replace(String(fileID), "");
+            let removed = thelist.indexOf(fileID);
+            thelist.splice(removed, 1);
+            console.log("Updated favorite list: ", thelist);
 
-
+            let favoritefileJSON = { content: thelist };
+            favoritefileString = JSON.stringify(favoritefileJSON);
+            
             user_profile.setfavoritefile({
                 email: email,
                 favoritefile: favoritefileString
             });
+
 
             files.unlikeFile(content);
 
