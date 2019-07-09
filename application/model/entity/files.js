@@ -13,6 +13,9 @@ const files = sequelize.define('files', {
         type: Sequelize.STRING,
         allowNull: false
     },
+    username: {
+        type: Sequelize.STRING
+    },
     fileName: {
         type: Sequelize.STRING,
         allowNull: false

@@ -1,4 +1,6 @@
 import { user_profile } from "./entity/user_profile"
+import { files } from "./entity/files"
+
 var Sequelize = require('sequelize');
 
 exports.getUsername = async function(content) {
@@ -123,7 +125,22 @@ exports.editUsername = async function(content) {
     //     return '0'; // duplicate username or email does not exist
     // }
 
-    user_profile.update({ username: username }, { where: { email: email } });
+    await user_profile.update({
+        username: username
+    }, {
+        where: {
+            email: email
+        }
+    });
+
+    await files.update({
+        username: username
+    }, {
+        where: {
+            email: email
+        }
+    })
+
     return 0;
 
 }

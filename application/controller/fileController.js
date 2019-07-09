@@ -30,9 +30,18 @@ class fileController extends baseController {
             }
         }
 
+        if (i_finish > n) {
+            i_finish = n;
+        }
+
+        // console.log("====================");
+        // console.log("file_list: ", file_list);
+
         for (let i = i_start; i < i_finish; i++) {
             // add username in to file JSON
             // console.log("i = ", i);
+            // console.log("file_list[", i, "] ==== ", file_list[i]);
+            // console.log(typeof(file_list[i]));
             let fileJSON = file_list[i].dataValues;
             let username = await user_profile.getUsername({ email: fileJSON.email });
             // console.log("username: ", username);
@@ -73,6 +82,8 @@ class fileController extends baseController {
         let filename = content.filename;
         let type = content.type;
         let anonymous = content.anonymous;
+        let userprf = await user_profile.getProfile({ email: email });
+        let username = userprf.username;
         if (anonymous === undefined || anonymous === null) {
             annoymous = false; // set default value
         }
@@ -80,10 +91,20 @@ class fileController extends baseController {
         console.log("========= fileController.getUploadURL =============");
         console.log("email: ", email);
         console.log("filename: ", filename);
+        console.log("username: ", username);
         console.log("type: ", type);
+
+        let uploadContent = {
+            email: email,
+            username: username,
+            filename: filename,
+            type: type,
+            anonymous: anonymous
+        }
 
         let infoUploadContent = {
             email: "Info|" + email,
+            username: username,
             filename: filename,
             type: type,
             anonymous: anonymous
@@ -106,7 +127,7 @@ class fileController extends baseController {
         //       -- 1.2.3  update the row with new value
 
         // 1.1
-        let fileID = await files.insertTable(content);
+        let fileID = await files.insertTable(uploadContent);
 
         // 1.2
         // 1.2.1
@@ -133,7 +154,7 @@ class fileController extends baseController {
         });
 
         // 2. get the uploadURL and infoUploadURL
-        let url = await files.getUploadURL(content);
+        let url = await files.getUploadURL(uploadContent);
         let infoURL = await files.getUploadURL(infoUploadContent);
         // console.log("presigned-upload-url: ", url);
 

@@ -53,6 +53,7 @@ exports.insertTable = async function(content) {
     // returns: the fileID of the new uploaded file.
     // Problem: Async events
     let email = content.email;
+    let username = content.username;
     let filename = content.filename;
     let type = content.type;
     let anonymous = content.anonymous;
@@ -60,6 +61,7 @@ exports.insertTable = async function(content) {
     let date = "" + d.getTime();
     let file_insert = {
         email: email,
+        username: username,
         fileName: filename,
         type: type,
         key: email + "|" + filename,
@@ -123,6 +125,7 @@ exports.listFiles = async function(content) {
         // });
 
         let searchKeyword = content.searchKeyword;
+        let searchContributor = content.searchByContributor;
         let sortMethod = content.sortMethod;
         let filterType = content.filterType;
         let filterTime = content.filterTime;
@@ -141,15 +144,21 @@ exports.listFiles = async function(content) {
 
         // search for keyword
         if (searchKeyword !== undefined && searchKeyword !== null) {
+            searchKeyword = searchKeyword.toLowerCase();
             let keywordSearch = {
                 [Op.like]: '%' + searchKeyword + '%'
             }
-            whereValue["filename"] = keywordSearch;
+            if (searchContributor === false) {
+                whereValue["filename"] = keywordSearch;
+            } else {
+                whereValue["username"] = keywordSearch;
+            }
         }
 
         // check filterType (filter by type)
         if (filterType !== undefined && filterType !== null) {
-            let filterTypeJSON = JSON.parse(filterType);
+            // let filterTypeJSON = JSON.parse(filterType);
+            let filterTypeJSON = filterType;
             let filters = filterTypeJSON.content;
             let n = filters.length;
             if (n === 0) {
