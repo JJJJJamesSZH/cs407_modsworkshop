@@ -428,3 +428,25 @@ exports.unlikeFile = async function(content) {
     files.update({ likes: likes - 1 }, { where: { key: key } })
 
 }
+
+
+exports.deleteFile = async function(key) {
+    files.destroy({
+        where: {
+            key : key
+        }
+    });
+
+    var params = {
+        Bucket: BucketName,
+        Key: key
+    };
+
+    s3.deleteObject(params, function (err, data) {
+        if (err) console.log(err, err.stack); // an error occurred
+        else console.log(data);           // successful response
+    });
+
+    // Note: did not delete the file info from the server
+
+}

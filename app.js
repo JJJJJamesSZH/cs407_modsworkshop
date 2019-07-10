@@ -60,6 +60,8 @@ app.use(file_like.routes(), file_like.allowedMethods());
 const file_edit = require('./routes/file_edit');
 app.use(file_edit.routes(), file_edit.allowedMethods());
 
+const file_delete = require('./routes/file_delete');
+app.use(file_delete.routes(), file_delete.allowedMethods());
 
 // error-handling
 app.on('error', (err, ctx) => {

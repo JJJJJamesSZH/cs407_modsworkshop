@@ -1,6 +1,8 @@
 import { user_profile } from "./entity/user_profile"
 import { files } from "./entity/files"
 
+var Sequelize = require('sequelize');
+
 exports.getUsername = async function(content) {
     let email = content.email;
     let profile = await user_profile.findOne({
@@ -189,4 +191,51 @@ exports.editProfile = async function(content) {
     }, { where: { email: email } });
     return 0;
 
+}
+
+exports.deleteFavorite = async function(fileID) {
+    const Op = Sequelize.Op;
+    const operatorsAliases = {
+        $like: Op.like,
+        $not: Op.not
+    }
+
+    let favoriteuserlist = await user_profile.findAll({
+        where: {favoritefile: {[Op.like]: '%' + fileID+"" + '%'}}
+    });
+
+    console.log("users: ", favoriteuserlist);
+    
+    var user;
+    for(user of favoriteuserlist) {
+        let favoritefileString = user.favoritefile;
+
+        let thelist = favoritefileString.split(/[^0-9]/).map(Number);
+        thelist = thelist.filter(Boolean);
+
+        if (thelist.includes(fileID) === false) {
+            console.log("fileID not in favoritelist", user.userID);
+            continue;
+        }
+
+        let removed = thelist.indexOf(fileID);
+        thelist.splice(removed, 1);
+        // console.log("Updated favorite list: ", thelist);
+
+        let favoritefileJSON = { content: thelist };
+        favoritefileString = JSON.stringify(favoritefileJSON);
+
+        this.setfavoritefile({
+            email: user.email,
+            favoritefile: favoritefileString
+        });
+
+        let result = {
+            status: 200
+        }
+
+        return result;
+
+    }
+    
 }
