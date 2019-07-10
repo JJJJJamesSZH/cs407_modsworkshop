@@ -126,7 +126,7 @@ exports.listFiles = async function(content) {
 
         let searchKeyword = content.searchKeyword;
         let searchContributor = content.searchByContributor;
-        let sortMethod = content.sortMethod;
+        let sortMethod = content.sortingMethod;
         let filterType = content.filterType;
         let filterTime = content.filterTime;
 
@@ -215,10 +215,13 @@ exports.listFiles = async function(content) {
             orderValue.push(["fileName", "DESC"]);
         } else if (sortMethod === "downloadsASC") {
             // downloads ascending
-            orderValue.push(["downloads", "ASC"]);
+            orderValue.push(["downloadNum", "ASC"]);
         } else if (sortMethod === "downloadsDESC") {
             // downloads descending
-            orderValue.push(["downloads", "DESC"]);
+            // console.log("=========================");
+            // console.log("downloads DESC");
+            // console.log("=========================");
+            orderValue.push(["downloadNum", "DESC"]);
         } else if (sortMethod === "likesASC") {
             // likes ascending
             orderValue.push(["likes", "ASC"]);
@@ -433,7 +436,7 @@ exports.unlikeFile = async function(content) {
 exports.deleteFile = async function(key) {
     files.destroy({
         where: {
-            key : key
+            key: key
         }
     });
 
@@ -442,9 +445,9 @@ exports.deleteFile = async function(key) {
         Key: key
     };
 
-    s3.deleteObject(params, function (err, data) {
+    s3.deleteObject(params, function(err, data) {
         if (err) console.log(err, err.stack); // an error occurred
-        else console.log(data);           // successful response
+        else console.log(data); // successful response
     });
 
     // Note: did not delete the file info from the server
