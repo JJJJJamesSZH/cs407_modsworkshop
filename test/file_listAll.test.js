@@ -414,5 +414,91 @@ it("sort the files listed by likes DESC", function(done) {
                 assert.equal(res.body.status, 200)
             })
             .end(done)
-    }, 850, 'funky')
+    }, 900, 'funky')
+})
+
+// filter the files by types
+it("filter the files by type null", function(done) {
+    this.timeout(7000);
+    setTimeout(function() {
+        let test_case = {
+            filterType: null
+        }
+        request(server)
+            .post('/modsworkshop/file/listAll')
+            .send(test_case)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(function(res) {
+                assert.equal(res.body.status, 200)
+            })
+            .end(done)
+    }, 950, 'funky')
+})
+
+// filter the files by types
+it("filter the files by type empty", function(done) {
+    this.timeout(7000);
+    setTimeout(function() {
+        let test_case = {
+            filterType: {
+                content: []
+            }
+        }
+        request(server)
+            .post('/modsworkshop/file/listAll')
+            .send(test_case)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(function(res) {
+                assert.equal(res.body.status, 200)
+            })
+            .end(done)
+    }, 1000, 'funky')
+})
+
+// filter the files by types
+it("filter the files by type single type", function(done) {
+    this.timeout(7000);
+    setTimeout(function() {
+        let test_case = {
+            filterType: {
+                content: ["UI Mods"]
+            }
+        }
+        request(server)
+            .post('/modsworkshop/file/listAll')
+            .send(test_case)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(function(res) {
+                assert.equal(res.body.status, 200)
+            })
+            .end(done)
+    }, 1050, 'funky')
+})
+
+// filter the files by types
+it("filter the files by type multiple types", function(done) {
+    this.timeout(7000);
+    setTimeout(function() {
+        let test_case = {
+            filterType: {
+                content: ["UI Mods", "Visual Mods"]
+            }
+        }
+        request(server)
+            .post('/modsworkshop/file/listAll')
+            .send(test_case)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(function(res) {
+                assert.equal(res.body.status, 200)
+            })
+            .end(done)
+    }, 1050, 'funky')
 })
