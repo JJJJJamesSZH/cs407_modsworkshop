@@ -500,5 +500,85 @@ it("filter the files by type multiple types", function(done) {
                 assert.equal(res.body.status, 200)
             })
             .end(done)
-    }, 1050, 'funky')
+    }, 1100, 'funky')
+})
+
+// filter the files by time
+it("filter the files by time null", function(done) {
+    this.timeout(8000);
+    setTimeout(function() {
+        let test_case = {
+            filterTime: null
+        }
+        request(server)
+            .post('/modsworkshop/file/listAll')
+            .send(test_case)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(function(res) {
+                assert.equal(res.body.status, 200)
+            })
+            .end(done)
+    }, 1150, 'funky')
+})
+
+// filter the files by time
+it("filter the files by time oneday", function(done) {
+    this.timeout(8000);
+    setTimeout(function() {
+        let test_case = {
+            filterTime: "oneday"
+        }
+        request(server)
+            .post('/modsworkshop/file/listAll')
+            .send(test_case)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(function(res) {
+                assert.equal(res.body.status, 200)
+            })
+            .end(done)
+    }, 1200, 'funky')
+})
+
+// filter the files by time
+it("filter the files by time threemonths", function(done) {
+    this.timeout(8000);
+    setTimeout(function() {
+        let test_case = {
+            filterTime: "threemonths"
+        }
+        request(server)
+            .post('/modsworkshop/file/listAll')
+            .send(test_case)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(function(res) {
+                assert.equal(res.body.status, 200)
+            })
+            .end(done)
+    }, 1250, 'funky')
+})
+
+// filter the files by time
+it("filter the files by time oneyear", function(done) {
+    this.timeout(8000);
+    setTimeout(function() {
+        let test_case = {
+            filterTime: "oneyear"
+        }
+        request(server)
+            .post('/modsworkshop/file/listAll')
+            .send(test_case)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(function(res) {
+                assert.equal(res.body.status, 200)
+            })
+            .end(done)
+    }, 1300, 'funky')
 })
