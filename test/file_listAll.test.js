@@ -215,3 +215,84 @@ it("testinf for list file detail by contributor's name true", function(done) {
             .end(done)
     }, 450, 'funky')
 })
+
+// sort the files listed by time
+// sort time descend by default
+it("sort the files listed by time null", function(done) {
+    this.timeout(5000);
+    setTimeout(function() {
+        let test_case = {
+            sortingMethod: null
+        }
+        request(server)
+            .post('/modsworkshop/file/listAll')
+            .send(test_case)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(function(res) {
+                assert.equal(res.body.status, 200)
+            })
+            .end(done)
+    }, 500, 'funky')
+})
+
+// sort the files listed by time
+it("sort the files listed by time desc", function(done) {
+    this.timeout(5000);
+    setTimeout(function() {
+        let test_case = {
+            sortingMethod: "timeDESC"
+        }
+        request(server)
+            .post('/modsworkshop/file/listAll')
+            .send(test_case)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(function(res) {
+                assert.equal(res.body.status, 200)
+            })
+            .end(done)
+    }, 550, 'funky')
+})
+
+// sort the files listed by time
+it("sort the files listed by time desc", function(done) {
+    this.timeout(6000);
+    setTimeout(function() {
+        let test_case = {
+            sortingMethod: "timeDESC"
+        }
+        request(server)
+            .post('/modsworkshop/file/listAll')
+            .send(test_case)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(function(res) {
+                assert.equal(res.body.status, 200)
+            })
+            .end(done)
+    }, 600, 'funky')
+})
+
+// sort the files listed by time
+it("sort the files listed by time ASC", function(done) {
+    this.timeout(6000);
+    setTimeout(function() {
+        let test_case = {
+            sortingMethod: "timeASC"
+        }
+        request(server)
+            .post('/modsworkshop/file/listAll')
+            .send(test_case)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(function(res) {
+                assert.equal(res.body.status, 200)
+            })
+            .end(done)
+    }, 600, 'funky')
+})
