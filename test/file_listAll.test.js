@@ -376,3 +376,43 @@ it("sort the files listed by downloads DESC", function(done) {
             .end(done)
     }, 800, 'funky')
 })
+
+// sort the files by number of likes
+it("sort the files listed by likes ASC", function(done) {
+    this.timeout(6000);
+    setTimeout(function() {
+        let test_case = {
+            sortingMethod: "likesASC"
+        }
+        request(server)
+            .post('/modsworkshop/file/listAll')
+            .send(test_case)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(function(res) {
+                assert.equal(res.body.status, 200)
+            })
+            .end(done)
+    }, 850, 'funky')
+})
+
+// sort the files by number of likes
+it("sort the files listed by likes DESC", function(done) {
+    this.timeout(6000);
+    setTimeout(function() {
+        let test_case = {
+            sortingMethod: "likesDESC"
+        }
+        request(server)
+            .post('/modsworkshop/file/listAll')
+            .send(test_case)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(function(res) {
+                assert.equal(res.body.status, 200)
+            })
+            .end(done)
+    }, 850, 'funky')
+})
