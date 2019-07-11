@@ -9,7 +9,7 @@ let auth = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoYW80NEBwdXJkdWU
 
 // testing by requiring multiple URLs
 // upload URL
-it("testing upload files success #1", function(done) {
+it("testing upload files overwrite", function(done) {
     setTimeout(function() {
         let test_case = {
             filename: "testfile1.txt",
