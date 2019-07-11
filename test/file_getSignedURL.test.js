@@ -1,6 +1,6 @@
 require('babel-register');
 
-let server = require("../app.js").listen(8004);
+let server = require("../app.js").listen(8008);
 let request = require("supertest");
 let assert = require("assert");
 
