@@ -1,4 +1,4 @@
-const baseController = require("./baseCOntroller");
+const baseController = require("./baseController");
 const comment_list = require("../model/comment_list");
 const user_profile = require("../model/user_profile");
 const files = require("../model/files");
