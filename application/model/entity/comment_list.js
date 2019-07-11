@@ -20,6 +20,7 @@ const comment_list = sequelize.define('comment_list', {
     username: {
         type: Sequelize.STRING,
         allowNull: false
+
     },
     comment: {
         type: Sequelize.STRING
