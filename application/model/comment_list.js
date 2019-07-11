@@ -34,6 +34,7 @@ exports.add_comment = async function(content) {
         ]);
         return 0; // success.
     } catch (e) {
+        console.log(e);
         console.log("Error detected.");
         return 1; // for error detected
     }

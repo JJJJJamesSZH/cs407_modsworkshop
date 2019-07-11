@@ -1,7 +1,7 @@
 var Sequelize = require('sequelize');
 var sequelize = require('../db');
 
-const files = sequelize.define('comment_list', {
+const comment_list = sequelize.define('comment_list', {
     comment_id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
