@@ -1,6 +1,6 @@
 require('babel-register');
 
-let server = require("../app.js").listen(8004);
+let server = require("../app.js").listen(8007);
 let request = require("supertest");
 let assert = require("assert");
 let files = require('../application/model/files');
@@ -31,30 +31,33 @@ let test_file3 = {
 //     key: "shao44@purdue.edu|deletetest2.txt"
 // }
 
-request(server)
-    .post('/modsworkshop/file/getUploadURL')
-    .send(test_file1)
-    .set('Authorization', auth)
-    .set('Accept', 'application/json');
+it("init upload", function(done) {
+    request(server)
+        .post('/modsworkshop/file/getUploadURL')
+        .send(test_file1)
+        .set('Authorization', auth)
+        .set('Accept', 'application/json');
 
-console.log("Added file #1");
+    console.log("Added file #1");
 
-request(server)
-    .post('/modsworkshop/file/getUploadURL')
-    .send(test_file2)
-    .set('Authorization', auth)
-    .set('Accept', 'application/json');
+    request(server)
+        .post('/modsworkshop/file/getUploadURL')
+        .send(test_file2)
+        .set('Authorization', auth)
+        .set('Accept', 'application/json');
 
-console.log("Added file #2");
+    console.log("Added file #2");
 
-request(server)
-    .post('/modsworkshop/file/getUploadURL')
-    .send(test_file3)
-    .set('Authorization', auth)
-    .set('Accept', 'application/json');
+    request(server)
+        .post('/modsworkshop/file/getUploadURL')
+        .send(test_file3)
+        .set('Authorization', auth)
+        .set('Accept', 'application/json');
 
-console.log("Added file #3");
+    console.log("Added file #3");
 
+    done();
+})
 
 // request(server)
 //     .post('/modsworkshop/file/likeFile')
@@ -64,20 +67,20 @@ console.log("Added file #3");
 
 // console.log("Liked file #2");
 
-it("delete files success #1", function (done) {
+it("delete files success #1", function(done) {
     setTimeout(function() {
-    let test_case = {
-        email: "shao44@purdue.edu",
-        key: "shao44@purdue.edu|deletetest1.txt"
-    }
-    request(server)
-        .post('/modsworkshop/file/deletefile')
-        .send(test_case)
-        .set('Authorization', auth)
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .end(done)
+        let test_case = {
+            email: "shao44@purdue.edu",
+            key: "shao44@purdue.edu|deletetest1.txt"
+        }
+        request(server)
+            .post('/modsworkshop/file/deletefile')
+            .send(test_case)
+            .set('Authorization', auth)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .end(done)
     }, 500, 'funky');
 });
 
@@ -85,20 +88,20 @@ console.log("Finished delete test #1");
 
 let favorited_file = files.files_search("shao44@purdue.edu|deletetest2.txt");
 
-it("delete files success #2", function (done) {
+it("delete files success #2", function(done) {
     setTimeout(function() {
-    let test_case = {
-        email: "shao44@purdue.edu",
-        key: "shao44@purdue.edu|deletetest2.txt"
-    }
-    request(server)
-        .post('/modsworkshop/file/deletefile')
-        .send(test_case)
-        .set('Authorization', auth)
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .end(done)
+        let test_case = {
+            email: "shao44@purdue.edu",
+            key: "shao44@purdue.edu|deletetest2.txt"
+        }
+        request(server)
+            .post('/modsworkshop/file/deletefile')
+            .send(test_case)
+            .set('Authorization', auth)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .end(done)
     }, 500, 'funky');
 })
 
@@ -127,19 +130,23 @@ console.log("Finished delete test #2");
 
 // console.log("Finished check favorite list");
 
-it("testing for false authorization", function (done) {
+it("testing for false authorization", function(done) {
     setTimeout(function() {
-    let test_case = {
-        email: "shao44@purdue.edu",
-        key: "shao44@purdue.edu|deletetest3.txt"
-    }
-    request(server)
-        .post('/modsworkshop/file/deleteFile')
-        .send(test_case)
-        .set('Authorization', "this_is_a_fake_auth")
-        .set('Accept', 'application/json')
-        .expect('Content-Type', /json/)
-        .expect(500)
+        let test_case = {
+            email: "shao44@purdue.edu",
+            key: "shao44@purdue.edu|deletetest3.txt"
+        }
+        request(server)
+            .post('/modsworkshop/file/deleteFile')
+            .send(test_case)
+            .set('Authorization', "this_is_a_fake_auth")
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(function(res) {
+                assert.equal(res.body.status, 500);
+            })
+
         .end(done)
     }, 150, 'funky');
 });
