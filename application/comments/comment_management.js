@@ -22,3 +22,13 @@ exports.addComment = async(ctx, next) => {
         await next();
     }
 }
+
+exports.showComment = async(ctx, next) => {
+    let body = ctx.request.body;
+    let controller = new Controller();
+    let result = await controller.showComment(body);
+
+    ctx.body = result;
+
+    await next();
+}

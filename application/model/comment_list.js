@@ -9,8 +9,26 @@ let Op = Sequelize.Op;
 
 let s3 = new AWS.S3({ apiVersion: s3_config.apiVersion });
 
-exports.show_comment = async function(content) {
-
+exports.get_comment = async function(content) {
+    let file_id = content.file_id;
+    let list = await comment_list.findAll({
+        where: {
+            file_id: file_id
+        }
+    })
+    let n = list.length; // number of comments
+    console.log("=======================");
+    console.log("number of comments: ", n);
+    // console.log("list: ", list);
+    let result_content = [];
+    for (let i = 0; i < n; i++) {
+        let comment = list[i].dataValues;
+        result_content.push(comment);
+    }
+    let result = {
+        content: result_content
+    }
+    return result;
 }
 
 exports.add_comment = async function(content) {
