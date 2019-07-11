@@ -281,7 +281,7 @@ class fileController extends baseController {
         let filename = content.filename;
 
         if (key || (email && filename)) {
-            
+
             let fileID = await files.files_search(key);
 
             let uploadfileString = await user_profile.getUploadFile(content);
@@ -303,18 +303,17 @@ class fileController extends baseController {
 
             let uploadfileJSON = { content: thelist };
             uploadfileString = JSON.stringify(uploadfileJSON);
-            
+
             user_profile.setUploadFile({
                 email: email,
                 uploadfile: uploadfileString
             });
 
-
-            let result = user_profile.deleteFavorite(fileID);
+            user_profile.deleteFavorite(fileID);
 
             files.deleteFile(key);
 
-            return result;
+            return { status: 200 };
 
 
         } else {
@@ -408,7 +407,7 @@ class fileController extends baseController {
 
             let favoritefileJSON = { content: thelist };
             favoritefileString = JSON.stringify(favoritefileJSON);
-            
+
             user_profile.setfavoritefile({
                 email: email,
                 favoritefile: favoritefileString
