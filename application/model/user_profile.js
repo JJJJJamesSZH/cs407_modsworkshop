@@ -1,5 +1,6 @@
 import { user_profile } from "./entity/user_profile"
 import { files } from "./entity/files"
+import { comment_list } from "./entity/comment_list"
 
 var Sequelize = require('sequelize');
 
@@ -136,6 +137,14 @@ exports.editUsername = async function(content) {
     });
 
     await files.update({
+        username: username
+    }, {
+        where: {
+            email: email
+        }
+    })
+
+    await comment_list.update({
         username: username
     }, {
         where: {
