@@ -63,6 +63,11 @@ app.use(file_edit.routes(), file_edit.allowedMethods());
 const file_delete = require('./routes/file_delete');
 app.use(file_delete.routes(), file_delete.allowedMethods());
 
+// comments
+const comments = require('./routes/comments');
+app.use(comments.routes(), comments.allowedMethods());
+
+
 // error-handling
 app.on('error', (err, ctx) => {
     console.error('server error', err, ctx)
