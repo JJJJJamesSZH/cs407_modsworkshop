@@ -68,14 +68,34 @@ exports.getUploadFile = async function(content) {
 exports.getfavoritefile = async function(content) {
     console.log("======= user_profile.getfavoritefile =========");
     let email = content.email;
-    let profile = await user_profile.findOne({
+    let currentprofile = await user_profile.findOne({
         where: {
             email: email
         }
     });
+
+    let result = [];
+    let currentlist = currentprofile.favoritefile
+
+    let favoritefiles = currentlist.split(/[^0-9]/).map(Number);
+    favoritefiles = favoritefiles.filter(Boolean);
+
+    console.log("list: ", favoritefiles);
+
+    var file;
+    for (file of favoritefiles){
+        let current_file = await files.findOne({
+            where: {
+                fileID: file
+            }
+        })
+        result.push(current_file);
+
+    }
+
     // return file detail (not key)
 
-    return profile.favoritefile;
+    return result;
 }
 
 exports.setUploadFile = async function(content) {
