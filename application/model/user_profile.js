@@ -72,6 +72,8 @@ exports.getfavoritefile = async function(content) {
             email: email
         }
     });
+    // return file detail (not key)
+
     return profile.favoritefile;
 }
 
@@ -201,13 +203,17 @@ exports.deleteFavorite = async function(fileID) {
     }
 
     let favoriteuserlist = await user_profile.findAll({
-        where: {favoritefile: {[Op.like]: '%' + fileID+"" + '%'}}
+        where: {
+            favoritefile: {
+                [Op.like]: '%' + fileID + "" + '%'
+            }
+        }
     });
 
     console.log("users: ", favoriteuserlist);
-    
+
     var user;
-    for(user of favoriteuserlist) {
+    for (user of favoriteuserlist) {
         let favoritefileString = user.favoritefile;
 
         let thelist = favoritefileString.split(/[^0-9]/).map(Number);
@@ -237,5 +243,5 @@ exports.deleteFavorite = async function(fileID) {
         return result;
 
     }
-    
+
 }
