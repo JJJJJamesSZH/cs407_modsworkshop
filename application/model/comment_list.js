@@ -9,6 +9,10 @@ let Op = Sequelize.Op;
 
 let s3 = new AWS.S3({ apiVersion: s3_config.apiVersion });
 
+exports.show_comment = async function(content) {
+
+}
+
 exports.add_comment = async function(content) {
     let file_id = content.file_id;
     let email = content.email;
