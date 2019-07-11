@@ -39,6 +39,10 @@ const profile3_send_uploadfile = {
     "email": "viewprofileTest3@gmail.com"
 }
 
+const profile3_send_favoritefile = {
+    "email": "shao44@purdue.edu"
+}
+
 
 const correct_profile1 = {
     "status": 200,
@@ -166,6 +170,19 @@ it('get correct profile uploadfile list', function(done) {
             //     assert.equal(res.body.status, 200);
             //     assert.equal(res.body.files, [32]);
             // })
+            .end(done)
+    }, 50, 'funky');
+})
+
+it('get correct profile favorite list', function(done) {
+    setTimeout(function() {
+        console.log("============== Test favorite list =================");
+        request(server)
+            .post('/modsworkshop/profile/viewfavoritefile')
+            .send(profile3_send_favoritefile)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
             .end(done)
     }, 50, 'funky');
 })
