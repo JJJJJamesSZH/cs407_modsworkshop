@@ -2,6 +2,8 @@ import { user_profile } from "./entity/user_profile"
 import { files } from "./entity/files"
 import { comment_list } from "./entity/comment_list"
 
+const filesjs = require("../model/files");
+
 var Sequelize = require('sequelize');
 
 exports.getUsername = async function(content) {
@@ -89,9 +91,26 @@ exports.getfavoritefile = async function(content) {
                 fileID: file
             }
         })
-        result.push(current_file);
+
+        console.log("current_file", current_file);
+        
+        let fileJSON = current_file.dataValues;
+        let username = await this.getUsername({ email: fileJSON.email });
+        // console.log("username: ", username);
+        fileJSON["username"] = username;
+        console.log("fileJSON: ", fileJSON);
+
+        // add Info download URL
+        let infoDownloadURL = await filesjs.getDownloadURL({ key: "Info|" + fileJSON.key });
+        // console.log("downloadURL: ", downloadURL);
+        fileJSON["infoDownloadUrl"] = infoDownloadURL;
+
+        result_file_list.push(fileJSON);
+
+        // result.push(current_file);
 
     }
+    console.log("result is", result);
 
     // return file detail (not key)
 
@@ -264,14 +283,13 @@ exports.deleteFavorite = async function(fileID) {
             email: user.email,
             favoritefile: favoritefileString
         });
-
-        let result = {
-            status: 200
-        }
-
-        return result;
-
     }
+    
+    let result = {
+        status: 200
+    };
+
+    return result;
 
 }
 
