@@ -85,7 +85,7 @@ exports.getfavoritefile = async function(content) {
     console.log("list: ", favoritefiles);
 
     var file;
-    for (file of favoritefiles){
+    for (file of favoritefiles) {
         let current_file = await files.findOne({
             where: {
                 fileID: file
@@ -93,7 +93,7 @@ exports.getfavoritefile = async function(content) {
         })
 
         console.log("current_file", current_file);
-        
+
         let fileJSON = current_file.dataValues;
         let username = await this.getUsername({ email: fileJSON.email });
         // console.log("username: ", username);
@@ -105,7 +105,7 @@ exports.getfavoritefile = async function(content) {
         // console.log("downloadURL: ", downloadURL);
         fileJSON["infoDownloadUrl"] = infoDownloadURL;
 
-        result_file_list.push(fileJSON);
+        result.push(fileJSON);
 
         // result.push(current_file);
 
@@ -284,7 +284,7 @@ exports.deleteFavorite = async function(fileID) {
             favoritefile: favoritefileString
         });
     }
-    
+
     let result = {
         status: 200
     };
