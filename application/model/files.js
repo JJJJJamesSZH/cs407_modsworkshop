@@ -445,7 +445,17 @@ exports.deleteFile = async function(key) {
         Key: key
     };
 
+    var infoparams = {
+        Bucket: BucketName,
+        Key: "Info|" + key
+    };
+
     s3.deleteObject(params, function(err, data) {
+        if (err) console.log(err, err.stack); // an error occurred
+        else console.log(data); // successful response
+    });
+
+    s3.deleteObject(infoparams, function(err, data) {
         if (err) console.log(err, err.stack); // an error occurred
         else console.log(data); // successful response
     });
