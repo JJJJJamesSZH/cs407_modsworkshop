@@ -339,7 +339,7 @@ class fileController extends baseController {
         if (key || (email && filename)) {
 
             let fileID = await files.files_search(key);
-            let favoritefileString = await user_profile.getfavoritefile(content);
+            let favoritefileString = await user_profile.getfavoriteFileID(content);
             let favoritefileJSON = JSON.parse(favoritefileString);
             let favoritefile = favoritefileJSON.content;
 
@@ -388,7 +388,7 @@ class fileController extends baseController {
 
             let fileID = await files.files_search(key);
 
-            let favoritefileString = await user_profile.getfavoritefile(content);
+            let favoritefileString = await user_profile.getfavoriteFileID(content);
 
             let thelist = favoritefileString.split(/[^0-9]/).map(Number);
             thelist = thelist.filter(Boolean);

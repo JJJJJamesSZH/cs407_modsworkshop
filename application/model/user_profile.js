@@ -274,3 +274,14 @@ exports.deleteFavorite = async function(fileID) {
     }
 
 }
+
+exports.getfavoriteFileID = async function(content) {
+    console.log("======= user_profile.getfavoriteFileID =========");
+    let email = content.email;
+    let profile = await user_profile.findOne({
+        where: {
+            email: email
+        }
+    });
+    return profile.favoritefile;
+}
