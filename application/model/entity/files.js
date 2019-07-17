@@ -42,12 +42,9 @@ const files = sequelize.define('files', {
     likes: {
         type: Sequelize.INTEGER
     },
-    rateAccumulate: {
-        type: Sequelize.INTEGER
-    },
-    rateNum: {
-        type: Sequelize.INTEGER
-    },
+    rate: {
+        type: Sequelize.DOUBLE
+    }, 
     anonymous: {
         type: Sequelize.BOOLEAN
     }

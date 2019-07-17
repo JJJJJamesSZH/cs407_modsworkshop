@@ -45,15 +45,19 @@ exports.rateFile = async function(content) {
     let file_id = content.file_id;
     let rate = content.rate;
 
+    // console.log("email: ", email);
+    // console.log("username: ", username);
+    // console.log("file_id: ", file_id);
+    // console.log("rate: ", rate);
+
     let data = {
         email: email,
         username: username,
         file_id: file_id,
         rate: rate
     }
-    await user_rates.bulkCreate({
-        data
-    })
+
+    await user_rates.bulkCreate([data]);
 
     return 0;
 }
@@ -85,6 +89,7 @@ exports.updateRate = async function(content) {
 }
 
 exports.calcRate = async function(content) {
+    // console.log("====calcRate");
     // calculate the file overall rate
     let file_id = content.file_id;
     let list = await user_rates.findAll({

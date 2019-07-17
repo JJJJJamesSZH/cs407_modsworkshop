@@ -11,13 +11,19 @@ class rateController extends baseController {
         let email = content.email;
         let rate = content.rate;
 
-        let username = user_profile_func.getUsername({ email: email });
+        let username = await user_profile_func.getUsername({ email: email });
         let key = content.key;
-        let file_id = files_func.files_search(key);
+        let file_id = await files_func.files_search(key);
 
 
         // check if the user-file combination already exists
-        let has_rated = user_rates.checkRate({ email: email, file_id: file_id });
+        let has_rated = await user_rates.checkRate({ email: email, file_id: file_id });
+
+        // console.log("email: ", email);
+        // console.log("username: ", username);
+        // console.log("file_id: ", file_id);
+        // console.log("rate: ", rate);
+        // console.log("has_rated: ", has_rated);
 
         let data = {
             email: email,
@@ -28,14 +34,16 @@ class rateController extends baseController {
 
         if (has_rated === false) {
             // user rates not exists yet
-            user_rates.rateFile(data);
+            // console.log("user rates not exists yet");
+            await user_rates.rateFile(data);
         } else {
             // user rates exists
-            user_rates.updateRate(data);
+            // console.log("user rates exists");
+            await user_rates.updateRate(data);
         }
 
         // update the file rate in files table
-        let new_rate = await user_rates.calcRate(file_id);
+        let new_rate = await user_rates.calcRate({file_id: file_id});
         await files_func.updateRate({ file_id: file_id, rate: new_rate });
 
         return {
@@ -43,3 +51,5 @@ class rateController extends baseController {
         }
     }
 }
+
+module.exports = rateController;
