@@ -76,9 +76,7 @@ exports.updateRate = async function(content) {
         rate: rate
     }
 
-    await user_rates.update({
-        data
-    }, {
+    await user_rates.update(data, {
         where: {
             email: email,
             file_id: file_id
