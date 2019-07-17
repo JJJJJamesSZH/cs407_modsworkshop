@@ -463,3 +463,18 @@ exports.deleteFile = async function(key) {
     // Note: did not delete the file info from the server
 
 }
+
+exports.updateRate = async function(content) {
+    let file_id = content.file_id;
+    let rate = content.rate;
+
+    await files.update({
+        rate: rate
+    }, {
+        where: {
+            fileID: file_id
+        }
+    })
+
+    return 0;
+}

@@ -67,6 +67,10 @@ app.use(file_delete.routes(), file_delete.allowedMethods());
 const comments = require('./routes/comments');
 app.use(comments.routes(), comments.allowedMethods());
 
+// rate
+const rate = require('./routes/rate_file');
+app.use(rate.routes(), rate.allowedMethods());
+
 
 // error-handling
 app.on('error', (err, ctx) => {
