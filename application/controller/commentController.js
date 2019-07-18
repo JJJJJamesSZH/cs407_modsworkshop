@@ -60,6 +60,43 @@ class commentController extends baseController {
             return result;
         }
     }
+
+    async likeComment(content) {
+        // need file key
+
+        let key = content.key;
+
+        // get file_id through key;
+        let file_info = await files.getFileDetail({ key: key });
+        let file_id = await file_info.fileID;
+
+        // get comments through file_id
+        let comments = await comment_list.get_comment({ file_id: file_id });
+        let result = {
+            status: 200,
+            comments: comments.content
+        }
+        return result;
+    }
+
+    async unlikeComment(content) {
+        // need file key
+
+        let key = content.key;
+
+        // get file_id through key;
+        let file_info = await files.getFileDetail({ key: key });
+        let file_id = await file_info.fileID;
+
+        // get comments through file_id
+        let comments = await comment_list.get_comment({ file_id: file_id });
+        let result = {
+            status: 200,
+            comments: comments.content
+        }
+        return result;
+    }
+
 }
 
 module.exports = commentController;

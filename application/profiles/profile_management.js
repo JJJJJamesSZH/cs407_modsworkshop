@@ -191,4 +191,80 @@ exports.getfavoritefile = async(ctx, next) => {
     }
 }
 
+exports.getlikedcomment = async(ctx, next) => {
+    let body = ctx.request.body;
+    let verified = await jwtChecker.decodeAuth(ctx);
+
+    if (verified === false){
+        let result = {
+            "status": 500,
+            "err_message": "authorization code invalid"
+        }
+        console.log("authorization code invalid");
+        ctx.body = result;
+        await next();
+    }
+    else {
+        body["email"] = verified;
+        let controller = new Controller();
+        let result = await controller.getlikedcomment(body);
+        ctx.body = result;
+
+        console.log("profile_management.result: ", result);
+
+        await next();
+    }
+}
+
+exports.getdislikedcomment = async(ctx, next) => {
+    let body = ctx.request.body;
+    let verified = await jwtChecker.decodeAuth(ctx);
+
+    if (verified === false){
+        let result = {
+            "status": 500,
+            "err_message": "authorization code invalid"
+        }
+        console.log("authorization code invalid");
+        ctx.body = result;
+        await next();
+    }
+    else {
+        body["email"] = verified;
+        let controller = new Controller();
+        let result = await controller.getlikedcomment(body);
+        ctx.body = result;
+
+        console.log("profile_management.result: ", result);
+
+        await next();
+    }
+}
+
+
+exports.getfavoritefile = async(ctx, next) => {
+    let body = ctx.request.body;
+    let verified = await jwtChecker.decodeAuth(ctx);
+
+    if (verified === false){
+        let result = {
+            "status": 500,
+            "err_message": "authorization code invalid"
+        }
+        console.log("authorization code invalid");
+        ctx.body = result;
+        await next();
+    }
+    else {
+        body["email"] = verified;
+        let controller = new Controller();
+        let result = await controller.getfavoritefile(body);
+        ctx.body = result;
+
+        console.log("profile_management.result: ", result);
+
+        await next();
+    }
+}
+
 

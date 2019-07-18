@@ -303,3 +303,25 @@ exports.getfavoriteFileID = async function(content) {
     });
     return profile.favoritefile;
 }
+
+exports.getlikedcomment = async function(content) {
+    console.log("======= user_profile.getlikedcomment =========");
+    let email = content.email;
+    let profile = await user_profile.findOne({
+        where: {
+            email: email
+        }
+    });
+    return profile.likedcomment;
+}
+
+exports.getdislikedcomment = async function(content) {
+    console.log("======= user_profile.getdislikedcomment =========");
+    let email = content.email;
+    let profile = await user_profile.findOne({
+        where: {
+            email: email
+        }
+    });
+    return profile.dislikedcomment;
+}

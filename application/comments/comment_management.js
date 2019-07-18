@@ -32,3 +32,25 @@ exports.showComment = async(ctx, next) => {
 
     await next();
 }
+
+
+
+exports.likeComment = async(ctx, next) => {
+    let body = ctx.request.body;
+    let controller = new Controller();
+    let result = await controller.likeComment(body);
+
+    ctx.body = result;
+
+    await next();
+}
+
+exports.unlikeComment = async(ctx, next) => {
+    let body = ctx.request.body;
+    let controller = new Controller();
+    let result = await controller.unlikeComment(body);
+
+    ctx.body = result;
+
+    await next();
+}

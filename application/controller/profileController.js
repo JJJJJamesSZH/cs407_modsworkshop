@@ -147,6 +147,28 @@ class profileController extends baseController {
         return result
     }
 
+    async getlikedcomment(content) {
+        console.log("profileController.getlikedcomment: ", content);
+
+        let commentsID = await userProfile.getlikedcomment(content);
+        let result = {
+            "status": 200,
+            "commentsID": commentsID
+        }
+        return result
+    }
+
+    async getdislikedcomment(content) {
+        console.log("profileController.getdislikedcomment: ", content);
+
+        let commentsID = await userProfile.getdislikedcomment(content);
+        let result = {
+            "status": 200,
+            "commentsID": commentsID
+        }
+        return result
+    }
+
 }
 
 module.exports = profileController;

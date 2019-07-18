@@ -32,6 +32,12 @@ const user_profile = sequelize.define('user_profile', {
     },
     favoritefile: {
         type: Sequelize.STRING
+    },
+    likedcomment: {
+        type: Sequelize.STRING
+    },
+    dislikedcomment: {
+        type: Sequelize.STRING
     }
 }, {
     freezeTableName: true
