@@ -129,6 +129,8 @@ exports.listFiles = async function(content) {
         let sortMethod = content.sortingMethod;
         let filterType = content.filterType;
         let filterTime = content.filterTime;
+        let filterRateFrom = content.filterRateFrom;
+        let filterRateTo = content.filterRateTo;
 
         // let startRank = content.startRank;
         // let range = content.range;
@@ -198,8 +200,20 @@ exports.listFiles = async function(content) {
             whereValue["dateUpdated"] = {
                 [Op.gte]: timeCheck
             }
+        }        
+        
+        // filter by rate
+        if (filterRateFrom === undefined || filterRateFrom === null){
+            filterRateFrom = 0;
+        }
+        if (filterRateTo === undefined || filterRateTo === null){
+            filterRateTo = 5;
+        }
+        whereValue["rate"] = {
+            [Op.between]: [filterRateFrom, filterRateTo]
         }
 
+        // order
         let orderValue = [];
         if (sortMethod === 'timeASC') {
             // time ascending
@@ -228,6 +242,12 @@ exports.listFiles = async function(content) {
         } else if (sortMethod === "likesDESC") {
             // likes descending
             orderValue.push(["likes", "DESC"]);
+        } else if (sortMethod === "rateASC") {
+            // rate ascending
+            orderValue.push(["rate", "ASC"])
+        } else if (sortMethod === "rateDESC") {
+            // rate descending
+            orderValue.push(["rate", "DESC"]);
         } else {
             // default - time descending - latest post first
             orderValue.push(["dateUpdated", "DESC"]);
