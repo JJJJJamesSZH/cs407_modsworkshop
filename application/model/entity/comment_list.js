@@ -28,6 +28,9 @@ const comment_list = sequelize.define('comment_list', {
     like: {
         type: Sequelize.INTEGER
     },
+    dislike: {
+        type: Sequelize.INTEGER
+    },
     dateCreated: {
         type: Sequelize.STRING
     },

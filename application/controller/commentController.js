@@ -150,6 +150,96 @@ class commentController extends baseController {
         }
         return result;
     }
+
+
+    async dislikeComment(content) {
+        console.log("dislikecomment", content);
+        // make sure content has either key or both email and filename
+        let id = content.id;
+        let email = content.email;
+
+        if (id || email) {
+
+            let favoritefileString = await user_profile.getdislikedcomment(content);
+            let favoritefileJSON = JSON.parse(favoritefileString);
+            let favoritefile = favoritefileJSON.content;
+
+            if (favoritefile.includes(id) === true) {
+                let result = {
+                    "status": 206,
+                    "err_message": "Comment has been disliked"
+                }
+                return result;
+            }
+
+            favoritefile.push(id);
+
+            favoritefileJSON = { content: favoritefile };
+            favoritefileString = JSON.stringify(favoritefileJSON);
+            user_profile.setcommentlist(email, favoritefileString, 0);
+
+            comment_list.dislikeComment(content);
+
+            let result = {
+                status: 200
+            }
+
+            return result;
+        }
+
+        let result = {
+            "status": 204,
+            "err_message": "cannot get comment id"
+        }
+        return result;
+
+    }
+
+    async undislikeComment(content) {
+        console.log("unlikeComment", content);
+        // make sure content has either key or both email and filename
+        let id = content.id;
+        let email = content.email;
+
+        if (id || email) {
+
+            let favoritefileString = await user_profile.getdislikedcomment(content);
+
+            let thelist = favoritefileString.split(/[^0-9]/).map(Number);
+            thelist = thelist.filter(Boolean);
+
+            if (thelist.includes(id) === false) {
+                let result = {
+                    "status": 207,
+                    "err_message": "Comment has not been disliked"
+                }
+                return result;
+            }
+
+            let removed = thelist.indexOf(id);
+            thelist.splice(removed, 1);
+            console.log("Updated dislikedcomment list: ", thelist);
+
+            let favoritefileJSON = { content: thelist };
+            favoritefileString = JSON.stringify(favoritefileJSON);
+
+            user_profile.setcommentlist(email, favoritefileString, 0);
+
+            comment_list.undislikeComment(content);
+
+            let result = {
+                status: 200
+            }
+
+            return result;
+        }
+
+        let result = {
+            "status": 204,
+            "err_message": "cannot get file id"
+        }
+        return result;
+    }
 }
 
 module.exports = commentController;

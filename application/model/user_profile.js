@@ -342,7 +342,7 @@ exports.setcommentlist = async function(email, comment_list, type) {
 
     } else {
 
-        onsole.log("======= user_profile.setDISLIKEDcommentlist =========");
+        console.log("======= user_profile.setDISLIKEDcommentlist =========");
         console.log("email: ", email);
         console.log("comment_list: ", comment_list);
         await user_profile.update({

@@ -97,3 +97,40 @@ exports.unlikeComment = async function(content) {
     comment_list.update({ like: like - 1 }, { where: { comment_id: comment_id } })
 
 }
+
+
+exports.dislikeComment = async function(content) {
+    console.log("dislike comment: ", content);
+
+    // serach details of the file, by either key or email and filename
+    let id = content.id;
+
+    console.log("add dislike comment: ", id);
+
+    let likecomment = await comment_list.findOne({
+        where: {
+            comment_id: id
+        }
+    });
+
+    let dislike = likecomment.dislike;
+    comment_list.update({ dislike: dislike + 1 }, { where: { comment_id: id } })
+
+}
+
+exports.undislikeComment = async function(content) {
+    console.log("undislike comment: ", content);
+
+    // serach details of the file, by either key or email and filename
+    let comment_id = content.id;
+
+    let unlikefile = await comment_list.findOne({
+        where: {
+            comment_id: comment_id
+        }
+    });
+
+    let dislike = unlikefile.dislike;
+    comment_list.update({ dislike: dislike - 1 }, { where: { comment_id: comment_id } })
+
+}
