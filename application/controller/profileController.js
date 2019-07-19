@@ -1,5 +1,6 @@
 const baseController = require("./baseController");
 const userProfile = require("../model/user_profile");
+const comment_list = require("../model/comment_list");
 
 class profileController extends baseController {
     async getProfile(content) {
@@ -7,6 +8,7 @@ class profileController extends baseController {
         console.log("profileController.getProfile: ", content);
 
         let profile = await userProfile.getProfile(content);
+        let comments = await comment_list.get_comment_byuser(content);
 
         let username = profile.username;
         let email = profile.email;
@@ -15,9 +17,9 @@ class profileController extends baseController {
         let filesString = profile.uploadfile;
         let filesJSON = JSON.parse(filesString);
         let files = filesJSON.content;
-        let favoriteJSON = JSON.parse(profile.favoritefile)
-        let favorite = favoriteJSON.content
-
+        let favoriteJSON = JSON.parse(profile.favoritefile);
+        let favorite = favoriteJSON.content;
+        
         // console.log("profile: ", profile);
 
         let result = {
@@ -27,7 +29,8 @@ class profileController extends baseController {
             "description": description,
             "icon": icon,
             "files": files,
-            "favorite": favorite
+            "favorite": favorite,
+            "comments": comments.content
         }
         return result
     }
@@ -73,6 +76,17 @@ class profileController extends baseController {
         let result = {
             "status": 200,
             "files": files
+        }
+        return result
+    }
+
+    async getComments(content) {
+        console.log("profileController.getcommentlist: ", content);
+
+        let comments = await comment_list.get_comment_byuser(content);
+        let result = {
+            "status": 200,
+            "comments": comments.content
         }
         return result
     }

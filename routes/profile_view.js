@@ -10,6 +10,7 @@ router.post('/modsworkshop/profile/viewfavoritefile', profile_mgmt.getfavoritefi
 router.post('/modsworkshop/profile/viewlikedcomment', profile_mgmt.getlikedcomment);
 router.post('/modsworkshop/profile/viewdislikedcomment', profile_mgmt.getdislikedcomment);
 
+router.post('/modsworkshop/profile/viewcomment', profile_mgmt.getComments);
 
 
 module.exports = router;

@@ -31,6 +31,28 @@ exports.get_comment = async function(content) {
     return result;
 }
 
+exports.get_comment_byuser = async function(content) {
+    let email = content.email;
+    let list = await comment_list.findAll({
+        where: {
+            email: email
+        }
+    })
+    let n = list.length; // number of comments
+    console.log("=======================");
+    console.log("number of comments: ", n);
+    // console.log("list: ", list);
+    let result_content = [];
+    for (let i = 0; i < n; i++) {
+        let comment = list[i].dataValues;
+        result_content.push(comment);
+    }
+    let result = {
+        content: result_content
+    }
+    return result;
+}
+
 exports.add_comment = async function(content) {
     let file_id = content.file_id;
     let email = content.email;
