@@ -325,3 +325,33 @@ exports.getdislikedcomment = async function(content) {
     });
     return profile.dislikedcomment;
 }
+
+// type=1 likedcomment, otherwise dislikedcomment
+exports.setcommentlist = async function(email, comment_list, type) {
+    if (type == 1) {
+        console.log("======= user_profile.setLIKEDcommentlist =========");
+        console.log("email: ", email);
+        console.log("comment_list: ", comment_list);
+        await user_profile.update({
+            likedcomment: comment_list
+        }, {
+            where: {
+                email: email
+            }
+        });
+
+    } else {
+
+        onsole.log("======= user_profile.setDISLIKEDcommentlist =========");
+        console.log("email: ", email);
+        console.log("comment_list: ", comment_list);
+        await user_profile.update({
+            dislikedcomment: comment_list
+        }, {
+            where: {
+                email: email
+            }
+        });
+    }
+
+}
