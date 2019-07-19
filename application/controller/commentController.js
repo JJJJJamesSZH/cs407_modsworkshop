@@ -81,6 +81,19 @@ class commentController extends baseController {
                 return result;
             }
 
+            let favoritefileString2 = await user_profile.getdislikedcomment(content);
+            let favoritefileJSON2 = JSON.parse(favoritefileString2);
+            let favoritefile2 = favoritefileJSON2.content;
+
+            if (favoritefile2.includes(id) === true) {
+                let result = {
+                    "status": 208,
+                    "err_message": "Comment has been disliked"
+                }
+                return result;
+            }
+
+
             favoritefile.push(id);
 
             favoritefileJSON = { content: favoritefile };
@@ -122,6 +135,18 @@ class commentController extends baseController {
                 let result = {
                     "status": 207,
                     "err_message": "Comment has not been liked"
+                }
+                return result;
+            }
+
+            let favoritefileString2 = await user_profile.getlikedcomment(content);
+            let favoritefileJSON2 = JSON.parse(favoritefileString2);
+            let favoritefile2 = favoritefileJSON2.content;
+
+            if (favoritefile2.includes(id) === true) {
+                let result = {
+                    "status": 208,
+                    "err_message": "Comment has been liked"
                 }
                 return result;
             }
