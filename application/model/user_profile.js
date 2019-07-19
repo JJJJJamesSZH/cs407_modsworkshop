@@ -191,6 +191,14 @@ exports.editUsername = async function(content) {
         }
     })
 
+    await user_rates.update({
+        username: username
+    }, {
+        where: {
+            email: email
+        }
+    })
+
     return 0;
 
 }
@@ -239,6 +247,32 @@ exports.editProfile = async function(content) {
         username: username,
         icon: icon
     }, { where: { email: email } });
+
+    if (username !== undefined && username !== null){
+        await files.update({
+            username: username
+        }, {
+            where: {
+                email: email
+            }
+        })
+
+        await comment_list.update({
+            username: username
+        }, {
+            where: {
+                email: email
+            }
+        })
+
+        await user_rates.update({
+            username: username
+        }, {
+            where: {
+                email: email
+            }
+        })
+    }
     return 0;
 
 }
