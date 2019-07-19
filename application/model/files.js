@@ -228,6 +228,12 @@ exports.listFiles = async function(content) {
         } else if (sortMethod === "likesDESC") {
             // likes descending
             orderValue.push(["likes", "DESC"]);
+        } else if (sortMethod === "rateASC") {
+            // rate ascending
+            orderValue.push(["rate", "ASC"])
+        } else if (sortMethod === "rateDESC") {
+            // rate descending
+            orderValue.push(["rate", "DESC"]);
         } else {
             // default - time descending - latest post first
             orderValue.push(["dateUpdated", "DESC"]);
