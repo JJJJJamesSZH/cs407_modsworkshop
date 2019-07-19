@@ -54,3 +54,23 @@ exports.unlikeComment = async(ctx, next) => {
 
     await next();
 }
+
+exports.dislikeComment = async(ctx, next) => {
+    let body = ctx.request.body;
+    let controller = new Controller();
+    let result = await controller.dislikeComment(body);
+
+    ctx.body = result;
+
+    await next();
+}
+
+exports.undislikeComment = async(ctx, next) => {
+    let body = ctx.request.body;
+    let controller = new Controller();
+    let result = await controller.undislikeComment(body);
+
+    ctx.body = result;
+
+    await next();
+}

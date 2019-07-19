@@ -61,3 +61,39 @@ exports.add_comment = async function(content) {
         return 1; // for error detected
     }
 }
+
+exports.likeComment = async function(content) {
+    console.log("like comment: ", content);
+
+    // serach details of the file, by either key or email and filename
+    let id = content.id;
+
+    console.log("addlike comment: ", id);
+
+    let likecomment = await comment_list.findOne({
+        where: {
+            comment_id: id
+        }
+    });
+
+    let like = likecomment.like;
+    comment_list.update({ like: like + 1 }, { where: { comment_id: id } })
+
+}
+
+exports.unlikeComment = async function(content) {
+    console.log("unlike comment: ", content);
+
+    // serach details of the file, by either key or email and filename
+    let comment_id = content.id;
+
+    let unlikefile = await comment_list.findOne({
+        where: {
+            comment_id: comment_id
+        }
+    });
+
+    let like = unlikefile.like;
+    comment_list.update({ like: like - 1 }, { where: { comment_id: comment_id } })
+
+}

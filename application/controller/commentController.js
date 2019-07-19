@@ -62,41 +62,94 @@ class commentController extends baseController {
     }
 
     async likeComment(content) {
-        // need file key
+        console.log("likecomment", content);
+        // make sure content has either key or both email and filename
+        let id = content.id;
+        let email = content.email;
 
-        let key = content.key;
+        if (id || email) {
 
-        // get file_id through key;
-        let file_info = await files.getFileDetail({ key: key });
-        let file_id = await file_info.fileID;
+            let favoritefileString = await user_profile.getlikedcomment(content);
+            let favoritefileJSON = JSON.parse(favoritefileString);
+            let favoritefile = favoritefileJSON.content;
 
-        // get comments through file_id
-        let comments = await comment_list.get_comment({ file_id: file_id });
+            if (favoritefile.includes(id) === true) {
+                let result = {
+                    "status": 206,
+                    "err_message": "Comment has been liked"
+                }
+                return result;
+            }
+
+            favoritefile.push(id);
+
+            favoritefileJSON = { content: favoritefile };
+            favoritefileString = JSON.stringify(favoritefileJSON);
+            console.log("String", favoritefileString);
+            user_profile.setcommentlist(email, favoritefileString, 1);
+
+            comment_list.likeComment(content);
+
+            let result = {
+                status: 200
+            }
+
+            return result;
+        }
+
         let result = {
-            status: 200,
-            comments: comments.content
+            "status": 204,
+            "err_message": "cannot get comment key"
         }
         return result;
+
     }
 
     async unlikeComment(content) {
-        // need file key
+        console.log("unlikeComment", content);
+        // make sure content has either key or both email and filename
+        let id = content.id;
+        let email = content.email;
 
-        let key = content.key;
+        if (id || email) {
 
-        // get file_id through key;
-        let file_info = await files.getFileDetail({ key: key });
-        let file_id = await file_info.fileID;
+            let favoritefileString = await user_profile.getlikedcomment(content);
 
-        // get comments through file_id
-        let comments = await comment_list.get_comment({ file_id: file_id });
+            let thelist = favoritefileString.split(/[^0-9]/).map(Number);
+            thelist = thelist.filter(Boolean);
+
+            if (thelist.includes(id) === false) {
+                let result = {
+                    "status": 207,
+                    "err_message": "Comment has not been liked"
+                }
+                return result;
+            }
+
+            let removed = thelist.indexOf(id);
+            thelist.splice(removed, 1);
+            console.log("Updated likedcomment list: ", thelist);
+
+            let favoritefileJSON = { content: thelist };
+            favoritefileString = JSON.stringify(favoritefileJSON);
+
+            user_profile.setcommentlist(email, favoritefileString, 1);
+
+            comment_list.unlikeComment(content);
+
+            let result = {
+                status: 200
+            }
+
+            return result;
+        }
+
         let result = {
-            status: 200,
-            comments: comments.content
+            "status": 204,
+            "err_message": "cannot get file key"
         }
         return result;
     }
-
 }
 
 module.exports = commentController;
