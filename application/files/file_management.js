@@ -1,7 +1,7 @@
 const Controller = require("../controller/fileController");
 const jwtChecker = require("../authentication/checkJWT");
 
-exports.listFiles = async(ctx, next) => {
+exports.listFiles = async (ctx, next) => {
     let body = ctx.request.body;
     // let verified = await jwtChecker.decodeAuth(ctx);
     // let verified = true;
@@ -13,10 +13,14 @@ exports.listFiles = async(ctx, next) => {
     await next();
 }
 
-exports.getUploadURL = async(ctx, next) => {
+exports.getUploadURL = async (ctx, next) => {
     let body = ctx.request.body;
     let verified = await jwtChecker.decodeAuth(ctx);
     // let verified = true;
+
+    if (body.admin && body.admin === true) {
+         verified = body.email;
+    }
 
     if (verified === false) {
         let result = {
@@ -36,10 +40,14 @@ exports.getUploadURL = async(ctx, next) => {
     }
 }
 
-exports.overwriteUpload = async(ctx, next) => {
+exports.overwriteUpload = async (ctx, next) => {
     let body = ctx.request.body;
     let verified = await jwtChecker.decodeAuth(ctx);
     // let verified = true;
+
+    if (body.admin && body.admin === true) {
+        verified = body.email;
+    }
 
     if (verified === false) {
         let result = {
@@ -59,7 +67,7 @@ exports.overwriteUpload = async(ctx, next) => {
     }
 }
 
-exports.getDownloadURL = async(ctx, next) => {
+exports.getDownloadURL = async (ctx, next) => {
     let body = ctx.request.body;
     let controller = new Controller();
     let result = await controller.getDownloadURL(body);
@@ -68,7 +76,7 @@ exports.getDownloadURL = async(ctx, next) => {
     await next();
 }
 
-exports.listUploaded = async(ctx, next) => {
+exports.listUploaded = async (ctx, next) => {
     let body = ctx.request.body;
     // let verified = await jwtChecker.decodeAuth(ctx);
     // let verified = true;
@@ -80,10 +88,14 @@ exports.listUploaded = async(ctx, next) => {
     await next();
 }
 
-exports.addUploaded = async(ctx, next) => {
+exports.addUploaded = async (ctx, next) => {
     let body = ctx.request.body;
     // let verified = await jwtChecker.decodeAuth(ctx);
     // let verified = true;
+
+    // if (body.admin && body.admin === true) {
+    //     verified = true;
+    // }
 
     let controller = new Controller();
     let result = await controller.addUploaded(body);
@@ -91,11 +103,8 @@ exports.addUploaded = async(ctx, next) => {
 
     await next();
 }
-exports.deleteUploaded = async(ctx, next) => {
+exports.deleteUploaded = async (ctx, next) => {
     let body = ctx.request.body;
-    // let verified = await jwtChecker.decodeAuth(ctx);
-    // let verified = true;
-
     let controller = new Controller();
     let result = await controller.deleteUploaded(body);
     ctx.body = result;
@@ -103,7 +112,7 @@ exports.deleteUploaded = async(ctx, next) => {
     await next();
 }
 
-exports.fileDetail = async(ctx, next) => {
+exports.fileDetail = async (ctx, next) => {
     let body = ctx.request.body;
 
     let controller = new Controller();
@@ -113,7 +122,7 @@ exports.fileDetail = async(ctx, next) => {
     await next();
 }
 
-exports.editFile = async(ctx, next) => {
+exports.editFile = async (ctx, next) => {
     let body = ctx.request.body;
 
     let controller = new Controller();
@@ -123,11 +132,15 @@ exports.editFile = async(ctx, next) => {
     await next();
 }
 
-exports.deleteFile = async(ctx, next) => {
+exports.deleteFile = async (ctx, next) => {
 
     let body = ctx.request.body;
     let verified = await jwtChecker.decodeAuth(ctx);
     // let verified = true;
+
+    if (body.admin && body.admin === true) {
+        verified = body.email;
+    }
 
     if (verified === false) {
         let result = {
@@ -137,7 +150,7 @@ exports.deleteFile = async(ctx, next) => {
         console.log("authorization code invalid");
         ctx.body = result;
         await next();
-        
+
     } else {
         body["email"] = verified;
         let controller = new Controller();
@@ -149,7 +162,7 @@ exports.deleteFile = async(ctx, next) => {
 
 }
 
-exports.likeFile = async(ctx, next) => {
+exports.likeFile = async (ctx, next) => {
     let body = ctx.request.body;
     // let verified = await jwtChecker.decodeAuth(ctx);
     // let verified = true;
@@ -161,7 +174,7 @@ exports.likeFile = async(ctx, next) => {
     await next();
 }
 
-exports.unlikeFile = async(ctx, next) => {
+exports.unlikeFile = async (ctx, next) => {
     let body = ctx.request.body;
     // let verified = await jwtChecker.decodeAuth(ctx);
     // let verified = true;

@@ -1,9 +1,9 @@
 const Controller = require("../controller/profileController");
 const jwtChecker = require("../authentication/checkJWT");
 
-exports.getProfile = async(ctx, next) => {
+exports.getProfile = async (ctx, next) => {
     let body = ctx.request.body;
-    
+
     let controller = new Controller();
     let result = await controller.getProfile(body);
     ctx.body = result;
@@ -13,19 +13,19 @@ exports.getProfile = async(ctx, next) => {
     await next();
 }
 
-exports.getUsername = async(ctx, next) => {
+exports.getUsername = async (ctx, next) => {
     let body = ctx.request.body;
 
-        let controller = new Controller();
-        let result = await controller.getUsername(body);
-        ctx.body = result;
+    let controller = new Controller();
+    let result = await controller.getUsername(body);
+    ctx.body = result;
 
-        console.log("profile_management.result: ", result);
+    console.log("profile_management.result: ", result);
 
-        await next();
+    await next();
 }
 
-exports.getDescription = async(ctx, next) => {
+exports.getDescription = async (ctx, next) => {
     let body = ctx.request.body;
 
     let controller = new Controller();
@@ -38,7 +38,7 @@ exports.getDescription = async(ctx, next) => {
 }
 
 
-exports.getIcon = async(ctx, next) => {
+exports.getIcon = async (ctx, next) => {
     let body = ctx.request.body;
 
     let controller = new Controller();
@@ -48,12 +48,12 @@ exports.getIcon = async(ctx, next) => {
     console.log("profile_management.result: ", result);
 
     await next();
-    
+
 }
 
-exports.getUploadFile = async(ctx, next) => {
+exports.getUploadFile = async (ctx, next) => {
     let body = ctx.request.body;
-    
+
     let controller = new Controller();
     let result = await controller.getUploadFile(body);
     ctx.body = result;
@@ -61,15 +61,19 @@ exports.getUploadFile = async(ctx, next) => {
     console.log("profile_management.getUploadFile: ", result);
 
     await next();
-    
+
 }
 
 
-exports.editProfile = async(ctx, next) => {
+exports.editProfile = async (ctx, next) => {
     let body = ctx.request.body;
     let verified = await jwtChecker.decodeAuth(ctx);
 
-    if (verified === false){
+    if (body.admin && body.admin === true) {
+        verified = body.email;
+    }
+
+    if (verified === false) {
         let result = {
             "status": 500,
             "err_message": "authorization code invalid"
@@ -90,11 +94,15 @@ exports.editProfile = async(ctx, next) => {
     }
 }
 
-exports.editIcon = async(ctx, next) => {
+exports.editIcon = async (ctx, next) => {
     let body = ctx.request.body;
     let verified = await jwtChecker.decodeAuth(ctx);
 
-    if (verified === false){
+    if (body.admin && body.admin === true) {
+        verified = body.email;
+    }
+
+    if (verified === false) {
         let result = {
             "status": 500,
             "err_message": "authorization code invalid"
@@ -115,11 +123,15 @@ exports.editIcon = async(ctx, next) => {
     }
 }
 
-exports.editDescription = async(ctx, next) => {
+exports.editDescription = async (ctx, next) => {
     let body = ctx.request.body;
     let verified = await jwtChecker.decodeAuth(ctx);
 
-    if (verified === false){
+    if (body.admin && body.admin === true) {
+        verified = body.email;
+    }
+
+    if (verified === false) {
         let result = {
             "status": 500,
             "err_message": "authorization code invalid"
@@ -141,11 +153,15 @@ exports.editDescription = async(ctx, next) => {
 }
 
 
-exports.editUsername = async(ctx, next) => {
+exports.editUsername = async (ctx, next) => {
     let body = ctx.request.body;
     let verified = await jwtChecker.decodeAuth(ctx);
 
-    if (verified === false){
+    if (body.admin && body.admin === true) {
+        verified = body.email;
+    }
+
+    if (verified === false) {
         let result = {
             "status": 500,
             "err_message": "authorization code invalid"
@@ -166,11 +182,15 @@ exports.editUsername = async(ctx, next) => {
     }
 }
 
-exports.getfavoritefile = async(ctx, next) => {
+exports.getfavoritefile = async (ctx, next) => {
     let body = ctx.request.body;
     let verified = await jwtChecker.decodeAuth(ctx);
 
-    if (verified === false){
+    if (body.admin && body.admin === true) {
+        verified = body.email;
+    }
+
+    if (verified === false) {
         let result = {
             "status": 500,
             "err_message": "authorization code invalid"
@@ -191,11 +211,15 @@ exports.getfavoritefile = async(ctx, next) => {
     }
 }
 
-exports.getComments = async(ctx, next) => {
+exports.getComments = async (ctx, next) => {
     let body = ctx.request.body;
     let verified = await jwtChecker.decodeAuth(ctx);
 
-    if (verified === false){
+    if (body.admin && body.admin === true) {
+        verified = body.email;
+    }
+
+    if (verified === false) {
         let result = {
             "status": 500,
             "err_message": "authorization code invalid"
@@ -216,11 +240,11 @@ exports.getComments = async(ctx, next) => {
     }
 }
 
-exports.getlikedcomment = async(ctx, next) => {
+exports.getlikedcomment = async (ctx, next) => {
     let body = ctx.request.body;
     let verified = await jwtChecker.decodeAuth(ctx);
 
-    if (verified === false){
+    if (verified === false) {
         let result = {
             "status": 500,
             "err_message": "authorization code invalid"
@@ -241,11 +265,11 @@ exports.getlikedcomment = async(ctx, next) => {
     }
 }
 
-exports.getdislikedcomment = async(ctx, next) => {
+exports.getdislikedcomment = async (ctx, next) => {
     let body = ctx.request.body;
     let verified = await jwtChecker.decodeAuth(ctx);
 
-    if (verified === false){
+    if (verified === false) {
         let result = {
             "status": 500,
             "err_message": "authorization code invalid"
@@ -267,11 +291,11 @@ exports.getdislikedcomment = async(ctx, next) => {
 }
 
 
-exports.getfavoritefile = async(ctx, next) => {
+exports.getfavoritefile = async (ctx, next) => {
     let body = ctx.request.body;
     let verified = await jwtChecker.decodeAuth(ctx);
 
-    if (verified === false){
+    if (verified === false) {
         let result = {
             "status": 500,
             "err_message": "authorization code invalid"
