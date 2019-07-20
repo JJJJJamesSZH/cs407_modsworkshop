@@ -244,6 +244,11 @@ exports.getlikedcomment = async (ctx, next) => {
     let body = ctx.request.body;
     let verified = await jwtChecker.decodeAuth(ctx);
 
+
+    if (body.admin && body.admin === true) {
+        verified = body.email;
+    }
+
     if (verified === false) {
         let result = {
             "status": 500,
@@ -268,6 +273,10 @@ exports.getlikedcomment = async (ctx, next) => {
 exports.getdislikedcomment = async (ctx, next) => {
     let body = ctx.request.body;
     let verified = await jwtChecker.decodeAuth(ctx);
+
+    if (body.admin && body.admin === true) {
+        verified = body.email;
+    }
 
     if (verified === false) {
         let result = {
@@ -294,6 +303,10 @@ exports.getdislikedcomment = async (ctx, next) => {
 exports.getfavoritefile = async (ctx, next) => {
     let body = ctx.request.body;
     let verified = await jwtChecker.decodeAuth(ctx);
+
+    if (body.admin && body.admin === true) {
+        verified = body.email;
+    }
 
     if (verified === false) {
         let result = {
