@@ -65,12 +65,12 @@ exports.showComment = async(ctx, next) => {
     let verified = await jwtChecker.decodeAuth(ctx);
 
     if (verified === false) {
-        let result = {
-            "status": 500,
-            "err_message": "authorization code invalid"
-        }
-        console.log("authorization code invalid");
+        body["email"] = "visitor";
+        let controller = new Controller();
+        let result = await controller.showComment(body);
+
         ctx.body = result;
+
         await next();
     } else {
         body["email"] = verified;

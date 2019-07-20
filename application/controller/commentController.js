@@ -18,34 +18,36 @@ class commentController extends baseController {
         let comments = await comment_list.get_comment({ file_id: file_id });
         let comment_content = comments.content;
         
-        let n = comment_content.length;
-        let profile = await user_profile.getProfile({ email: email });
+        if (email !== "visitor")
+        {
+            let n = comment_content.length;
+            let profile = await user_profile.getProfile({ email: email });
 
-        let likedString = profile.likedcomment;
-        let likedJSON = JSON.parse(likedString);
-        let likedContent = likedJSON.content;
+            let likedString = profile.likedcomment;
+            let likedJSON = JSON.parse(likedString);
+            let likedContent = likedJSON.content;
 
-        let dislikedString = profile.dislikedcomment;
-        // console.log("dislikedString: ", dislikedString);
-        let dislikedJSON = JSON.parse(dislikedString);
-        let dislikedContent = dislikedJSON.content;
+            let dislikedString = profile.dislikedcomment;
+            // console.log("dislikedString: ", dislikedString);
+            let dislikedJSON = JSON.parse(dislikedString);
+            let dislikedContent = dislikedJSON.content;
 
-        for (let i = 0; i < n; i++){
-            let cmt = comment_content[i];
-            let cmt_id = cmt.comment_id;
-
-            if (likedContent.includes(cmt_id)){
-                comment_content[i]["liked"] = true;
-            } else {
-                comment_content[i]["liked"] = false;
+            for (let i = 0; i < n; i++){
+                let cmt = comment_content[i];
+                let cmt_id = cmt.comment_id;
+                
+                if (likedContent.includes(cmt_id)){
+                    comment_content[i]["liked"] = true;
+                } else {
+                    comment_content[i]["liked"] = false;
+                }
+                
+                if (dislikedContent.includes(cmt_id)){
+                    comment_content[i]["disliked"] = true;
+                } else {
+                    comment_content[i]["disliked"] = false;
+                }            
             }
-
-            if (dislikedContent.includes(cmt_id)){
-                comment_content[i]["disliked"] = true;
-            } else {
-                comment_content[i]["disliked"] = false;
-            }
-            
         }
 
         let result = {
