@@ -5,10 +5,6 @@ exports.addComment = async(ctx, next) => {
     let body = ctx.request.body;
     let verified = await jwtChecker.decodeAuth(ctx);
 
-    if (body.admin && body.admin === true) {
-        verified = body.email;
-    }
-
     if (verified === false) {
         let result = {
             "status": 500,
@@ -18,6 +14,7 @@ exports.addComment = async(ctx, next) => {
         ctx.body = result;
         await next();
     } else {
+        body["email"] = verified;
         let controller = new Controller();
         let result = await controller.addComment(body);
 
@@ -28,13 +25,34 @@ exports.addComment = async(ctx, next) => {
 }
 
 exports.showComment = async(ctx, next) => {
+    // let body = ctx.request.body;
+    // let controller = new Controller();
+    // let result = await controller.showComment(body);
+
+    // ctx.body = result;
+
+    // await next();
+
     let body = ctx.request.body;
-    let controller = new Controller();
-    let result = await controller.showComment(body);
+    let verified = await jwtChecker.decodeAuth(ctx);
 
-    ctx.body = result;
+    if (verified === false) {
+        let result = {
+            "status": 500,
+            "err_message": "authorization code invalid"
+        }
+        console.log("authorization code invalid");
+        ctx.body = result;
+        await next();
+    } else {
+        body["email"] = verified;
+        let controller = new Controller();
+        let result = await controller.showComment(body);
 
-    await next();
+        ctx.body = result;
+
+        await next();
+    }
 }
 
 

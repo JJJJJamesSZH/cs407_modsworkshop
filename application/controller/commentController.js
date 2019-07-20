@@ -8,6 +8,7 @@ class commentController extends baseController {
         // need file key
 
         let key = content.key;
+        let email = content.email;
 
         // get file_id through key;
         let file_info = await files.getFileDetail({ key: key });
@@ -15,9 +16,41 @@ class commentController extends baseController {
 
         // get comments through file_id
         let comments = await comment_list.get_comment({ file_id: file_id });
+        let comment_content = comments.content;
+        
+        let n = comment_content.length;
+        let profile = await user_profile.getProfile({ email: email });
+
+        let likedString = profile.likedcomment;
+        let likedJSON = JSON.parse(likedString);
+        let likedContent = likedJSON.content;
+
+        let dislikedString = profile.dislikedcomment;
+        // console.log("dislikedString: ", dislikedString);
+        let dislikedJSON = JSON.parse(dislikedString);
+        let dislikedContent = dislikedJSON.content;
+
+        for (let i = 0; i < n; i++){
+            let cmt = comment_content[i];
+            let cmt_id = cmt.comment_id;
+
+            if (likedContent.includes(cmt_id)){
+                comment_content[i]["liked"] = true;
+            } else {
+                comment_content[i]["liked"] = false;
+            }
+
+            if (dislikedContent.includes(cmt_id)){
+                comment_content[i]["disliked"] = true;
+            } else {
+                comment_content[i]["disliked"] = false;
+            }
+            
+        }
+
         let result = {
             status: 200,
-            comments: comments.content
+            comments: comment_content
         }
         return result;
     }
