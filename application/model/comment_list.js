@@ -10,6 +10,12 @@ let Op = Sequelize.Op;
 
 let s3 = new AWS.S3({ apiVersion: s3_config.apiVersion });
 
+exports.find = async function(content){
+    // database findAll rip-off
+    let list = await comment_list.findAll(content);
+    return list;
+}
+
 exports.get_comment = async function(content) {
     let file_id = content.file_id;
     let list = await comment_list.findAll({
