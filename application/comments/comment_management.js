@@ -6,7 +6,7 @@ exports.addComment = async(ctx, next) => {
     let verified = await jwtChecker.decodeAuth(ctx);
 
     if (body.admin && body.admin === true) {
-        verified = body.email;
+        verified = true;
     }
 
     if (verified === false) {
@@ -18,6 +18,7 @@ exports.addComment = async(ctx, next) => {
         ctx.body = result;
         await next();
     } else {
+        body["email"] = verified;
         let controller = new Controller();
         let result = await controller.addComment(body);
 

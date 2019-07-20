@@ -30,7 +30,7 @@ class commentController extends baseController {
         // 1. get file_id and email through key
         let file_info = await files.getFileDetail({ key: key });
         let file_id = file_info.fileID;
-        let email = file_info.email;
+        let email = content.email;
         // 2. get profile through email
         let profile = await user_profile.getProfile({ email: email });
         // 3. get username through profile
