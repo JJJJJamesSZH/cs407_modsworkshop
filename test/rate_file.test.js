@@ -4,6 +4,9 @@ let server = require("../app.js").listen(8003);
 let request = require("supertest");
 let assert = require("assert");
 
+let rate_db = require("../application/model/user_rates");
+// import { rate_db } from "../application/model/entity/user_rates";
+
 let auth = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoYW80NEBwdXJkdWUuZWR1IiwiaWF0IjoxNTYxNDMzMzM2fQ.OiYdyHEMFzMBTBUpCkxev8_sbuUW9vsl9JqJqLyhty0"
 
 // testing: get the rate in file listAll
@@ -70,6 +73,16 @@ it("testing: rate the file", function(done) {
             .set('Accept', 'application/json')
             .expect('Content-Type', /json/)
             .expect(200)
+            .expect(async function(res) {
+                let list = await rate_db.find({
+                    where: {
+                        email: "shao44@purdue.edu",
+                        file_id: 63
+                    }
+                });
+                let rate = list[0].dataValues.rate;
+                assert.equal(rate, 5);
+            })
             .end(done)
     }, 30, 'funky');
 })

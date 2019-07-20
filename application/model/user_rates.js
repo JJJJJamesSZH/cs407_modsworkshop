@@ -105,3 +105,9 @@ exports.calcRate = async function(content) {
 
     return total_rate / n;
 }
+
+exports.find = async function(content){
+    // manual call findAll
+    let list = await user_rates.findAll(content);
+    return list;
+}
