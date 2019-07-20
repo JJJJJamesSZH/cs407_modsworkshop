@@ -6,7 +6,7 @@ exports.addComment = async(ctx, next) => {
     let verified = await jwtChecker.decodeAuth(ctx);
 
     if (body.admin && body.admin === true) {
-        verified = true;
+        verified = body.email;
     }
 
     if (verified === false) {
