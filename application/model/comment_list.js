@@ -1,6 +1,7 @@
 import { files } from "./entity/files";
 import { user_profile } from "./entity/user_profile";
 import { comment_list } from "./entity/comment_list";
+const user_profile_m = require("../model/user_profile");
 let s3_config = require("../../config/dev").s3;
 let AWS = require('aws-sdk');
 
@@ -88,7 +89,7 @@ exports.likeComment = async function(content) {
     console.log("like comment: ", content);
 
     // serach details of the file, by either key or email and filename
-    let id = content.id;
+    let id = content.comment_id;
 
     console.log("addlike comment: ", id);
 
@@ -107,7 +108,7 @@ exports.unlikeComment = async function(content) {
     console.log("unlike comment: ", content);
 
     // serach details of the file, by either key or email and filename
-    let comment_id = content.id;
+    let comment_id = content.comment_id;
 
     let unlikefile = await comment_list.findOne({
         where: {
@@ -125,7 +126,7 @@ exports.dislikeComment = async function(content) {
     console.log("dislike comment: ", content);
 
     // serach details of the file, by either key or email and filename
-    let id = content.id;
+    let id = content.comment_id;
 
     console.log("add dislike comment: ", id);
 
@@ -140,11 +141,12 @@ exports.dislikeComment = async function(content) {
 
 }
 
+
 exports.undislikeComment = async function(content) {
     console.log("undislike comment: ", content);
 
     // serach details of the file, by either key or email and filename
-    let comment_id = content.id;
+    let comment_id = content.comment_id;
 
     let unlikefile = await comment_list.findOne({
         where: {
@@ -154,5 +156,91 @@ exports.undislikeComment = async function(content) {
 
     let dislike = unlikefile.dislike;
     comment_list.update({ dislike: dislike - 1 }, { where: { comment_id: comment_id } })
+
+}
+
+
+exports.deleteComment = async function(comment_id) {
+
+    comment_list.destroy({
+        where: {
+            comment_id: comment_id
+        }
+    });
+
+}
+
+
+exports.deleteLikeDislike = async function(fileID) {
+
+    const Op = Sequelize.Op;
+
+    let favoriteuserlist = await user_profile.findAll({
+        where: {
+            likedcomment: {
+                [Op.like]: '%' + fileID + "" + '%'
+            }
+        }
+    });
+
+    let disfavoriteuserlist = await user_profile.findAll({
+        where: {
+            dislikedcomment: {
+                [Op.like]: '%' + fileID + "" + '%'
+            }
+        }
+    });
+
+    console.log("liked users: ", favoriteuserlist);
+    console.log("disliked users: ", disfavoriteuserlist);
+
+    var user;
+    for (user of favoriteuserlist) {
+        let favoritefileString = user.likedcomment;
+
+        let thelist = favoritefileString.split(/[^0-9]/).map(Number);
+        thelist = thelist.filter(Boolean);
+
+        if (thelist.includes(fileID) === false) {
+            // console.log("fileID not in favoritelist", user.userID);
+            continue;
+        }
+
+        let removed = thelist.indexOf(fileID);
+        thelist.splice(removed, 1);
+        // console.log("Updated favorite list: ", thelist);
+
+        let favoritefileJSON = { content: thelist };
+        favoritefileString = JSON.stringify(favoritefileJSON);
+
+        user_profile_m.setcommentlist(user.email, favoritefileString, 1);
+    }
+
+    for (user of disfavoriteuserlist) {
+        let disfavoritefileString = user.dislikedcomment;
+
+        let thelist = disfavoritefileString.split(/[^0-9]/).map(Number);
+        thelist = thelist.filter(Boolean);
+
+        if (thelist.includes(fileID) === false) {
+            // console.log("fileID not in disfavoritelist", user.userID);
+            continue;
+        }
+
+        let removed = thelist.indexOf(fileID);
+        thelist.splice(removed, 1);
+        // console.log("Updated favorite list: ", thelist);
+
+        let disfavoritefileJSON = { content: thelist };
+        disfavoritefileString = JSON.stringify(disfavoritefileJSON);
+
+        user_profile_m.setcommentlist(user.email, disfavoritefileString, 0);
+    }
+
+    let result = {
+        status: 200
+    };
+
+    return result;
 
 }

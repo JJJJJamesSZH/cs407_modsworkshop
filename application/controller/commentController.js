@@ -61,13 +61,28 @@ class commentController extends baseController {
         }
     }
 
+    async deleteComment(content) {
+        // need key and comment
+
+        let comment_id = content.comment_id; // get the key from content
+        comment_list.deleteLikeDislike(comment_id);
+        comment_list.deleteComment(comment_id);
+
+        let result = {
+            status: 200
+        }
+
+        return result;
+    
+    }
+
     async likeComment(content) {
         console.log("likecomment", content);
         // make sure content has either key or both email and filename
-        let id = content.id;
+        let id = content.comment_id;
         let email = content.email;
 
-        if (id || email) {
+        if (id) {
 
             let favoritefileString = await user_profile.getlikedcomment(content);
             let favoritefileJSON = JSON.parse(favoritefileString);
@@ -121,10 +136,10 @@ class commentController extends baseController {
     async unlikeComment(content) {
         console.log("unlikeComment", content);
         // make sure content has either key or both email and filename
-        let id = content.id;
+        let id = content.comment_id;
         let email = content.email;
 
-        if (id || email) {
+        if (id | email) {
 
             let favoritefileString = await user_profile.getlikedcomment(content);
 
@@ -180,7 +195,7 @@ class commentController extends baseController {
     async dislikeComment(content) {
         console.log("dislikecomment", content);
         // make sure content has either key or both email and filename
-        let id = content.id;
+        let id = content.comment_id;
         let email = content.email;
 
         if (id || email) {
@@ -223,7 +238,7 @@ class commentController extends baseController {
     async undislikeComment(content) {
         console.log("unlikeComment", content);
         // make sure content has either key or both email and filename
-        let id = content.id;
+        let id = content.comment_id;
         let email = content.email;
 
         if (id || email) {
