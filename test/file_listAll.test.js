@@ -639,5 +639,67 @@ it("filter the files by file rate, 3, null", function(done) {
                 }
             })
             .end(done)
-    }, 290, 'funky')
+    }, 300, 'funky')
+})
+
+// filter the files by rate, filterRateTo != null
+it("filter the files by file rate, null, 3", function(done) {
+    this.timeout(8000);
+    setTimeout(function() {
+        let test_case = {
+            filterRateFrom: null,
+            filterRateTo: 3
+        }
+        request(server)
+            .post('/modsworkshop/file/listAll')
+            .send(test_case)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(function(res) {
+                assert.equal(res.body.status, 200)
+                let body = res.body;
+                let file_list = body.file_list;
+                let n = file_list.length;
+                for (let i = 0; i < n; i++) {
+                    let rate = file_list[i].rate;
+                    //// check condition
+                    if (rate > 3) {
+                        assert.equal("larger than 3", "rate <= 3");
+                    }
+                }
+            })
+            .end(done)
+    }, 310, 'funky')
+})
+
+// filter the files by rate, filterRateFrom & filterRateTo != null
+it("filter the files by file rate, null, 3", function(done) {
+    this.timeout(8000);
+    setTimeout(function() {
+        let test_case = {
+            filterRateFrom: 2,
+            filterRateTo: 4
+        }
+        request(server)
+            .post('/modsworkshop/file/listAll')
+            .send(test_case)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(function(res) {
+                assert.equal(res.body.status, 200)
+                let body = res.body;
+                let file_list = body.file_list;
+                let n = file_list.length;
+                for (let i = 0; i < n; i++) {
+                    let rate = file_list[i].rate;
+                    //// check condition
+                    if (rate < 2 || rate > 4) {
+                        assert.equal("", "should between 2 and 4");
+                    }
+                }
+            })
+            .end(done)
+    }, 320, 'funky')
 })
