@@ -44,7 +44,7 @@ it("testing for list all files", function(done) {
                 assert.equal(res.body.status, 200)
             })
             .end(done)
-    }, 50, 'funky');
+    }, 20, 'funky');
 })
 
 it("testing for list all files", function(done) {
@@ -63,7 +63,7 @@ it("testing for list all files", function(done) {
                 assert.equal(res.body.status, 200)
             })
             .end(done)
-    }, 100, 'funky');
+    }, 30, 'funky');
 })
 
 // list file detail with email and filename
@@ -87,7 +87,7 @@ it("testing for list file detail with email and filename", function(done) {
                 assert.equal(res.body.key, "shao44@purdue.edu|testfile.txt");
             })
             .end(done)
-    }, 150, 'funky');
+    }, 40, 'funky');
 })
 
 // list file detail with key
@@ -110,7 +110,7 @@ it("testing for list file detail with key", function(done) {
                 assert.equal(res.body.key, "shao44@purdue.edu|testfile.txt");
             })
             .end(done)
-    }, 200, 'funky');
+    }, 50, 'funky');
 })
 
 // list file detail with search Keywords
@@ -130,7 +130,7 @@ it("testinf for list file detail by keyword = null", function(done) {
                 assert.equal(res.body.status, 200)
             })
             .end(done)
-    }, 250, 'funky')
+    }, 60, 'funky')
 })
 
 // list file detail with search Keywords
@@ -150,7 +150,7 @@ it("testinf for list file detail by keyword = testfile", function(done) {
                 assert.equal(res.body.status, 200)
             })
             .end(done)
-    }, 300, 'funky')
+    }, 70, 'funky')
 })
 
 // list file detail by contributor's name
@@ -171,7 +171,7 @@ it("testinf for list file detail by contributor's name null false", function(don
                 assert.equal(res.body.status, 200)
             })
             .end(done)
-    }, 350, 'funky')
+    }, 80, 'funky')
 })
 
 // list file detail by contributor's name
@@ -192,7 +192,7 @@ it("testinf for list file detail by contributor's name null true", function(done
                 assert.equal(res.body.status, 200)
             })
             .end(done)
-    }, 400, 'funky')
+    }, 90, 'funky')
 })
 
 // list file detail by contributor's name
@@ -213,7 +213,7 @@ it("testinf for list file detail by contributor's name true", function(done) {
                 assert.equal(res.body.status, 200)
             })
             .end(done)
-    }, 450, 'funky')
+    }, 100, 'funky')
 })
 
 // sort the files listed by time
@@ -234,7 +234,7 @@ it("sort the files listed by time null", function(done) {
                 assert.equal(res.body.status, 200)
             })
             .end(done)
-    }, 500, 'funky')
+    }, 110, 'funky')
 })
 
 // sort the files listed by time
@@ -254,7 +254,7 @@ it("sort the files listed by time desc", function(done) {
                 assert.equal(res.body.status, 200)
             })
             .end(done)
-    }, 550, 'funky')
+    }, 120, 'funky')
 })
 
 // sort the files listed by time
@@ -274,7 +274,7 @@ it("sort the files listed by time desc", function(done) {
                 assert.equal(res.body.status, 200)
             })
             .end(done)
-    }, 600, 'funky')
+    }, 130, 'funky')
 })
 
 // sort the files listed by time
@@ -294,7 +294,7 @@ it("sort the files listed by time ASC", function(done) {
                 assert.equal(res.body.status, 200)
             })
             .end(done)
-    }, 600, 'funky')
+    }, 140, 'funky')
 })
 
 // sort the files by filename
@@ -314,7 +314,7 @@ it("sort the files listed by name ASC", function(done) {
                 assert.equal(res.body.status, 200)
             })
             .end(done)
-    }, 650, 'funky')
+    }, 150, 'funky')
 })
 
 // sort the files by filename
@@ -334,7 +334,7 @@ it("sort the files listed by name DESC", function(done) {
                 assert.equal(res.body.status, 200)
             })
             .end(done)
-    }, 700, 'funky')
+    }, 160, 'funky')
 })
 
 // sort the files by number of downloads
@@ -354,7 +354,7 @@ it("sort the files listed by downloads ASC", function(done) {
                 assert.equal(res.body.status, 200)
             })
             .end(done)
-    }, 750, 'funky')
+    }, 170, 'funky')
 })
 
 // sort the files by number of downloads
@@ -374,7 +374,7 @@ it("sort the files listed by downloads DESC", function(done) {
                 assert.equal(res.body.status, 200)
             })
             .end(done)
-    }, 800, 'funky')
+    }, 180, 'funky')
 })
 
 // sort the files by number of likes
@@ -394,7 +394,7 @@ it("sort the files listed by likes ASC", function(done) {
                 assert.equal(res.body.status, 200)
             })
             .end(done)
-    }, 850, 'funky')
+    }, 190, 'funky')
 })
 
 // sort the files by number of likes
@@ -414,7 +414,7 @@ it("sort the files listed by likes DESC", function(done) {
                 assert.equal(res.body.status, 200)
             })
             .end(done)
-    }, 900, 'funky')
+    }, 200, 'funky')
 })
 
 // filter the files by types
@@ -434,7 +434,7 @@ it("filter the files by type null", function(done) {
                 assert.equal(res.body.status, 200)
             })
             .end(done)
-    }, 950, 'funky')
+    }, 210, 'funky')
 })
 
 // filter the files by types
@@ -456,7 +456,7 @@ it("filter the files by type empty", function(done) {
                 assert.equal(res.body.status, 200)
             })
             .end(done)
-    }, 1000, 'funky')
+    }, 220, 'funky')
 })
 
 // filter the files by types
@@ -478,7 +478,7 @@ it("filter the files by type single type", function(done) {
                 assert.equal(res.body.status, 200)
             })
             .end(done)
-    }, 1050, 'funky')
+    }, 230, 'funky')
 })
 
 // filter the files by types
@@ -500,7 +500,7 @@ it("filter the files by type multiple types", function(done) {
                 assert.equal(res.body.status, 200)
             })
             .end(done)
-    }, 1100, 'funky')
+    }, 240, 'funky')
 })
 
 // filter the files by time
@@ -520,7 +520,7 @@ it("filter the files by time null", function(done) {
                 assert.equal(res.body.status, 200)
             })
             .end(done)
-    }, 1150, 'funky')
+    }, 250, 'funky')
 })
 
 // filter the files by time
@@ -540,7 +540,7 @@ it("filter the files by time oneday", function(done) {
                 assert.equal(res.body.status, 200)
             })
             .end(done)
-    }, 1200, 'funky')
+    }, 260, 'funky')
 })
 
 // filter the files by time
@@ -560,7 +560,7 @@ it("filter the files by time threemonths", function(done) {
                 assert.equal(res.body.status, 200)
             })
             .end(done)
-    }, 1250, 'funky')
+    }, 270, 'funky')
 })
 
 // filter the files by time
@@ -580,5 +580,5 @@ it("filter the files by time oneyear", function(done) {
                 assert.equal(res.body.status, 200)
             })
             .end(done)
-    }, 1300, 'funky')
+    }, 280, 'funky')
 })
