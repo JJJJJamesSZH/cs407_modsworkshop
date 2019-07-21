@@ -76,3 +76,37 @@ it("testing: view comment", function(done){
             .end(done)
     }, 20, 'funky');
 })
+
+// testing: should contain username of the comment author
+it("testing: view comment", function(done){
+    this.timeout(3000);
+    setTimeout(function() {
+        let test_case = {
+            key: key
+        }
+        request(server)
+            .post('/modsworkshop/comment/showComment')
+            .send(test_case)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(function(res) {
+                let body = res.body;
+                let comments = body.comments;
+                assert.notEqual(comments, undefined);
+                assert.notEqual(comments, null);
+                let n = comments.length;
+                assert.notEqual(n, undefined);
+                assert.notEqual(n, null);
+                assert.notEqual(0);
+                
+                for (let i = 0; i < n; i++){
+                    let cmt = comments[i];
+                    let username = cmt.username;
+                    assert.notEqual(username, undefined);
+                    assert.notEqual(username, null);
+                }
+            })
+            .end(done)
+    }, 20, 'funky');
+})
