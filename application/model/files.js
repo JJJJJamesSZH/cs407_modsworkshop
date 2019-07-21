@@ -200,13 +200,13 @@ exports.listFiles = async function(content) {
             whereValue["dateUpdated"] = {
                 [Op.gte]: timeCheck
             }
-        }        
-        
+        }
+
         // filter by rate
-        if (filterRateFrom === undefined || filterRateFrom === null){
+        if (filterRateFrom === undefined || filterRateFrom === null) {
             filterRateFrom = 0;
         }
-        if (filterRateTo === undefined || filterRateTo === null){
+        if (filterRateTo === undefined || filterRateTo === null) {
             filterRateTo = 5;
         }
         whereValue["rate"] = {

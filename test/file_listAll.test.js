@@ -582,3 +582,62 @@ it("filter the files by time oneyear", function(done) {
             .end(done)
     }, 280, 'funky')
 })
+
+// filter the files by rate, filterRateFrom and filterRateTo both undefined
+it("filter the files by file rate, null, null", function(done) {
+    this.timeout(8000);
+    setTimeout(function() {
+        let test_case = {
+            filterRateFrom: null,
+            filterRateTo: null
+        }
+        request(server)
+            .post('/modsworkshop/file/listAll')
+            .send(test_case)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(function(res) {
+                assert.equal(res.body.status, 200)
+                    // let body = res.body;
+                    // let file_list = body.file_list;
+                    // let n = file_list.length;
+                    // for (let i = 0; i < n; i++) {
+                    //     let rate = file_list[i].rate;
+                    //     //// check condition
+                    // }
+            })
+            .end(done)
+    }, 290, 'funky')
+})
+
+// filter the files by rate, filterRateFrom != null
+it("filter the files by file rate, 3, null", function(done) {
+    this.timeout(8000);
+    setTimeout(function() {
+        let test_case = {
+            filterRateFrom: 3,
+            filterRateTo: null
+        }
+        request(server)
+            .post('/modsworkshop/file/listAll')
+            .send(test_case)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(function(res) {
+                assert.equal(res.body.status, 200)
+                let body = res.body;
+                let file_list = body.file_list;
+                let n = file_list.length;
+                for (let i = 0; i < n; i++) {
+                    let rate = file_list[i].rate;
+                    //// check condition
+                    if (rate < 3) {
+                        assert.equal("less than 3", "larger than 3");
+                    }
+                }
+            })
+            .end(done)
+    }, 290, 'funky')
+})
