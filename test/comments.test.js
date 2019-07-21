@@ -7,6 +7,7 @@ let assert = require("assert");
 let comment_list = require("../application/model/comment_list");
 
 let auth = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoYW80NEBwdXJkdWUuZWR1IiwiaWF0IjoxNTYxNDMzMzM2fQ.OiYdyHEMFzMBTBUpCkxev8_sbuUW9vsl9JqJqLyhty0"
+let key = "shao44@purdue.edu|testfile1.txt";
 
 // testing: add comment
 it("testing: add comment", function(done) {
@@ -47,4 +48,31 @@ it("testing: add comment", function(done) {
             })
             .end(done)
     }, 10, 'funky');
+})
+
+// testing: view comment /modsworkshop/comment/showComment
+it("testing: view comment", function(done){
+    this.timeout(3000);
+    setTimeout(function() {
+        let test_case = {
+            key: key
+        }
+        request(server)
+            .post('/modsworkshop/comment/showComment')
+            .send(test_case)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(function(res) {
+                let body = res.body;
+                let comments = body.comments;
+                assert.notEqual(comments, undefined);
+                assert.notEqual(comments, null);
+                let n = comments.length;
+                assert.notEqual(n, undefined);
+                assert.notEqual(n, null);
+                assert.notEqual(0);
+            })
+            .end(done)
+    }, 20, 'funky');
 })
