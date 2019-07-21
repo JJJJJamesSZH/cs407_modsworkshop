@@ -703,3 +703,67 @@ it("filter the files by file rate, null, 3", function(done) {
             .end(done)
     }, 320, 'funky')
 })
+
+// sort the search result by rates
+it("sort the searching result by rate ASC", function(done) {
+    this.timeout(8000);
+    setTimeout(function() {
+        let test_case = {
+            sortingMethod: "rateASC"
+        }
+        request(server)
+            .post('/modsworkshop/file/listAll')
+            .send(test_case)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(function(res) {
+                assert.equal(res.body.status, 200)
+                let body = res.body;
+                let file_list = body.file_list;
+                let n = file_list.length;
+                let previous_rate = 0;
+                for (let i = 0; i < n; i++) {
+                    let rate = file_list[i].rate;
+                    if (rate < previous_rate) {
+                        // wrong
+                        assert.equal("rate < previous", "should be >=");
+                    }
+                    previous_rate = rate;
+                }
+            })
+            .end(done)
+    }, 330, 'funky')
+})
+
+// sort the search result by rates
+it("sort the searching result by rate DESC", function(done) {
+    this.timeout(8000);
+    setTimeout(function() {
+        let test_case = {
+            sortingMethod: "rateDESC"
+        }
+        request(server)
+            .post('/modsworkshop/file/listAll')
+            .send(test_case)
+            .set('Accept', 'application/json')
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .expect(function(res) {
+                assert.equal(res.body.status, 200)
+                let body = res.body;
+                let file_list = body.file_list;
+                let n = file_list.length;
+                let previous_rate = 5;
+                for (let i = 0; i < n; i++) {
+                    let rate = file_list[i].rate;
+                    if (rate > previous_rate) {
+                        // wrong
+                        assert.equal("rate > previous", "should be <=");
+                    }
+                    previous_rate = rate;
+                }
+            })
+            .end(done)
+    }, 340, 'funky')
+})
