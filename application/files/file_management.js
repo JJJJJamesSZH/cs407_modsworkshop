@@ -1,6 +1,7 @@
 const Controller = require("../controller/fileController");
 const jwtChecker = require("../authentication/checkJWT");
 
+const admin = "admin@modsworkshop.com"
 exports.listFiles = async (ctx, next) => {
     let body = ctx.request.body;
     // let verified = await jwtChecker.decodeAuth(ctx);
@@ -18,9 +19,9 @@ exports.getUploadURL = async (ctx, next) => {
     let verified = await jwtChecker.decodeAuth(ctx);
     // let verified = true;
 
-    if (body.admin && body.admin === true) {
-         verified = body.email;
-    }
+    // if (body.admin && body.admin === true) {
+    //      verified = body.email;
+    // }
 
     if (verified === false) {
         let result = {
@@ -30,7 +31,19 @@ exports.getUploadURL = async (ctx, next) => {
         console.log("authorization code invalid");
         ctx.body = result;
         await next();
-    } else {
+    }
+
+    if (verified === admin) {
+        let result = {
+            "status": 501,
+            "err_message": "Administrator cannot post"
+        }
+        console.log("Admin tried to post... ");
+        ctx.body = result;
+        await next();
+    }
+
+    else {
         body["email"] = verified;
         let controller = new Controller();
         let result = await controller.getUploadURL(body);
@@ -45,9 +58,9 @@ exports.overwriteUpload = async (ctx, next) => {
     let verified = await jwtChecker.decodeAuth(ctx);
     // let verified = true;
 
-    if (body.admin && body.admin === true) {
-        verified = body.email;
-    }
+    // if (body.admin && body.admin === true) {
+    //     verified = body.email;
+    // }
 
     if (verified === false) {
         let result = {
@@ -138,9 +151,9 @@ exports.deleteFile = async (ctx, next) => {
     let verified = await jwtChecker.decodeAuth(ctx);
     // let verified = true;
 
-    if (body.admin && body.admin === true) {
-        verified = body.email;
-    }
+    // if (body.admin && body.admin === true) {
+    //     verified = body.email;
+    // }
 
     if (verified === false) {
         let result = {
@@ -152,11 +165,13 @@ exports.deleteFile = async (ctx, next) => {
         await next();
 
     } else {
-        body["email"] = verified;
+        if (verified != admin) {
+            body["email"] = verified;
+        }
+
         let controller = new Controller();
         let result = await controller.deleteFile(body);
         ctx.body = result;
-
         await next();
     }
 

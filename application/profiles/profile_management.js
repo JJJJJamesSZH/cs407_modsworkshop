@@ -48,7 +48,7 @@ exports.getIcon = async (ctx, next) => {
     console.log("profile_management.result: ", result);
 
     await next();
-
+    
 }
 
 exports.getUploadFile = async (ctx, next) => {
@@ -69,9 +69,9 @@ exports.editProfile = async (ctx, next) => {
     let body = ctx.request.body;
     let verified = await jwtChecker.decodeAuth(ctx);
 
-    if (body.admin && body.admin === true) {
-        verified = body.email;
-    }
+    // if (body.admin && body.admin === true) {
+    //     verified = body.email;
+    // }
 
     if (verified === false) {
         let result = {
@@ -98,9 +98,9 @@ exports.editIcon = async (ctx, next) => {
     let body = ctx.request.body;
     let verified = await jwtChecker.decodeAuth(ctx);
 
-    if (body.admin && body.admin === true) {
-        verified = body.email;
-    }
+    // if (body.admin && body.admin === true) {
+    //     verified = body.email;
+    // }
 
     if (verified === false) {
         let result = {
@@ -127,9 +127,9 @@ exports.editDescription = async (ctx, next) => {
     let body = ctx.request.body;
     let verified = await jwtChecker.decodeAuth(ctx);
 
-    if (body.admin && body.admin === true) {
-        verified = body.email;
-    }
+    // if (body.admin && body.admin === true) {
+    //     verified = body.email;
+    // }
 
     if (verified === false) {
         let result = {
@@ -157,9 +157,9 @@ exports.editUsername = async (ctx, next) => {
     let body = ctx.request.body;
     let verified = await jwtChecker.decodeAuth(ctx);
 
-    if (body.admin && body.admin === true) {
-        verified = body.email;
-    }
+    // if (body.admin && body.admin === true) {
+    //     verified = body.email;
+    // }
 
     if (verified === false) {
         let result = {
@@ -186,9 +186,9 @@ exports.getfavoritefile = async (ctx, next) => {
     let body = ctx.request.body;
     let verified = await jwtChecker.decodeAuth(ctx);
 
-    if (body.admin && body.admin === true) {
-        verified = body.email;
-    }
+    // if (body.admin && body.admin === true) {
+    //     verified = body.email;
+    // }
 
     if (verified === false) {
         let result = {
@@ -215,9 +215,9 @@ exports.getComments = async (ctx, next) => {
     let body = ctx.request.body;
     let verified = await jwtChecker.decodeAuth(ctx);
 
-    if (body.admin && body.admin === true) {
-        verified = body.email;
-    }
+    // if (body.admin && body.admin === true) {
+    //     verified = body.email;
+    // }
 
     if (verified === false) {
         let result = {
@@ -245,9 +245,9 @@ exports.getlikedcomment = async (ctx, next) => {
     let verified = await jwtChecker.decodeAuth(ctx);
 
 
-    if (body.admin && body.admin === true) {
-        verified = body.email;
-    }
+    // if (body.admin && body.admin === true) {
+    //     verified = body.email;
+    // }
 
     if (verified === false) {
         let result = {
@@ -274,9 +274,9 @@ exports.getdislikedcomment = async (ctx, next) => {
     let body = ctx.request.body;
     let verified = await jwtChecker.decodeAuth(ctx);
 
-    if (body.admin && body.admin === true) {
-        verified = body.email;
-    }
+    // if (body.admin && body.admin === true) {
+    //     verified = body.email;
+    // }
 
     if (verified === false) {
         let result = {
@@ -304,9 +304,9 @@ exports.getfavoritefile = async (ctx, next) => {
     let body = ctx.request.body;
     let verified = await jwtChecker.decodeAuth(ctx);
 
-    if (body.admin && body.admin === true) {
-        verified = body.email;
-    }
+    // if (body.admin && body.admin === true) {
+    //     verified = body.email;
+    // }
 
     if (verified === false) {
         let result = {

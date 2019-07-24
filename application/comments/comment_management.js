@@ -1,5 +1,6 @@
 const Controller = require("../controller/commentController");
 const jwtChecker = require("../authentication/checkJWT");
+const admin = "admin@admin.com"
 
 exports.addComment = async(ctx, next) => {
     let body = ctx.request.body;
@@ -28,9 +29,9 @@ exports.deleteComment = async(ctx, next) => {
     let body = ctx.request.body;
     let verified = await jwtChecker.decodeAuth(ctx);
 
-    if (body.admin && body.admin === true) {
-        verified = body.email;
-    }
+    // if (body.admin && body.admin === true) {
+    //     verified = body.email;
+    // }
 
     if (verified === false) {
         let result = {
@@ -41,13 +42,16 @@ exports.deleteComment = async(ctx, next) => {
         ctx.body = result;
         await next();
     } else {
-        body["email"] = verified;
+        if (verified != admin) {
+            body["email"] = verified;
+        }
         let controller = new Controller();
         let result = await controller.deleteComment(body);
 
         ctx.body = result;
 
         await next();
+        
     }
 }
 
