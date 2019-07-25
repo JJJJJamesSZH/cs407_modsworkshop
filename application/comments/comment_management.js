@@ -1,6 +1,6 @@
 const Controller = require("../controller/commentController");
 const jwtChecker = require("../authentication/checkJWT");
-const admin = "admin@admin.com"
+const admin = "admin@modsworkshop.com"
 
 exports.addComment = async(ctx, next) => {
     let body = ctx.request.body;
