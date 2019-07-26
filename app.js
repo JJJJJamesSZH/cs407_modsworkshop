@@ -71,6 +71,9 @@ app.use(comments.routes(), comments.allowedMethods());
 const rate = require('./routes/rate_file');
 app.use(rate.routes(), rate.allowedMethods());
 
+// report
+const report = require('./routes/report');
+app.use(report.routes(), report.allowedMethods());
 
 // error-handling
 app.on('error', (err, ctx) => {
