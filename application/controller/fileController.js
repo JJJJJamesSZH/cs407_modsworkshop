@@ -289,6 +289,12 @@ class fileController extends baseController {
             let thelist = uploadfileString.split(/[^0-9]/).map(Number);
             thelist = thelist.filter(Boolean);
 
+            console.log("============== DELETE FILE ===========");
+            console.log("content: ", content);
+            console.log("uploadFileString: ", uploadfileString);
+            console.log("thelist: ", thelist);
+            console.log("fileID: ", fileID);
+
             if (thelist.includes(fileID) === false) {
                 let result = {
                     "status": 207,

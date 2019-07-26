@@ -64,6 +64,8 @@ exports.getUploadFile = async function(content) {
             email: email
         }
     });
+    console.log("email: ", email);
+    console.log("profile: ", profile.uploadfile);
     return profile.uploadfile;
 }
 
@@ -248,7 +250,7 @@ exports.editProfile = async function(content) {
         icon: icon
     }, { where: { email: email } });
 
-    if (username !== undefined && username !== null){
+    if (username !== undefined && username !== null) {
         await files.update({
             username: username
         }, {
