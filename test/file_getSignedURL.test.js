@@ -24,7 +24,7 @@ it("testing upload files overwrite", function(done) {
             .expect('Content-Type', /json/)
             .expect(200)
             .expect(function(res) {
-                assert.equal(res.body.status, 201)
+                assert.equal(res.body.status, 200)
             })
             .end(done)
     }, 0, 'funky');
@@ -45,7 +45,7 @@ it("testing upload files success #2", function(done) {
             .expect('Content-Type', /json/)
             .expect(200)
             .expect(function(res) {
-                assert.equal(res.body.status, 201)
+                assert.equal(res.body.status, 200)
             })
             .end(done)
     }, 50, 'funky');
@@ -66,7 +66,7 @@ it("testing upload files success #3", function(done) {
             .expect('Content-Type', /json/)
             .expect(200)
             .expect(function(res) {
-                assert.equal(res.body.status, 201)
+                assert.equal(res.body.status, 200)
             })
             .end(done)
     }, 100, 'funky');
