@@ -22,6 +22,24 @@ it("testing for list all files", function(done) {
             .expect(200)
             .expect(function(res) {
                 assert.equal(res.body.status, 200)
+                let body = res.body;
+                let file_list = body.file_list;
+                let n = file_list.length;
+                if (n === 0) {
+                    // do nothing, no files found
+                } else {
+                    let previous_time = file_list[0].dateUpdated;
+                    // should in time DESC order
+                    for (let i = 1; i < n; i++) {
+                        let time = file_list[i].dateUpdated;
+                        if (time > previous_time) {
+                            // wrong order
+                            // the previous file should be more recent
+                            assert.equal("previous file should be more recent", "");
+                        }
+                        previous_time = time;
+                    }
+                }
             })
             .end(done)
     }, 10, 'funky');
@@ -32,7 +50,7 @@ it("testing for list all files", function(done) {
     this.timeout(4000);
     setTimeout(function() {
         let test_case = {
-            email: "shao44@purdue.edu"
+            authorEmail: "shao44@purdue.edu"
         }
         request(server)
             .post('/modsworkshop/file/listAll')
@@ -41,7 +59,29 @@ it("testing for list all files", function(done) {
             .expect('Content-Type', /json/)
             .expect(200)
             .expect(function(res) {
-                assert.equal(res.body.status, 200)
+                assert.equal(res.body.status, 200);
+                let body = res.body;
+                let file_list = body.file_list;
+                let n = file_list.length;
+                if (n === 0) {
+                    // do nothing, no files found
+                } else {
+                    let previous_time = file_list[0].dateUpdated;
+                    let email = file_list[0].email;
+                    assert.equal(email, "shao44@purdue.edu");
+                    // should in time DESC order
+                    for (let i = 1; i < n; i++) {
+                        let time = file_list[i].dateUpdated;
+                        email = file_list[i].email;
+                        if (time > previous_time) {
+                            // wrong order
+                            // the previous file should be more recent
+                            assert.equal("previous file should be more recent", "");
+                        }
+                        assert.equal(email, "shao44@purdue.edu");
+                        previous_time = time;
+                    }
+                }
             })
             .end(done)
     }, 20, 'funky');
